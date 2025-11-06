@@ -1,0 +1,79 @@
+{
+    "array": [
+        {
+            "id": 0,
+            "name": "la caciotta",
+            "description": "Un'antica caciotta artigianale, famosa per il suo sapore unico.",
+            "images": ["sample 1", "sample 2"],
+            "quizzes": [0, 1, 2],
+            "qrCode": "qrCode1",
+            "Position": 4
+        }
+        
+        
+,
+        {
+            "id": 1,
+            "name": "Rieti Sotterranea",
+            "description": "Un affascinante percorso sotto la città di Rieti, tra storia e mistero.",
+            "images": ["sample 3", "sample 4"],
+            "quizzes": [3, 4, 5],
+            "qrCode": "qrCode2",
+            "Position": 0
+        },
+        {
+            "id": 2,
+            "name": "Teatro Flavio Vespasiano",
+            "description": "Magnifico teatro storico di Rieti, esempio di architettura neoclassica.",
+            "images": ["sample 5", "sample 6"],
+            "quizzes": [6, 7, 8],
+            "qrCode": "qrCode3",
+            "Position": 1
+        },
+        {
+            "id": 3,
+            "name": "Colosseo",
+            "description": "L'anfiteatro più grande del mondo, simbolo dell'antica Roma.",
+            "images": ["sample 7", "sample 8"],
+            "quizzes": [9, 10, 11],
+            "qrCode": "qrCode4",
+            "Position": 2
+        },
+        {
+            "id": 4,
+            "name": "Fontana di Trevi",
+            "description": "Una delle fontane più celebri al mondo, capolavoro del Barocco romano.",
+            "images": ["sample 9", "sample 10"],
+            "quizzes": [12, 13, 14],
+            "qrCode": "qrCode5",
+            "Position": 3
+        },
+        {
+            "id": 5,
+            "name": "Pantheon",
+            "description": "Antico tempio romano dedicato a tutte le divinità, oggi basilica cristiana.",
+            "images": ["sample 11", "sample 12"],
+            "quizzes": [15, 16, 17],
+            "qrCode": "qrCode6",
+            "Position": 4
+        },
+        {
+            "id": 6,
+            "name": "Galleria degli Uffizi",
+            "description": "Uno dei musei d'arte più importanti del mondo, con capolavori del Rinascimento.",
+            "images": ["sample 13", "sample 14"],
+            "quizzes": [18, 19, 20],
+            "qrCode": "qrCode7",
+            "Position": 0
+        },
+        {
+            "id": 7,
+            "name": "Ponte Vecchio",
+            "description": "Storico ponte medievale di Firenze, famoso per le botteghe artigiane.",
+            "images": ["sample 15", "sample 16"],
+            "quizzes": [21, 22, 23],
+            "qrCode": "qrCode8",
+            "Position": 1
+        }
+    ]
+}  

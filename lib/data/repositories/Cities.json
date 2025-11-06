@@ -1,0 +1,31 @@
+{ "Array": [
+    {
+        "id": 0,
+        "name": "Rieti",
+        "Position": 0,
+        "description": "Reate frecate i paparuni oof",
+        "poi": [ 0, 1, 2]
+    },
+    {
+        "id": 1,
+        "name": "Roma",
+        "Position": 1,
+        "description": "La capitale d'Italia, ricca di storia e monumenti.",
+        "poi": [3, 4, 5]
+    },
+    {
+        "id": 2,
+        "name": "Firenze",
+        "Position": 2,
+        "description": "Culla del Rinascimento, famosa per l'arte e l'architettura.",
+        "poi": [6, 7, 8]
+    },
+    {
+        "id": 3,
+        "name": "Venezia",
+        "Position": 3,
+        "description": "La città dei canali, unica al mondo.",
+        "poi": [9, 10, 11]
+    }
+
+]}
