@@ -1,5 +1,5 @@
 class Quiz {
-  final int id;
+  int id;
   String description;
   Map<String, bool> questions;
   int maxTry;
@@ -14,5 +14,20 @@ class Quiz {
       return Quiz._withoutMaxTry(id, description, questions);
     }
   }
+
+  Quiz.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as int,
+        description = json['description'] as String,
+        questions = Map<String, bool>.from(json['questions'] as Map),
+        maxTry =  json['maxTry'] as int;
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'description': description,
+        'questions': questions,
+        'maxTry': maxTry,
+  };
+
+
 
 }

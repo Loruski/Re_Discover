@@ -1,7 +1,7 @@
 class Hint {
-  int id;
+  final int id;
   String description;
   List<String> images;
 
-  Hint(this.id, this.description, this.images);
+  Hint({required this.id, required this.description, required this.images});
 }

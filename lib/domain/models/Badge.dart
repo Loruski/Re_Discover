@@ -3,5 +3,5 @@ class Badge {
   late String name;
   late String imgPath;
 
-  Badge(this.id, this.name, this.imgPath);
+  Badge({required this.id,required this.name,required this.imgPath});
 }

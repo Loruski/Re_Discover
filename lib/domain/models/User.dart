@@ -9,5 +9,5 @@ class User {
   late Set<ReDiscover.Badge> badges;
   late Set<Customizable> customizables;
 
-  User(this.id, this.username, this.XP, this.level, this.badges, this.customizables);
+  User({required this.id,required this.username,required this.XP,required this.level,required this.badges,required this.customizables});
 }

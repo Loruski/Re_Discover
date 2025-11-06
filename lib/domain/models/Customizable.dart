@@ -3,5 +3,5 @@ class Customizable {
   late String name;
   late String imgPath;
 
-  Customizable(this.id, this.name, this.imgPath);
+  Customizable({required this.id,required this.name,required this.imgPath});
 }
