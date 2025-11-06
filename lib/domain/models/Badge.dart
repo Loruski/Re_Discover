@@ -1,5 +1,5 @@
 class Badge {
-  late int id;
+  late final int id;
   late String name;
   late String imgPath;
 
