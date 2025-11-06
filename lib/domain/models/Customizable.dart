@@ -1,6 +1,7 @@
 class Customizable {
+  late int id;
   late String name;
   late String imgPath;
 
-  Customizable(this.name, this.imgPath);
+  Customizable(this.id, this.name, this.imgPath);
 }
