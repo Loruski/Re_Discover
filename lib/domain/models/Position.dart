@@ -1,7 +1,7 @@
 class Position {
-  final int id;
-  final double latitude;
-  final double longitude;
+  late final int id;
+  late final double latitude;
+  late final double longitude;
 
-  Position({required int this.id, required this.latitude, required this.longitude});
+  Position({required this.id, required this.latitude, required this.longitude});
 }

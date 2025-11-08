@@ -1,8 +1,8 @@
 class Quiz {
-  final int id;
-  String description;
-  Map<String, bool> questions;
-  int maxTry;
+  late final int id;
+  late String description;
+  late Map<String, bool> questions;
+  late int maxTry;
 
   Quiz._withMaxTry(this.id, this.description, this.questions, this.maxTry);
   Quiz._withoutMaxTry(this.id, this.description, this.questions) : maxTry=questions.length;
