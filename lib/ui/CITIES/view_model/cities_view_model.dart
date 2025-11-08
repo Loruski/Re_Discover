@@ -1,22 +1,21 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:re_discover/domain/models/City.dart';
 
-class CitiesViewModel extends StatefulWidget {
-  const CitiesViewModel({Key? key}) : super(key: key);
+class CitiesViewModel extends ChangeNotifier {
+  // insert repository here
 
-  @override
-  _CitiesViewModelState createState() => _CitiesViewModelState();
-}
+  int counter = 0;
 
-class _CitiesViewModelState extends State<CitiesViewModel> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Cities'),
-      ),
-      body: const Center(
-        child: Text('Cities View Model'),
-      ),
-    );
+
+  Future<void> _load() async {
+    // load at the first time
+    notifyListeners();
   }
+
+  void incrementCounter() {
+    counter++;
+    notifyListeners();
+  }
+
+
 }

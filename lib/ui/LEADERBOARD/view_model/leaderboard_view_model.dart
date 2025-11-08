@@ -1,22 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
-class LeaderboardViewModel extends StatefulWidget {
-  const LeaderboardViewModel({Key? key}) : super(key: key);
+class LeaderboardViewModel extends ChangeNotifier {
+  // insert repository here
 
-  @override
-  _LeaderboardViewModelState createState() => _LeaderboardViewModelState();
-}
+  int counter = 0;
 
-class _LeaderboardViewModelState extends State<LeaderboardViewModel> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Leaderboard'),
-      ),
-      body: const Center(
-        child: Text('Leaderboard View Model'),
-      ),
-    );
+
+  Future<void> _load() async {
+    // load at the first time
+    notifyListeners();
   }
+
+  void incrementCounter() {
+    counter++;
+    notifyListeners();
+  }
+
+
 }

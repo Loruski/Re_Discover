@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:re_discover/ui/CITIES/view_model/cities_view_model.dart';
+import 'package:re_discover/ui/CITIES/widgets/cities_screen.dart';
 import 'package:re_discover/ui/LEADERBOARD/view_model/leaderboard_view_model.dart';
+import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_screen.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
+import 'package:re_discover/ui/MAP/widgets/map_screen.dart';
 import 'package:re_discover/ui/USER/view_model/user_view_model.dart';
+import 'package:re_discover/ui/USER/widgets/user_screen.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -22,10 +26,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Widget> _pages = [
-    CitiesViewModel(),
-    MapViewModel(),
-    UserViewModel(),
-    LeaderboardViewModel()
+    CitiesScreen(citiesViewModel: CitiesViewModel()),
+    MapScreen(mapViewModel: MapViewModel()),
+    UserScreen(userViewModel: UserViewModel()),
+    LeaderboardScreen(leaderboardViewModel: LeaderboardViewModel())
   ];
 
   @override

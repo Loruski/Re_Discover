@@ -1,22 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
-class MapViewModel extends StatefulWidget {
-  const MapViewModel({Key? key}) : super(key: key);
+class MapViewModel extends ChangeNotifier {
+  // insert repository here
 
-  @override
-  _MapViewModel createState() => _MapViewModel();
-}
+  int counter = 0;
 
-class _MapViewModel extends State<MapViewModel> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Map'),
-      ),
-      body: const Center(
-        child: Text('Map View Model'),
-      ),
-    );
+
+  Future<void> _load() async {
+    // load at the first time
+    notifyListeners();
   }
+
+  void incrementCounter() {
+    counter++;
+    notifyListeners();
+  }
+
+
 }

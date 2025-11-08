@@ -1,22 +1,20 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 
-class UserViewModel extends StatefulWidget {
-  const UserViewModel({Key? key}) : super(key: key);
+class UserViewModel extends ChangeNotifier {
+  // insert repository here
 
-  @override
-  _UserViewModel createState() => _UserViewModel();
-}
+  int counter = 0;
 
-class _UserViewModel extends State<UserViewModel> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('User'),
-      ),
-      body: const Center(
-        child: Text('User View Model'),
-      ),
-    );
+
+  Future<void> _load() async {
+    // load at the first time
+    notifyListeners();
   }
+
+  void incrementCounter() {
+    counter++;
+    notifyListeners();
+  }
+
+
 }
