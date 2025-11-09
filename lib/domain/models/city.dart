@@ -1,5 +1,5 @@
-import 'package:re_discover/domain/models/POI.dart';
-import 'package:re_discover/domain/models/Position.dart';
+import 'package:re_discover/domain/models/poi.dart';
+import 'package:re_discover/domain/models/position.dart';
 
 class City{
   late final int id;

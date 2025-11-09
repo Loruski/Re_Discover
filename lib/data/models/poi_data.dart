@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../../data/models/PositionData.dart';
+import '../../data/models/position_data.dart';
 
-part 'POIData.g.dart';
+part 'poi_data.g.dart';
 
 @JsonSerializable()
 class POIData {

@@ -1,14 +1,14 @@
-import 'package:re_discover/data/models/CityData.dart';
+import 'package:re_discover/data/models/city_data.dart';
 import 'package:re_discover/data/models/listenable_data_holder.dart';
 import 'package:re_discover/data/repositories/data_handler.dart';
-import 'package:re_discover/domain/models/City.dart' show City;
-import 'package:re_discover/domain/models/POI.dart';
-import 'package:re_discover/domain/models/Position.dart';
-import 'package:re_discover/domain/models/Quiz.dart' show Quiz;
-import 'package:re_discover/domain/models/Badge.dart' show Badge;
-import 'package:re_discover/domain/models/Customizable.dart' show Customizable;
-import 'package:re_discover/domain/models/Hint.dart' show Hint;
-import 'package:re_discover/domain/models/User.dart';
+import 'package:re_discover/domain/models/city.dart' show City;
+import 'package:re_discover/domain/models/poi.dart';
+import 'package:re_discover/domain/models/position.dart';
+import 'package:re_discover/domain/models/quiz.dart' show Quiz;
+import 'package:re_discover/domain/models/badge.dart' show Badge;
+import 'package:re_discover/domain/models/customizable.dart' show Customizable;
+import 'package:re_discover/domain/models/hint.dart' show Hint;
+import 'package:re_discover/domain/models/user.dart';
 
 
 

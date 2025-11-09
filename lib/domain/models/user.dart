@@ -1,5 +1,5 @@
-import 'package:re_discover/domain/models/Badge.dart' as ReDiscover;
-import 'package:re_discover/domain/models/Customizable.dart';
+import 'package:re_discover/domain/models/badge.dart' as ReDiscover;
+import 'package:re_discover/domain/models/customizable.dart';
 
 class User {
   late final int id;

@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:re_discover/domain/models/Quiz.dart' as domain;
+import 'package:re_discover/domain/models/quiz.dart' as domain;
 
-part 'QuizData.g.dart';
+part 'quiz_data.g.dart';
 
 @JsonSerializable()
 class QuizData {

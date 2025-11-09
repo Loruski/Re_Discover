@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:re_discover/domain/models/Customizable.dart' as domain;
+import 'package:re_discover/domain/models/customizable.dart' as domain;
 
-part 'CustomizableData.g.dart';
+part 'customizable_data.g.dart';
 
 @JsonSerializable()
 class CustomizableData {

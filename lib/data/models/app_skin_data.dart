@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:re_discover/domain/models/AppSkin.dart' as domain;
+import 'package:re_discover/domain/models/app_skin.dart' as domain;
 
-part 'AppSkinData.g.dart';
+part 'app_skin_data.g.dart';
 
 @JsonSerializable()
 class AppSkinData {
