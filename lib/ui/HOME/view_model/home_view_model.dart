@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:re_discover/domain/models/City.dart';
 
-class CitiesViewModel extends ChangeNotifier {
+class HomeViewModel extends ChangeNotifier {
   // insert repository here
 
   int counter = 0;

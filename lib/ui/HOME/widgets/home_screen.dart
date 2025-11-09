@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:re_discover/ui/CITIES/view_model/cities_view_model.dart';
+import 'package:re_discover/ui/HOME/view_model/home_view_model.dart';
 
-class CitiesScreen extends StatelessWidget {
-  const CitiesScreen({super.key, required this.citiesViewModel});
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key, required this.citiesViewModel});
 
-  final CitiesViewModel citiesViewModel;
+  final HomeViewModel citiesViewModel;
 
   @override
   Widget build(BuildContext context) {

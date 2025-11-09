@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:re_discover/ui/CITIES/view_model/cities_view_model.dart';
-import 'package:re_discover/ui/CITIES/widgets/cities_screen.dart';
+import 'package:re_discover/ui/HOME/view_model/home_view_model.dart';
+import 'package:re_discover/ui/HOME/widgets/home_screen.dart';
 import 'package:re_discover/ui/LEADERBOARD/view_model/leaderboard_view_model.dart';
 import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_screen.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
@@ -26,7 +26,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   final List<Widget> _pages = [
-    CitiesScreen(citiesViewModel: CitiesViewModel()),
+    HomeScreen(citiesViewModel: HomeViewModel()),
     MapScreen(mapViewModel: MapViewModel()),
     UserScreen(userViewModel: UserViewModel()),
     LeaderboardScreen(leaderboardViewModel: LeaderboardViewModel())
