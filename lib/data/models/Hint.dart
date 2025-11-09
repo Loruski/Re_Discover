@@ -1,16 +1,16 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'Hint.g.dart';
+part 'HintData.g.dart';
 
 @JsonSerializable()
-class Hint {
+class HintData {
   late final int id;
   late String description;
   late List<String> images;
 
-  Hint({required this.id, required this.description, required this.images});
+  HintData({required this.id, required this.description, required this.images});
 
-  factory Hint.fromJson(Map<String, dynamic> json) => _$HintFromJson(json);
+  factory HintData.fromJson(Map<String, dynamic> json) => _$HintDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$HintToJson(this);
+  Map<String, dynamic> toJson() => _$HintDataToJson(this);
 }

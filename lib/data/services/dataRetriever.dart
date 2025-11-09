@@ -9,5 +9,4 @@ class DataRetriever {
 
     return serializedRetrievedData;
   }
-
 }

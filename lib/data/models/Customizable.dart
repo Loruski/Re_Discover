@@ -1,19 +1,19 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:re_discover/domain/models/Customizable.dart' as domain;
 
-part 'Customizable.g.dart';
+part 'CustomizableData.g.dart';
 
 @JsonSerializable()
-class Customizable {
+class CustomizableData {
   late final int id;
   late String name;
   late String imgPath;
 
-  Customizable({required this.id, required this.name, required this.imgPath});
+  CustomizableData({required this.id, required this.name, required this.imgPath});
 
-  factory Customizable.fromJson(Map<String, dynamic> json) => _$CustomizableFromJson(json);
+  factory CustomizableData.fromJson(Map<String, dynamic> json) => _$CustomizableDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CustomizableToJson(this);
+  Map<String, dynamic> toJson() => _$CustomizableDataToJson(this);
 
   domain.Customizable toDomain() {
     return domain.Customizable(

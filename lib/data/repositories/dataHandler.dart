@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:re_discover/data/models/DataModelInterface.dart';
 import 'package:re_discover/data/services/dataRetriever.dart';
 
 class DataHandler<T> {
@@ -7,13 +8,19 @@ class DataHandler<T> {
 
   DataHandler({required this.fromJson});
 
-  Future<T> bakeDataModels(typeOfDataToBeRetrieved) async {
+  Future<List<T>> bakeDataModels() async {
     final serializedRetrievedData = await dataRetriever.retrieveData();
     final decodedSerializedRetrievedData = jsonDecode(serializedRetrievedData) as Map<String, dynamic>;
 
-    return fromJson(decodedSerializedRetrievedData);
+    List<T> _data = [];
+
+    
+    (decodedSerializedRetrievedData["Array"] as List<Map<String, dynamic>>).forEach((element) {
+      _data.add(fromJson(element));
+    });
+
+
+    return _data;
   }
-
-
 
 }

@@ -1,18 +1,18 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:re_discover/domain/models/AppSkin.dart' as domain;
 
-part 'AppSkin.g.dart';
+part 'AppSkinData.g.dart';
 
 @JsonSerializable()
-class AppSkin {
+class AppSkinData {
   late final int id;
   late String skinPath;
 
-  AppSkin({required this.id, required this.skinPath});
+  AppSkinData({required this.id, required this.skinPath});
 
-  factory AppSkin.fromJson(Map<String, dynamic> json) => _$AppSkinFromJson(json);
+  factory AppSkinData.fromJson(Map<String, dynamic> json) => _$AppSkinDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$AppSkinToJson(this);
+  Map<String, dynamic> toJson() => _$AppSkinDataToJson(this);
 
   domain.AppSkin toDomain() {
     return domain.AppSkin(

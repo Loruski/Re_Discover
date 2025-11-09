@@ -1,4 +1,4 @@
-import 'package:re_discover/data/models/POI.dart';
+import 'package:re_discover/domain/models/POI.dart';
 import 'package:re_discover/domain/models/Position.dart';
 
 class City{
@@ -6,8 +6,8 @@ class City{
   late String name;
   late Position position;
   late String description;
-  late Set<POI> poisID;
+  late Set<POI> pois;
 
 
-  City({required this.id, required this.name, required this.description, required this.position, required this.poisID});
+  City({required this.id, required this.name, required this.description, required this.position, required this.pois});
 }

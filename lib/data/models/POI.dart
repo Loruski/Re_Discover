@@ -1,22 +1,22 @@
 import 'package:json_annotation/json_annotation.dart';
 import '../../data/models/Position.dart';
 
-part 'POI.g.dart';
+part 'POIData.g.dart';
 
 @JsonSerializable()
-class POI {
+class POIData {
   late final int id;
   late String name;
   late String description;
   late List<String> images;
   late List<int> quizzes;
   late String qrCode;
-  late Position position;
+  late PositionData position;
 
-  POI({required this.id, required this.name, required this.description, required this.images, required this.quizzes, required this.qrCode, required this.position});
+  POIData({required this.id, required this.name, required this.description, required this.images, required this.quizzes, required this.qrCode, required this.position});
 
-  factory POI.fromJson(Map<String, dynamic> json) => _$POIFromJson(json);
+  factory POIData.fromJson(Map<String, dynamic> json) => _$POIDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$POIToJson(this);
+  Map<String, dynamic> toJson() => _$POIDataToJson(this);
 
 }

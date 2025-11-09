@@ -1,18 +1,18 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'City.g.dart';
+part 'CityData.g.dart';
 
 @JsonSerializable()
-class City{
+class CityData{
   late final int id;
   late String name;
   late int positionID;
   late String description;
   late Set<int> poisID;
 
-  City({required this.id, required this.name, required this.description, required this.positionID, required this.poisID});
+  CityData({required this.id, required this.name, required this.description, required this.positionID, required this.poisID});
 
-  factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
+  factory CityData.fromJson(Map<String, dynamic> json) => _$CityDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$CityToJson(this);
+  Map<String, dynamic> toJson() => _$CityDataToJson(this);
 }

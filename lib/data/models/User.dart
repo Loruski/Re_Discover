@@ -1,9 +1,9 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'User.g.dart';
+part 'UserData.g.dart';
 
 @JsonSerializable()
-class User {
+class UserData {
   late final int id;
   late String username;
   late double XP;
@@ -11,10 +11,10 @@ class User {
   late Set<int> badgesID;
   late Set<int> customizablesID;
 
-  User({required this.id, required this.username, required this.XP, required this.level, required this.badgesID, required this.customizablesID});
+  UserData({required this.id, required this.username, required this.XP, required this.level, required this.badgesID, required this.customizablesID});
 
-  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory UserData.fromJson(Map<String, dynamic> json) => _$UserDataFromJson(json);
 
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  Map<String, dynamic> toJson() => _$UserDataToJson(this);
 
 }
