@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import '../../data/models/Position.dart';
+import '../../data/models/PositionData.dart';
 
 part 'POIData.g.dart';
 

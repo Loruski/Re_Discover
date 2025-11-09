@@ -1,4 +1,4 @@
-import 'package:re_discover/data/models/City.dart';
+import 'package:re_discover/data/models/CityData.dart';
 import 'package:re_discover/data/models/listenable_data_holder.dart';
 import 'package:re_discover/data/repositories/dataHandler.dart';
 import 'package:re_discover/domain/models/City.dart' show City;
