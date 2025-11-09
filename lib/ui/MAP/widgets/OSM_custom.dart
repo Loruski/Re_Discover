@@ -33,21 +33,28 @@ class _OsmCustom extends State<OsmCustom> {
               'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               userAgentPackageName: 'it.univaq.egs.re_discover',
             ),
-      CurrentLocationLayer(
-        alignPositionOnUpdate: AlignOnUpdate.always,
-        alignDirectionOnUpdate: AlignOnUpdate.never,
-        style: LocationMarkerStyle(
-          marker: const DefaultLocationMarker(
-            child: Icon(
-              Icons.my_location,
-              color: Colors.blue,
-              size: 3,
+            CurrentLocationLayer(
+              alignPositionOnUpdate: AlignOnUpdate.always,
+              alignDirectionOnUpdate: AlignOnUpdate.never,
+              style: LocationMarkerStyle(
+                marker: const DefaultLocationMarker(
+                  child: Icon(
+                    Icons.my_location,
+                    color: Colors.blue,
+                    size: 3,
+                  ),
+                ),
+                markerSize: const Size(20, 20),
+                markerDirection: MarkerDirection.heading,
+              ),
             ),
-          ),
-          markerSize: const Size(20, 20),
-          markerDirection: MarkerDirection.heading,
-        ),
-      ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: FloatingActionButton(
+                  onPressed: widget.mapViewModel.getUserPosition,
+                  child: const Icon(Icons.my_location)
+              ),
+            )
           ],
         )
     );
