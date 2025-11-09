@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text('Benvenuto nella schermata città'),
+                      Text('Benvenuto nella schermata home'),
                       FloatingActionButton.extended(
                           label: Text('Counter: ${citiesViewModel.counter}'),
                           onPressed: citiesViewModel.incrementCounter

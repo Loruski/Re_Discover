@@ -1,8 +1,9 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/map_screen.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 
 class OsmCustom extends StatefulWidget {
   const OsmCustom({super.key, required this.mapViewModel});
@@ -32,6 +33,21 @@ class _OsmCustom extends State<OsmCustom> {
               'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
               userAgentPackageName: 'it.univaq.egs.re_discover',
             ),
+      CurrentLocationLayer(
+        alignPositionOnUpdate: AlignOnUpdate.always,
+        alignDirectionOnUpdate: AlignOnUpdate.never,
+        style: LocationMarkerStyle(
+          marker: const DefaultLocationMarker(
+            child: Icon(
+              Icons.my_location,
+              color: Colors.blue,
+              size: 3,
+            ),
+          ),
+          markerSize: const Size(20, 20),
+          markerDirection: MarkerDirection.heading,
+        ),
+      ),
           ],
         )
     );
