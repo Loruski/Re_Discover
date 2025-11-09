@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:re_discover/data/models/AbstractDataModel.dart';
+import 'package:re_discover/data/models/abstract_data_model.dart';
 import 'package:re_discover/data/services/data_retriever.dart';
 
 class DataHandler<T> {

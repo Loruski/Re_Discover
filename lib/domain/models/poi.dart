@@ -1,5 +1,5 @@
-import 'package:re_discover/domain/models/Position.dart';
-import 'package:re_discover/domain/models/Quiz.dart';
+import 'package:re_discover/domain/models/position.dart';
+import 'package:re_discover/domain/models/quiz.dart';
 
 class POI{
   late final int id;

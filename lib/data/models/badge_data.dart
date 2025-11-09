@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:re_discover/domain/models/Badge.dart' as domain;
+import 'package:re_discover/domain/models/badge.dart' as domain;
 
-part 'BadgeData.g.dart';
+part 'badge_data.g.dart';
 
 @JsonSerializable()
 class BadgeData {

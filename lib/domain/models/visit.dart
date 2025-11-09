@@ -1,4 +1,4 @@
-import '../../domain/models/City.dart';
+import '../../domain/models/city.dart';
 
 class Visit {
   late City city;
