@@ -1,6 +1,6 @@
 import 'package:re_discover/data/models/CityData.dart';
 import 'package:re_discover/data/models/listenable_data_holder.dart';
-import 'package:re_discover/data/repositories/dataHandler.dart';
+import 'package:re_discover/data/repositories/data_handler.dart';
 import 'package:re_discover/domain/models/City.dart' show City;
 import 'package:re_discover/domain/models/POI.dart';
 import 'package:re_discover/domain/models/Position.dart';

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:re_discover/data/models/DataModelInterface.dart';
-import 'package:re_discover/data/services/dataRetriever.dart';
+import 'package:re_discover/data/services/data_retriever.dart';
 
 class DataHandler<T> {
   final dataRetriever = DataRetriever();
