@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:re_discover/data/models/DataModelInterface.dart';
+import 'package:re_discover/data/models/AbstractDataModel.dart';
 import 'package:re_discover/data/repositories/data_handler.dart';
 
 class ListenableDataHolder <T> extends ChangeNotifier {
