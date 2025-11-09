@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:re_discover/ui/CITIES/view_model/cities_view_model.dart';
 import 'package:re_discover/ui/LEADERBOARD/view_model/leaderboard_view_model.dart';
 
 class LeaderboardScreen extends StatelessWidget {
