@@ -1,7 +1,4 @@
-
-
-
-import 'package:re_discover/data/repositories/data/city_repository.dart';
+import 'package:re_discover/data/repositories/data_repository_impl/city_repository.dart';
 import 'package:re_discover/domain/models/city.dart';
 
 enum Types {

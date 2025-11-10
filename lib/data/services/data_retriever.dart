@@ -1,7 +1,5 @@
 import 'dart:io';
 
-
-
 class DataRetriever {
 
   Future<String> retrieveData(String path) async {

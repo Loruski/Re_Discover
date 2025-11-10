@@ -6,12 +6,12 @@ import 'package:re_discover/data/services/data_retriever.dart';
 // }
 
 
-class DataHandler<T> {
+class DataBaker<T> {
   final dataRetriever = DataRetriever();
   final T Function(Map<String, dynamic>) fromJson;
   final String path;
 
-  DataHandler({required this.path, required this.fromJson});
+  DataBaker({required this.path, required this.fromJson});
 
   Future<List<T>> bakeDataModels() async {
     final serializedRetrievedData = await dataRetriever.retrieveData(path);

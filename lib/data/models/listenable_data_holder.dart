@@ -1,8 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:json_annotation/json_annotation.dart';
-import 'package:re_discover/data/models/abstract_data_model.dart';
-import 'package:re_discover/data/repositories/data_handler.dart';
 
 class ListenableDataHolder <T> extends ChangeNotifier {
   // This class will be responsible for holding data and notifying listeners when it changes.

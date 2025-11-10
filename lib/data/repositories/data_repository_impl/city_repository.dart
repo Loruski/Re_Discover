@@ -3,17 +3,18 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:re_discover/data/models/city_data.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
-import 'package:re_discover/data/repositories/data_repository.dart';
+import 'package:re_discover/data/repositories/abstract_data_repository.dart';
 import 'package:re_discover/domain/models/city.dart';
 import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/domain/models/position.dart';
 
 const String path = "lib/data/mockData/Cities.json";
-class CityRepository extends DataRepository<CityData, City> {
+
+class CityRepository extends AbstractDataRepository<CityData, City> {
   CityRepository({super.requiredData}): super(
     path: path,
     fromJson: CityData.fromJson, // assign its fromJson function
-    assignIds: (List<CityData> data, Map<Types, DataRepository>? requiredData) { //assign the method of assigning IDs
+    assignIds: (List<CityData> data, Map<Types, AbstractDataRepository>? requiredData) { //assign the method of assigning IDs
 
       Map<int, City> toSetToHolder = {}; //the data to set goes here
 
