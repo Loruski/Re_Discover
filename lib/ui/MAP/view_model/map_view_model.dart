@@ -7,7 +7,6 @@ import 'package:geolocator/geolocator.dart';
 
 class MapViewModel extends ChangeNotifier {
   // insert repository here
-
   final MapController mapController = MapController();
   LatLng? currentCenter;
   double? currentZoom;
@@ -33,7 +32,7 @@ class MapViewModel extends ChangeNotifier {
 
   void getUserPosition() async{
     Position position = await _determinePosition();
-    mapController.move(LatLng(position.latitude, position.longitude), 15.0);
+    mapController.move(LatLng(position.latitude, position.longitude), this.currentZoom!);
   }
 
 
