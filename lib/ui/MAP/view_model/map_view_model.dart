@@ -1,16 +1,29 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 
 class MapViewModel extends ChangeNotifier {
   // insert repository here
-
   final MapController mapController = MapController();
   LatLng? currentCenter;
   double? currentZoom;
 
+  AlignOnUpdate isFollowingUser = AlignOnUpdate.always;
+  bool isFollowingUserBool = true;
+
+  void followUserPositionToggle(){
+    if(isFollowingUserBool){
+      isFollowingUser = AlignOnUpdate.once;
+      isFollowingUserBool = false;
+    } else {
+      isFollowingUser = AlignOnUpdate.always;
+      isFollowingUserBool = true;
+    }
+    notifyListeners();
+  }
 
   void updateMapPosition(LatLng center, double zoom) {
     currentCenter = center;
@@ -19,7 +32,7 @@ class MapViewModel extends ChangeNotifier {
 
   void getUserPosition() async{
     Position position = await _determinePosition();
-    mapController.move(LatLng(position.latitude, position.longitude), 15.0);
+    mapController.move(LatLng(position.latitude, position.longitude), this.currentZoom!);
   }
 
 
