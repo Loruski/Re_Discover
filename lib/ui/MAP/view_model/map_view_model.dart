@@ -9,8 +9,8 @@ class MapViewModel extends ChangeNotifier {
   // insert repository here
 
   final MapController mapController = MapController();
-  LatLng? currentCenter = const LatLng(42.405916, 12.856193);
-  double? currentZoom = 13.0;
+  LatLng? currentCenter;
+  double? currentZoom;
 
   AlignOnUpdate isFollowingUser = AlignOnUpdate.always;
   bool isFollowingUserBool = true;
@@ -23,13 +23,12 @@ class MapViewModel extends ChangeNotifier {
       isFollowingUser = AlignOnUpdate.always;
       isFollowingUserBool = true;
     }
-    //notifyListeners();
+    notifyListeners();
   }
 
   void updateMapPosition(LatLng center, double zoom) {
     currentCenter = center;
     currentZoom = zoom;
-    //notifyListeners();
   }
 
   void getUserPosition() async{
