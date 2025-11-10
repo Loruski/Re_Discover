@@ -10,4 +10,10 @@ class City{
 
 
   City({required this.id, required this.name, required this.description, required this.position, required this.pois});
+
+  @override
+    String toString() {
+      
+      return "id: $id, name: $name, description: $description";
+    }
 }

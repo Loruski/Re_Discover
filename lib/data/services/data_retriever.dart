@@ -1,11 +1,11 @@
 import 'dart:io';
 
+
+
 class DataRetriever {
 
-  static const API_URI = "";
-
-  Future<String> retrieveData() async {
-    final serializedRetrievedData = await File(API_URI).readAsString();
+  Future<String> retrieveData(String path) async {
+    final serializedRetrievedData = await File(path).readAsString();
 
     return serializedRetrievedData;
   }
