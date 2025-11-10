@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:re_discover/ui/MAP/widgets/compass_custom.dart';
+import 'package:re_discover/ui/MAP/widgets/compass_banner_custom.dart';
 import 'package:re_discover/ui/MAP/widgets/OSM_custom.dart';
 
 class MapScreen extends StatefulWidget {
@@ -48,7 +48,7 @@ class _MapScreenState extends State<MapScreen> {
                 body: SafeArea(
                     child: Column(
                       children: [
-                        CompassCustom(mapViewModel: widget.mapViewModel),
+                        CompassBannerCustom(mapViewModel: widget.mapViewModel),
                         OsmCustom(mapViewModel: widget.mapViewModel),
                       ],
                     )

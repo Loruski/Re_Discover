@@ -12,7 +12,6 @@ class MapViewModel extends ChangeNotifier {
   double? currentZoom;
 
 
-
   void updateMapPosition(LatLng center, double zoom) {
     currentCenter = center;
     currentZoom = zoom;
