@@ -1,75 +1,70 @@
-import 'package:re_discover/data/models/city_data.dart';
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:re_discover/data/models/listenable_data_holder.dart';
+import 'package:re_discover/data/repositories/central_repository.dart';
 import 'package:re_discover/data/repositories/data_handler.dart';
-import 'package:re_discover/domain/models/city.dart' show City;
-import 'package:re_discover/domain/models/poi.dart';
-import 'package:re_discover/domain/models/position.dart';
-import 'package:re_discover/domain/models/quiz.dart' show Quiz;
-import 'package:re_discover/domain/models/badge.dart' show Badge;
-import 'package:re_discover/domain/models/customizable.dart' show Customizable;
-import 'package:re_discover/domain/models/hint.dart' show Hint;
-import 'package:re_discover/domain/models/user.dart';
 
 
+/// it's ideal to not instantiate this and extending classes for resource access, but instead use CentralRepository for that purpose
+abstract class DataRepository<TData, T> { 
 
+  ListenableDataHolder<T> holder = ListenableDataHolder<T>(); // the data container
 
-class DataRepository {
-  // This class will be responsible for retrieving data from the data layer
-  // and providing it to the logic layer.
-  ListenableDataHolder<City> citiesHolder = ListenableDataHolder<City>();
-  ListenableDataHolder<POI> poisHolder = ListenableDataHolder<POI>();
-  ListenableDataHolder<Quiz> quizzesHolder = ListenableDataHolder<Quiz>();
-  ListenableDataHolder<Badge> badgesHolder = ListenableDataHolder<Badge>();
-  ListenableDataHolder<Customizable> customizablesHolder = ListenableDataHolder<Customizable>();
-  ListenableDataHolder<Hint> hintsHolder = ListenableDataHolder<Hint>();
-  ListenableDataHolder<User> usersHolder = ListenableDataHolder<User>();
-  ListenableDataHolder<Position> positionsHolder = ListenableDataHolder<Position>();
-  // TODO some types are missing
+  /// the function necessary for extracting data from json, defined in each [Model]Data
+  late TData Function(Map<String, dynamic>) fromJson; 
 
+  /// Necessary repositories for building objects made of objects, use the enum in central repository for the key, the corresponding repository itself as the value
+  late Map<Types, DataRepository>? requiredData; 
 
-  Future<List<T>> _getData<T> (T Function(Map<String, dynamic>) fromJson) async {
-    DataHandler<T> dataHandler = DataHandler<T>(fromJson: fromJson);
+  /// function to specify how to create T objects from TData objects, using the requiredData defined earlier
+  /// the objects should be inserted following the pattern (object.ID, object)
+  late Map<int ,T> Function(List<TData>, Map<Types, DataRepository>? requiredData) assignIds; 
+
+  
+  Future<void>? updateFutureLock; // lock necessary to prevent multiple simultaneous executions of the same update function
+
+  DataRepository({required this.fromJson, this.requiredData, required this.assignIds});
+
+  Future<List<T>> get data async { // to be eventually expanded when update versions are introduced, comparing update versions, and if different, execute update
+    if(holder.data.isEmpty) await update();
+    return holder.data.values.toList();
+  }
+
+  T? get (int id) => holder.data[id];
+
+  
+
+  Future<List<TData>> _getData (TData Function(Map<String, dynamic>) fromJson) async {
+    DataHandler<TData> dataHandler = DataHandler<TData>(fromJson: fromJson);
     return await dataHandler.bakeDataModels();
   }   
 
-
-  Future<List<City>> get cities async { 
-    while (citiesHolder.data.isEmpty) {
-      _updateCities(citiesHolder);
+  Future<void> update() async {
+    if (updateFutureLock != null) {
+      return updateFutureLock;
     }
 
-    return citiesHolder.data.values.toList();
+    final completer = Completer<void>();
+    updateFutureLock = completer.future;
+    
+    try {
+      List<TData> data = await _getData(fromJson);
+
+      List<Future<void>> requiredUpdatesFutures = (requiredData?.values ?? []).map((repo) => repo.update()).toList();
+      if (requiredUpdatesFutures.isNotEmpty) await Future.wait(requiredUpdatesFutures);
+
+      Map<int, T> toSetToHolder = assignIds(data, requiredData);
+      // for(TData element in data) {
+        
+      // }
+      holder.setData(toSetToHolder);
+      completer.complete();
+    } catch (e, s) {
+      completer.completeError(e, s);
+      rethrow;  
+    } finally {
+      updateFutureLock = null;
+    }
   }
-  
-  List<POI> get pois => poisHolder.data.values.toList();
-  List<Quiz> get quizzes => quizzesHolder.data.values.toList();
-  List<Badge> get badges => badgesHolder.data.values.toList();
-  List<Customizable> get customizables => customizablesHolder.data.values.toList();
-  List<Hint> get hints => hintsHolder.data.values.toList();
-  List<User> get users => usersHolder.data.values.toList();
-
-
-// Maybe a generic update function was possible, but mapping IDs to objects for each type made it non-trivial to develop, so there you go
-  void _updateCities(ListenableDataHolder<City> holderToBeUpdated) async {
-    List<CityData> data = await _getData<CityData>((json) => CityData.fromJson(json));
-
-    Map<int, City> _toSetToHolder = {};
-
-    // updatePositions(positionsHolder); TODO
-    // updatePois(poisHolder); TODO
-    data.forEach((element) {
-
-      int id = element.id;
-      String name = element.name;
-      String description = element.description;
-      Position position = positionsHolder.data[id]!;
-      Set<POI> pois = element.poisID.map((id) => poisHolder.data[id]!).toSet(); 
-
-      _toSetToHolder[element.id] = City(id: id, name: name, description: description, position: position, pois: pois);
-    });
-    holderToBeUpdated.setData(_toSetToHolder);
-
-  } 
-  // TODO Now an update function for each type. HAVE FUN! 
-  
 }
