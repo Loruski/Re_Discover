@@ -11,10 +11,10 @@ class MapScreen extends StatefulWidget {
   final MapViewModel mapViewModel;
 
   @override
-  State<StatefulWidget> createState() => _MapScreenState();
+  State<StatefulWidget> createState() => _MapScreen();
 }
 
-class _MapScreenState extends State<MapScreen> {
+class _MapScreen extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
