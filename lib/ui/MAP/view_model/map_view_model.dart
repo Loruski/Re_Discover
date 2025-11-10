@@ -16,7 +16,7 @@ class MapViewModel extends ChangeNotifier {
 
   void followUserPositionToggle(){
     if(isFollowingUserBool){
-      isFollowingUser = AlignOnUpdate.once;
+      isFollowingUser = AlignOnUpdate.never;
       isFollowingUserBool = false;
     } else {
       isFollowingUser = AlignOnUpdate.always;

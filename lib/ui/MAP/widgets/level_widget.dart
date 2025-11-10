@@ -20,7 +20,7 @@ class _LevelWidget extends State<LevelWidget> {
     return ListenableBuilder(
       listenable: widget.mapViewModel,
       builder: (context, _) {
-        child: return Container(
+          return Container(
           height: 90,
           margin: EdgeInsets.only(top: 10, left: 10, right: 10),
           padding: EdgeInsets.all(10),

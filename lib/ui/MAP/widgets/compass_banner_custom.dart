@@ -24,7 +24,7 @@ class _CompassBannerCustom extends State<CompassBannerCustom> {
       child: Row(
         children: <Widget>[
           Align(
-              alignment: AlignmentGeometry.centerLeft,
+              alignment: Alignment.centerLeft,
               child:CompassWidget(mapViewModel: widget.mapViewModel)
           ),
           Expanded(

@@ -21,7 +21,7 @@ class _CompassWidget extends State<CompassWidget> {
   Widget build(BuildContext context) {
     return Builder(
       builder: (context) {
-        return Expanded(child: _buildCompass());
+        return _buildCompass();
       },
     );
   }
