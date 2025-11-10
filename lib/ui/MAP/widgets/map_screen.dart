@@ -15,48 +15,46 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreen extends State<MapScreen> {
-
   @override
   Widget build(BuildContext context) {
-    return  ListenableBuilder(
-          listenable: widget.mapViewModel,
-          builder: (context, _){
-            return Scaffold(
-                appBar: AppBar(
-                  backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-                  bottom: PreferredSize(
-                      preferredSize: const Size.fromHeight(4.0),
-                      child: Padding(
-                          padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
-                          child: Align(
-                            alignment: Alignment.topLeft,
-                            child: const Column(
-                              children: [
-                                Text('Roma, Italia',
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    )
-                                ),
-                                Text("0/5 luoghi visitati")
-                              ],
-                            ),
-                          )
-                      )
+    return ListenableBuilder(
+      listenable: widget.mapViewModel,
+      builder: (context, _) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(4.0),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: const Column(
+                    children: [
+                      Text(
+                        'Roma, Italia',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text("0/5 luoghi visitati"),
+                    ],
                   ),
                 ),
-                body: SafeArea(
-                    child: Column(
-                      children: [
-                        CompassBannerCustom(mapViewModel: widget.mapViewModel),
-                        OsmCustom(mapViewModel: widget.mapViewModel),
-                      ],
-                    )
-                )
-            );
-          }
-      );
-
-
+              ),
+            ),
+          ),
+          body: SafeArea(
+            child: Column(
+              children: [
+                CompassBannerCustom(mapViewModel: widget.mapViewModel),
+                OsmCustom(mapViewModel: widget.mapViewModel),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

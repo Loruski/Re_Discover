@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
@@ -8,13 +9,27 @@ class MapViewModel extends ChangeNotifier {
   // insert repository here
 
   final MapController mapController = MapController();
-  LatLng? currentCenter;
-  double? currentZoom;
+  LatLng? currentCenter = const LatLng(42.405916, 12.856193);
+  double? currentZoom = 13.0;
 
+  AlignOnUpdate isFollowingUser = AlignOnUpdate.always;
+  bool isFollowingUserBool = true;
+
+  void followUserPositionToggle(){
+    if(isFollowingUserBool){
+      isFollowingUser = AlignOnUpdate.once;
+      isFollowingUserBool = false;
+    } else {
+      isFollowingUser = AlignOnUpdate.always;
+      isFollowingUserBool = true;
+    }
+    //notifyListeners();
+  }
 
   void updateMapPosition(LatLng center, double zoom) {
     currentCenter = center;
     currentZoom = zoom;
+    //notifyListeners();
   }
 
   void getUserPosition() async{
