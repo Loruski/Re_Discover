@@ -39,18 +39,8 @@ class _OsmCustom extends State<OsmCustom> {
             children: [
               TileLayer(
                 urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'it.univaq.re_discover',
+                userAgentPackageName: 'it.univaq.egs.re_discover',
               ),
-              // RichAttributionWidget(
-              //   attributions: [
-              //     TextSourceAttribution(
-              //       'OpenStreetMap contributors',
-              //       // onTap: () => launchUrl(
-              //       //   Uri.parse('https://openstreetmap.org/copyright'),
-              //       // ), // (external)
-              //     ),
-              //   ],
-              // ),
               CurrentLocationLayer(
                 alignPositionOnUpdate: widget.mapViewModel.isFollowingUser,
                 alignDirectionOnUpdate: AlignOnUpdate.never,
