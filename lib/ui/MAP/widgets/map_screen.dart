@@ -29,7 +29,7 @@ class _MapScreen extends State<MapScreen> {
                 padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
                 child: Align(
                   alignment: Alignment.topLeft,
-                  child: const Column(
+                  child: Column(
                     children: [
                       Text(
                         'Roma, Italia',

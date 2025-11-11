@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
-import 'package:re_discover/ui/MAP/widgets/level_widgest.dart';
+import 'package:re_discover/ui/MAP/widgets/level_widget.dart';
 import 'package:re_discover/ui/MAP/widgets/map_screen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -28,11 +28,10 @@ class _OsmCustom extends State<OsmCustom> {
               initialCenter:
                   widget.mapViewModel.currentCenter ??
                   const LatLng(42.405916, 12.856193),
-              initialZoom: widget.mapViewModel.currentZoom ?? 50.0,
               onPositionChanged: (position, hasGesture) {
                 widget.mapViewModel.updateMapPosition(
-                  position.center!,
-                  position.zoom!,
+                  position.center,
+                  position.zoom,
                 );
               },
             ),
