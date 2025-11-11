@@ -2,12 +2,11 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 
 class CompassWidget extends StatefulWidget {
-  const CompassWidget({super.key, required this.mapViewModel});
-
-  final MapViewModel mapViewModel;
+  const CompassWidget({super.key});
 
   @override
   State<StatefulWidget> createState() => _CompassWidget();
@@ -19,14 +18,8 @@ class _CompassWidget extends State<CompassWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(
-      builder: (context) {
-        return _buildCompass();
-      },
-    );
-  }
+    final mapViewModel = context.watch<MapViewModel>();
 
-  Widget _buildCompass() {
     return StreamBuilder<CompassEvent>(
       stream: FlutterCompass.events,
       builder: (context, snapshot) {
@@ -62,4 +55,5 @@ class _CompassWidget extends State<CompassWidget> {
       },
     );
   }
+
 }

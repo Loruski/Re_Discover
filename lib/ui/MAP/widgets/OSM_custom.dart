@@ -1,90 +1,101 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/level_widget.dart';
-import 'package:re_discover/ui/MAP/widgets/map_screen.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 
-class OsmCustom extends StatefulWidget {
-  const OsmCustom({super.key, required this.mapViewModel});
+class OsmCustom extends StatelessWidget {
+  const OsmCustom({super.key, required this.mapController, required this.currentCenter, required this.currentZoom, required this.updateMapPosition, required this.isFollowingUser, required this.getUserPosition, required this.followUserPositionToggle, required this.isFollowingUserBool});
 
-  final MapViewModel mapViewModel;
+  final MapController mapController;
+  final LatLng? currentCenter;
+  final double? currentZoom;
+  final Function(LatLng center, double zoom) updateMapPosition;
+  final AlignOnUpdate isFollowingUser;
+  final VoidCallback getUserPosition;
+  final VoidCallback followUserPositionToggle;
+  final bool isFollowingUserBool;
 
-  @override
-  State<StatefulWidget> createState() => _OsmCustom();
-}
+  void onShowModal(BuildContext context) async {
+    await showModalBottomSheet(
+    context: context,
+    backgroundColor: Colors.white,
+    isScrollControlled: true,
+    builder: (ctx) => Flex(
 
-class _OsmCustom extends State<OsmCustom> {
+        direction: Axis.horizontal,
+        children: [
+          Text('This is a BottomSheet'),
+        ]
+    ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListenableBuilder(
-      listenable: widget.mapViewModel,
-      builder: (context, _) {
-        return Expanded(
-          child: FlutterMap(
-            mapController: widget.mapViewModel.mapController,
-            options: MapOptions(
-              initialCenter:
-                  widget.mapViewModel.currentCenter ??
-                  const LatLng(42.405916, 12.856193),
-              onPositionChanged: (position, hasGesture) {
-                widget.mapViewModel.updateMapPosition(
-                  position.center,
-                  position.zoom,
-                );
-              },
-            ),
-            children: [
-              TileLayer(
-                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                userAgentPackageName: 'it.univaq.egs.re_discover',
-              ),
-              CurrentLocationLayer(
-                alignPositionOnUpdate: widget.mapViewModel.isFollowingUser,
-                alignDirectionOnUpdate: AlignOnUpdate.never,
-                style: LocationMarkerStyle(
-                  marker: const DefaultLocationMarker(
-                    child: Icon(Icons.my_location, color: Colors.blue, size: 3),
-                  ),
-                  markerSize: const Size(20, 20),
-                  markerDirection: MarkerDirection.heading,
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Container(
-                  margin: const EdgeInsets.only(right: 20, bottom: 20),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      FloatingActionButton(
-                        onPressed: widget.mapViewModel.getUserPosition,
-                        child: const Icon(Icons.my_location),
-                      ),
-                      const SizedBox(height: 10),
-                      FloatingActionButton(
-                        onPressed: widget.mapViewModel.followUserPositionToggle,
-                        child: () {
-                          if (widget.mapViewModel.isFollowingUserBool) {
-                            return const Icon(Icons.near_me);
-                          } else {
-                            return const Icon(Icons.near_me_disabled);
-                          }
-                        }(),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.topCenter,
-                child: LevelWidget(mapViewModel: widget.mapViewModel),
-              ),
-            ],
+    return Expanded(
+      child: FlutterMap(
+        mapController: mapController,
+        options: MapOptions(
+          initialCenter:
+          currentCenter ??
+              const LatLng(42.405916, 12.856193),
+          onPositionChanged: (position, hasGesture) {
+            updateMapPosition(
+              position.center,
+              position.zoom,
+            );
+          },
+        ),
+        children: [
+          TileLayer(
+            urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+            userAgentPackageName: 'it.univaq.egs.re_discover',
           ),
-        );
-      },
+          CurrentLocationLayer(
+            alignPositionOnUpdate: isFollowingUser,
+            alignDirectionOnUpdate: AlignOnUpdate.never,
+            style: LocationMarkerStyle(
+              marker: const DefaultLocationMarker(
+                child: Icon(Icons.my_location, color: Colors.blue, size: 3),
+              ),
+              markerSize: const Size(20, 20),
+              markerDirection: MarkerDirection.heading,
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              margin: const EdgeInsets.only(right: 20, bottom: 20),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FloatingActionButton(
+                    onPressed: getUserPosition,
+                    child: const Icon(Icons.my_location),
+                  ),
+                  const SizedBox(height: 10),
+                  FloatingActionButton(
+                    onPressed: followUserPositionToggle,
+                    child: () {
+                      if (isFollowingUserBool) {
+                        return const Icon(Icons.near_me);
+                      } else {
+                        return const Icon(Icons.near_me_disabled);
+                      }
+                    }(),
+                  ),
+                  FloatingActionButton(onPressed: () => onShowModal(context))
+                ],
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.topCenter,
+            child: LevelWidget(),
+          ),
+        ],
+      ),
     );
   }
 }

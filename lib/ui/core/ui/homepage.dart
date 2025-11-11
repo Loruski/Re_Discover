@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     HomeScreen(citiesViewModel: HomeViewModel()),
-    MapScreen(mapViewModel: MapViewModel()),
+    MapScreen(),
     UserScreen(userViewModel: UserViewModel()),
     LeaderboardScreen(leaderboardViewModel: LeaderboardViewModel())
   ];
