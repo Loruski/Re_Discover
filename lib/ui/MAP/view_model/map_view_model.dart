@@ -15,7 +15,6 @@ class MapViewModel extends ChangeNotifier {
   LatLng? currentCenter;
   double? currentZoom;
 
-  bool isInfoModalVisible = false;
 
   AlignOnUpdate isFollowingUser = AlignOnUpdate.always;
   bool isFollowingUserBool = true;
@@ -41,33 +40,6 @@ class MapViewModel extends ChangeNotifier {
     if(!permissionGranted) return;
     Position position = await _determinePosition();
     mapController.move(LatLng(position.latitude, position.longitude), this.currentZoom!);
-  }
-
-
-  void showInfoModal() async {
-    if (isInfoModalVisible) return; // evita aprire più volte
-    final context = scaffoldKey.currentContext;
-    if (context == null) return;
-
-    isInfoModalVisible = true;
-    notifyListeners();
-
-    await showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.white,
-      isScrollControlled: true,
-      builder: (ctx) => Flex(
-
-        direction: Axis.horizontal,
-        children: [
-          Text('This is a BottomSheet'),
-        ]
-      ),
-    );
-
-    // Quando il modal viene chiuso
-    isInfoModalVisible = false;
-    notifyListeners();
   }
 
 

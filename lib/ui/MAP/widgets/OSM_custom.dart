@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:re_discover/ui/MAP/widgets/POI_modal_bottom_sheet.dart';
 import 'package:re_discover/ui/MAP/widgets/level_widget.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:re_discover/ui/core/utils.dart';
 
 class OsmCustom extends StatelessWidget {
   const OsmCustom({super.key, required this.mapController, required this.currentCenter, required this.currentZoom, required this.updateMapPosition, required this.isFollowingUser, required this.getUserPosition, required this.followUserPositionToggle, required this.isFollowingUserBool});
@@ -16,20 +18,6 @@ class OsmCustom extends StatelessWidget {
   final VoidCallback followUserPositionToggle;
   final bool isFollowingUserBool;
 
-  void onShowModal(BuildContext context) async {
-    await showModalBottomSheet(
-    context: context,
-    backgroundColor: Colors.white,
-    isScrollControlled: true,
-    builder: (ctx) => Flex(
-
-        direction: Axis.horizontal,
-        children: [
-          Text('This is a BottomSheet'),
-        ]
-    ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +73,7 @@ class OsmCustom extends StatelessWidget {
                       }
                     }(),
                   ),
-                  FloatingActionButton(onPressed: () => onShowModal(context))
+                  FloatingActionButton(onPressed: () => onShowModal(context, PoiModalBottomSheet() ))
                 ],
               ),
             ),
