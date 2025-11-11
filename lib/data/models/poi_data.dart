@@ -8,12 +8,12 @@ class POIData {
   late final int id;
   late String name;
   late String description;
-  late List<String> images;
-  late List<int> quizzes;
+  late List<int> imagesId;
+  late List<int> quizzesId;
   late String qrCode;
-  late PositionData position;
+  late int positionId;
 
-  POIData({required this.id, required this.name, required this.description, required this.images, required this.quizzes, required this.qrCode, required this.position});
+  POIData({required this.id, required this.name, required this.description, required this.imagesId, required this.quizzesId, required this.qrCode, required this.positionId});
 
   factory POIData.fromJson(Map<String, dynamic> json) => _$POIDataFromJson(json);
 

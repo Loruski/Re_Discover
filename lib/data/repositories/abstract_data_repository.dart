@@ -61,6 +61,7 @@ abstract class AbstractDataRepository<TData, T> {
       if (requiredUpdatesFutures.isNotEmpty) await Future.wait(requiredUpdatesFutures);
 
       Map<int, T> toSetToHolder = assignIds(data, requiredData);
+
       // for(TData element in data) {
         
       // }
@@ -70,9 +71,9 @@ abstract class AbstractDataRepository<TData, T> {
 
     } catch (e, s) {
       completer.completeError(e, s);
-      log(e.toString());
-      log(s.toString());
-      // rethrow;
+      //log(e.toString());
+      //log(s.toString());
+      rethrow;
 
     } finally {
       updateFutureLock = null;
