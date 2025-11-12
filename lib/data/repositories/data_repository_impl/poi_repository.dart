@@ -5,10 +5,10 @@ import 'package:re_discover/data/repositories/paths/paths.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/domain/models/quiz.dart';
-import '../../../domain/models/position.dart';
+import 'package:re_discover/domain/models/position.dart';
 
 class POIRepository extends AbstractDataRepository<POIData, POI> {
-  POIRepository({super.requiredData}): super(
+  POIRepository(): super(
     path: Paths.poisPath,
     fromJson: POIData.fromJson,
     assignIds: (List<POIData> data, Map<Types, AbstractDataRepository>? requiredData) {
@@ -21,13 +21,13 @@ class POIRepository extends AbstractDataRepository<POIData, POI> {
 
         Position? position = requiredData?[Types.position]?.get(element.positionId);
         List<Quiz> quizzes = element.quizzesId.map((id) => requiredData?[Types.quiz]?.get(id)).whereType<Quiz>().toList();
-        List<String> images = element.imagesId.map((id) => requiredData?[String]?.get(id)).whereType<String>().toList();
+        // List<String> images = element.imagesId.map((id) => requiredData?[String]?.get(id)).whereType<String>().toList();
 
         if (position == null) log("in POI $POIData.id $POIData.name the position was not found in the holder");
         if (quizzes.contains(null)) log("in POI $POIData.id $POIData.name there's a quiz not found in the holder: $quizzes");
-        if (images.contains(null)) log("in POI $POIData.id $POIData.name there's an image not found in the holder: $images");
+        // if (images.contains(null)) log("in POI $POIData.id $POIData.name there's an image not found in the holder: $images");
 
-        toSetToHolder[element.id] = POI(id: element.id, name: element.name, description: element.description, images: images, quizzes: quizzes, qrCode: element.qrCode, position: position);
+        toSetToHolder[element.id] = POI(id: element.id, name: element.name, description: element.description, images: element.images, quizzes: quizzes, qrCode: element.qrCode, position: position);
       }
 
       return toSetToHolder;

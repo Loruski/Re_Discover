@@ -3,17 +3,17 @@ import 'package:re_discover/domain/models/quiz.dart' as domain;
 
 part 'quiz_data.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class QuizData {
   late final int id;
   late String description;
-  late Map<String, bool> questions;
+  late List<QuestionData> questions;
   late int maxTry;
 
   QuizData._withMaxTry(this.id, this.description, this.questions, this.maxTry);
   QuizData._withoutMaxTry(this.id, this.description, this.questions) : maxTry = questions.length;
 
-  factory QuizData({required int id, required String description, required Map<String, bool> questions, int? maxTry})
+  factory QuizData({required int id, required String description, required List<QuestionData> questions, int? maxTry})
   {
     if(maxTry != null) {
       return QuizData._withMaxTry(id, description, questions, maxTry);
@@ -30,8 +30,25 @@ class QuizData {
     return domain.Quiz(
       id: id,
       description: description,
-      questions: questions,
+      questions: questions.map((questions) => domain.Question(
+        questionText: questions.questionText,
+        answers: questions.answers,
+        correctOptionIndex: questions.correctOptionIndex,
+      )).toList(),
       maxTry: maxTry,
     );
   }
+}
+
+@JsonSerializable(explicitToJson: true)
+class QuestionData {
+  late String questionText;
+  late List<String> answers;
+  late int correctOptionIndex;
+
+  QuestionData({required this.questionText, required this.answers, required this.correctOptionIndex});
+
+  factory QuestionData.fromJson(Map<String, dynamic> json) => _$QuestionDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$QuestionDataToJson(this);
 }

@@ -1,0 +1,24 @@
+{
+    "ReDiscoverData": [
+        {
+            "id": 0,
+            "name": "cappello",
+            "imgPath": "assets/customizables/hats/hat_0.png"
+        },
+        {
+            "id": 1,
+            "name": "berretto",
+            "imgPath": "assets/customizables/hats/hat_1.png"
+        },
+        {
+            "id": 2,
+            "name": "cappuccio",
+            "imgPath": "assets/customizables/hats/hat_2.png"
+        },
+        {
+            "id": 3,
+            "name": "corona",
+            "imgPath": "assets/customizables/hats/hat_3.png"
+        }
+    ]
+}

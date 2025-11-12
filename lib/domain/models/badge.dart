@@ -4,4 +4,10 @@ class Badge {
   late String imgPath;
 
   Badge({required this.id, required this.name, required this.imgPath});
+
+  @override
+    String toString() {
+      
+      return "id: $id, name: $name, imgPath: $imgPath";
+    }
 }

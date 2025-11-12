@@ -1,4 +1,6 @@
-import 'dart:nativewrappers/_internal/vm/lib/developer.dart';
+
+import 'dart:developer';
+
 import 'package:re_discover/data/repositories/paths/paths.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/customizable.dart';
@@ -8,7 +10,7 @@ import 'package:re_discover/data/repositories/abstract_data_repository.dart';
 import 'package:re_discover/domain/models/badge.dart';
 
 class UserRepository extends AbstractDataRepository<UserData, User> {
-  UserRepository({super.requiredData}): super(
+  UserRepository(): super(
     path: Paths.usersPath,
     fromJson: UserData.fromJson,
     assignIds: (List<UserData> data, Map<Types, AbstractDataRepository>? requiredData) {
@@ -27,7 +29,7 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
         if (badges.contains(null)) log("in User $UserData.id $UserData.name there's a badge not found in the holder: $badges");
         if (customizables.contains(null)) log("in User $UserData.id $UserData.name there's a customizable not found in the holder: $customizables");
 
-        toSetToHolder[element.id] = User(id: element.id, username: element.username, XP: element.XP, level: element.level, badges: badges, customizables: customizables);
+        toSetToHolder[element.id] = User(id: element.id, username: element.username, xp: element.xp, level: element.level, badges: badges, customizables: customizables);
       }
       return toSetToHolder;
     }

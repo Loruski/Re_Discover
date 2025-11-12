@@ -8,4 +8,9 @@ class Visit {
   late Map<POI, bool> visitedPOIs;
 
   Visit({required this.id, required this.city, required this.visitedPOIs});
+
+  @override
+    String toString() {
+      return "id: $id, city: $city, visitedPOIs: $visitedPOIs";
+    }
 }

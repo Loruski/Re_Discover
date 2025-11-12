@@ -8,7 +8,7 @@ import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/domain/models/position.dart';
 
 class CityRepository extends AbstractDataRepository<CityData, City> {
-  CityRepository({super.requiredData}): super(
+  CityRepository(): super(
     path: Paths.citiesPath,
     fromJson: CityData.fromJson, // assign its fromJson function
     assignIds: (List<CityData> data, Map<Types, AbstractDataRepository>? requiredData) { //assign the method of assigning IDs

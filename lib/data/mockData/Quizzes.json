@@ -1,0 +1,52 @@
+{
+    "ReDiscoverData": [
+        {
+            "id": 0,
+            "description": "Test your knowledge about the city with this fun quiz!",
+            "questions": [
+                {
+                    "questionText": "What is the capital of France?",
+                    "answers": ["Berlin", "Madrid", "Paris", "Rome"],
+                    "correctOptionIndex": 2
+                },
+                {
+                    "questionText": "Which planet is known as the Red Planet?",
+                    "answers": ["Earth", "Mars", "Jupiter", "Saturn"],
+                    "correctOptionIndex": 1
+                }
+            ]
+        },
+        {
+            "id": 1,
+            "description": "How well do you know the landmarks of the city?",
+            "questions": [
+                {
+                    "questionText": "Which landmark is located in New York City?",
+                    "answers": ["Eiffel Tower", "Statue of Liberty", "Big Ben", "Colosseum"],
+                    "correctOptionIndex": 1
+                },
+                {
+                    "questionText": "What is the name of the famous clock tower in London?",
+                    "answers": ["Big Ben", "Leaning Tower of Pisa", "CN Tower", "Tokyo Tower"],
+                    "correctOptionIndex": 0
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "description": "Test your knowledge about world geography!",
+            "questions": [
+                {
+                    "questionText": "Which is the largest ocean on Earth?",
+                    "answers": ["Atlantic Ocean", "Indian Ocean", "Arctic Ocean", "Pacific Ocean"],
+                    "correctOptionIndex": 3
+                },
+                {
+                    "questionText": "Which country has the largest population?",
+                    "answers": ["India", "USA", "China", "Russia"],
+                    "correctOptionIndex": 2
+                }
+            ]
+        }
+    ]
+}

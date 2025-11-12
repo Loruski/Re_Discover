@@ -1,0 +1,24 @@
+{
+    "ReDiscoverData": [
+        {
+            "id": 0,
+            "name": "the explorer",
+            "imgPath": "assets/badges/badge_0.png"
+        },
+        {
+            "id": 1,
+            "name": "the adventurer",
+            "imgPath": "assets/badges/badge_1.png"
+        },
+        {
+            "id": 2,
+            "name": "the traveler",
+            "imgPath": "assets/badges/badge_2.png"
+        },
+        {
+            "id": 3,
+            "name": "the globetrotter",
+            "imgPath": "assets/badges/badge_3.png"
+        }
+    ]
+}

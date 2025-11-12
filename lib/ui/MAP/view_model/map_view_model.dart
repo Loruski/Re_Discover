@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -37,7 +36,7 @@ class MapViewModel extends ChangeNotifier {
     bool permissionGranted = await checkLocationPermission();
     if(!permissionGranted) return;
     Position position = await _determinePosition();
-    mapController.move(LatLng(position.latitude, position.longitude), this.currentZoom!);
+    mapController.move(LatLng(position.latitude, position.longitude), currentZoom!);
   }
 
 

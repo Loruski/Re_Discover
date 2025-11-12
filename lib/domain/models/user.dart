@@ -4,10 +4,16 @@ import 'package:re_discover/domain/models/customizable.dart';
 class User {
   late final int id;
   late String username;
-  late double XP;
+  late double xp;
   late int level;
   late Set<ReDiscover.Badge> badges;
   late Set<Customizable> customizables;
 
-  User({required this.id, required this.username, required this.XP, required this.level, required this.badges, required this.customizables});
+  User({required this.id, required this.username, required this.xp, required this.level, required this.badges, required this.customizables});
+
+  @override
+    String toString() {
+      
+      return "id: $id, username: $username, xp: $xp, level: $level, badges: $badges, customizables: $customizables";
+    }
 }

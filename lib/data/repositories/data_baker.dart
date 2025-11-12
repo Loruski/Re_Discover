@@ -14,7 +14,7 @@ class DataBaker<T> {
 
     List<T> data = [];
 
-    for (var element in (decodedSerializedRetrievedData["Array"] as List<dynamic>)) {
+    for (var element in (decodedSerializedRetrievedData["ReDiscoverData"] as List<dynamic>)) {
       data.add(fromJson(element));
     }
 

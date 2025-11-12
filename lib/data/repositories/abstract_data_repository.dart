@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:re_discover/data/models/listenable_data_holder.dart';
 import 'package:re_discover/data/repositories/data_baker.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
@@ -16,7 +17,7 @@ abstract class AbstractDataRepository<TData, T> {
   late TData Function(Map<String, dynamic>) fromJson; 
 
   /// Necessary repositories for building objects made of objects, use the enum in RepositoryHub for the key, the corresponding repository itself as the value
-  late Map<Types, AbstractDataRepository>? requiredData;
+  late Map<Types, AbstractDataRepository>? requiredData = null;
 
   /// Function to specify how to create T objects from TData objects, using the requiredData defined earlier
   /// The objects should be inserted following the pattern (object.ID, object)
@@ -26,9 +27,12 @@ abstract class AbstractDataRepository<TData, T> {
 
 
 
-  AbstractDataRepository({required this.path, required this.fromJson, this.requiredData, required this.assignIds});
+  AbstractDataRepository({required this.path, required this.fromJson, required this.assignIds});
 
 
+  void setRequiredData(Map<Types, AbstractDataRepository> data) {
+    requiredData = data;
+  }
 
   Future<List<T>> get data async { // to be eventually expanded when update versions are introduced, comparing update versions, and if different, execute update
     if(holder.data.isEmpty) await update();
@@ -54,23 +58,19 @@ abstract class AbstractDataRepository<TData, T> {
     
     try {
       List<TData> data = await _getData(fromJson);
-
+      if (requiredData != null) {
       List<Future<void>> requiredUpdatesFutures = (requiredData?.values ?? []).map((repo) => repo.update()).toList();
       if (requiredUpdatesFutures.isNotEmpty) await Future.wait(requiredUpdatesFutures);
-
+      }
       Map<int, T> toSetToHolder = assignIds(data, requiredData);
 
-      // for(TData element in data) {
-        
-      // }
-      
       holder.setData(toSetToHolder);
       completer.complete();
 
     } catch (e, s) {
       completer.completeError(e, s);
-      //log(e.toString());
-      //log(s.toString());
+      log(e.toString());
+      log(s.toString());
       rethrow;
 
     } finally {
