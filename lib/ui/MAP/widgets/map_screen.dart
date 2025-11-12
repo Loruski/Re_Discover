@@ -10,7 +10,7 @@ class MapScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => MapViewModel(),
+      create: (context) => MapViewModel()..initState(),
       child: MapScreenContent(),
     );
   }
@@ -48,12 +48,14 @@ class MapScreenContent extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            CompassBannerCustom(),
+            CompassBannerCustom(
+              userPosition: mapViewModel.currentPosition,
+            ),
             OsmCustom(
               mapController: mapViewModel.mapController,
-              currentCenter: mapViewModel.currentCenter,
+              currentCenter: mapViewModel.currentPosition,
               currentZoom: mapViewModel.currentZoom,
-              updateMapPosition: mapViewModel.updateMapPosition,
+              updateMapPosition: mapViewModel.updateZoomLevel,
               isFollowingUser: mapViewModel.isFollowingUser,
               getUserPosition: mapViewModel.getUserPosition,
               followUserPositionToggle: mapViewModel.followUserPositionToggle,

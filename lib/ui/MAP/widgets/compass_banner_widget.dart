@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:re_discover/ui/MAP/widgets/compass_widget.dart';
+import 'package:latlong2/latlong.dart';
+
 
 class CompassBannerCustom extends StatelessWidget {
-  const CompassBannerCustom({super.key});
+  const CompassBannerCustom({super.key, required this.userPosition});
+
+  final LatLng? userPosition;
 
   @override
   Widget build(BuildContext context) {
+    if (userPosition == null) {
+      return SizedBox.shrink();
+    }
     return Container(
       color: Colors.white,
       padding: EdgeInsets.all(10),
@@ -13,7 +20,7 @@ class CompassBannerCustom extends StatelessWidget {
         children: <Widget>[
           Align(
               alignment: Alignment.centerLeft,
-              child:CompassWidget()
+              child:CompassWidget(userPosition: userPosition)
           ),
           Expanded(
               flex:1,

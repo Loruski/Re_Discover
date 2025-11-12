@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -8,16 +10,29 @@ import 'package:geolocator/geolocator.dart';
 class MapViewModel extends ChangeNotifier {
   // insert repository here
   final MapController mapController = MapController();
-  final scaffoldKey = GlobalKey<ScaffoldState>();
-  LatLng? currentCenter;
-  double? currentZoom;
-
-
+  late LatLng currentPosition = LatLng(0, 0);
+  late double currentZoom = 15.0;
   AlignOnUpdate isFollowingUser = AlignOnUpdate.always;
   bool isFollowingUserBool = true;
 
-  void followUserPositionToggle(){
-    if(isFollowingUserBool){
+  final LocationSettings locationSettings = LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 2,
+  );
+
+  late StreamSubscription<Position> positionStream =
+      Geolocator.getPositionStream(locationSettings: locationSettings).listen((
+        Position? position,
+      ) {
+        print(
+          position == null
+              ? 'Unknown'
+              : 'stream ${position.latitude.toString()}, ${position.longitude.toString()}',
+        );
+      });
+
+  void followUserPositionToggle() {
+    if (isFollowingUserBool) {
       isFollowingUser = AlignOnUpdate.never;
       isFollowingUserBool = false;
     } else {
@@ -27,18 +42,21 @@ class MapViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateMapPosition(LatLng center, double zoom) {
-    currentCenter = center;
+  void updateZoomLevel(double zoom) {
     currentZoom = zoom;
+    notifyListeners();
   }
 
-  void getUserPosition() async{
-    bool permissionGranted = await checkLocationPermission();
-    if(!permissionGranted) return;
-    Position position = await _determinePosition();
-    mapController.move(LatLng(position.latitude, position.longitude), currentZoom!);
+  void getUserPosition() async {
+    // bool permissionGranted = await checkLocationPermission();
+    // if (!permissionGranted) return;
+    // Position position = await _determinePosition();
+    print("bottone $currentPosition");
+    mapController.move(
+      LatLng(currentPosition.latitude, currentPosition.longitude),
+      currentZoom,
+    );
   }
-
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -69,7 +87,8 @@ class MapViewModel extends ChangeNotifier {
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
       return Future.error(
-          'Location permissions are permanently denied, we cannot request permissions.');
+        'Location permissions are permanently denied, we cannot request permissions.',
+      );
     }
 
     // When we reach here, permissions are granted and we can
@@ -77,17 +96,11 @@ class MapViewModel extends ChangeNotifier {
     return await Geolocator.getCurrentPosition();
   }
 
-  Future<bool> checkLocationPermission() async {
-    var status = await Permission.location.status;
-    if (status.isDenied) {
-      await Permission.location.request();
-    }
-    return true;
-  }
-
   void initState() async {
-    await checkLocationPermission();
+    Position position = await _determinePosition();
+    currentPosition = LatLng(position.latitude, position.longitude);
+    notifyListeners();
   }
-
-
 }
+
+

@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
 import 'package:provider/provider.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
+import 'package:latlong2/latlong.dart';
 
 class CompassWidget extends StatefulWidget {
-  const CompassWidget({super.key});
+  const CompassWidget({super.key, required this.userPosition});
+
+  final LatLng? userPosition;
 
   @override
   State<StatefulWidget> createState() => _CompassWidget();
@@ -14,6 +17,9 @@ class CompassWidget extends StatefulWidget {
 class _CompassWidget extends State<CompassWidget> {
   CompassEvent? _lastRead;
   DateTime? _lastReadAt;
+  LatLng POIposition = LatLng(42.36139993187276, 13.378926341578635);
+
+
 
   @override
   Widget build(BuildContext context) {

@@ -4,7 +4,6 @@ import 'package:re_discover/ui/MAP/widgets/POI_modal_bottom_sheet.dart';
 import 'package:re_discover/ui/MAP/widgets/level_widget.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
-import 'package:re_discover/ui/MAP/widgets/marker_widget.dart';
 import 'package:re_discover/ui/core/utils.dart';
 
 class OsmCustom extends StatelessWidget {
@@ -13,7 +12,7 @@ class OsmCustom extends StatelessWidget {
   final MapController mapController;
   final LatLng? currentCenter;
   final double? currentZoom;
-  final Function(LatLng center, double zoom) updateMapPosition;
+  final Function(double zoom) updateMapPosition;
   final AlignOnUpdate isFollowingUser;
   final VoidCallback getUserPosition;
   final VoidCallback followUserPositionToggle;
@@ -31,7 +30,6 @@ class OsmCustom extends StatelessWidget {
               const LatLng(42.405916, 12.856193),
           onPositionChanged: (position, hasGesture) {
             updateMapPosition(
-              position.center,
               position.zoom,
             );
           },
@@ -78,7 +76,7 @@ class OsmCustom extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FloatingActionButton(
-                    onPressed: getUserPosition,
+                    onPressed: () => getUserPosition(),
                     child: const Icon(Icons.my_location),
                   ),
                   const SizedBox(height: 10),
@@ -91,8 +89,7 @@ class OsmCustom extends StatelessWidget {
                         return const Icon(Icons.near_me_disabled);
                       }
                     }(),
-                  ),
-                  FloatingActionButton(onPressed: () => onShowModal(context, PoiModalBottomSheet() ))
+                  )
                 ],
               ),
             ),
