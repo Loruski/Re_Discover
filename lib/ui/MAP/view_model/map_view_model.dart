@@ -1,34 +1,39 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:geolocator/geolocator.dart';
 
 class MapViewModel extends ChangeNotifier {
   // insert repository here
   final MapController mapController = MapController();
-  late LatLng currentPosition = LatLng(0, 0);
+  LatLng currentPosition = LatLng(0, 0);
   late double currentZoom = 15.0;
   AlignOnUpdate isFollowingUser = AlignOnUpdate.always;
   bool isFollowingUserBool = true;
 
   final LocationSettings locationSettings = LocationSettings(
     accuracy: LocationAccuracy.high,
-    distanceFilter: 2,
+    distanceFilter: 0,
   );
 
-  late StreamSubscription<Position> positionStream =
-      Geolocator.getPositionStream(locationSettings: locationSettings).listen((
+  StreamSubscription<Position>? positionStream;
+  void initLocationStream() => positionStream =
+      Geolocator.getPositionStream(locationSettings: locationSettings).listen( (
         Position? position,
       ) {
-        print(
+        log(
           position == null
               ? 'Unknown'
               : 'stream ${position.latitude.toString()}, ${position.longitude.toString()}',
         );
+        if(position!=null){
+          currentPosition = LatLng(position.latitude, position.longitude);
+          notifyListeners();
+        }
       });
 
   void followUserPositionToggle() {
@@ -51,7 +56,6 @@ class MapViewModel extends ChangeNotifier {
     // bool permissionGranted = await checkLocationPermission();
     // if (!permissionGranted) return;
     // Position position = await _determinePosition();
-    print("bottone $currentPosition");
     mapController.move(
       LatLng(currentPosition.latitude, currentPosition.longitude),
       currentZoom,
@@ -90,16 +94,17 @@ class MapViewModel extends ChangeNotifier {
         'Location permissions are permanently denied, we cannot request permissions.',
       );
     }
-
+  
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
+     initLocationStream();
     return await Geolocator.getCurrentPosition();
   }
 
   void initState() async {
-    Position position = await _determinePosition();
-    currentPosition = LatLng(position.latitude, position.longitude);
-    notifyListeners();
+    //Position position = await _determinePosition();
+    await _determinePosition();
+    //currentPosition = LatLng(position.latitude, position.longitude);
   }
 }
 

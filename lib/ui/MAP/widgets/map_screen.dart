@@ -1,20 +1,37 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/compass_banner_widget.dart';
 import 'package:re_discover/ui/MAP/widgets/OSM_widget.dart';
 
-class MapScreen extends StatelessWidget {
+class MapScreen extends StatefulWidget {
   const MapScreen({super.key});
 
   @override
+  State<MapScreen> createState() => _MapScreenState();
+}
+
+class _MapScreenState extends State<MapScreen> {
+  @override
+  void initState() {
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
+    
     return ChangeNotifierProvider(
       create: (context) => MapViewModel()..initState(),
       child: MapScreenContent(),
     );
   }
 }
+// class MapScreen extends StatelessWidget {
+//   const MapScreen({super.key});
+
+  
+// }
 
 class MapScreenContent extends StatelessWidget {
   const MapScreenContent({super.key});
