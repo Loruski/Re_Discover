@@ -1,9 +1,11 @@
 import 'package:re_discover/data/repositories/data_repository_impl/city_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/poi_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/user_repository.dart';
+import 'package:re_discover/data/repositories/data_repository_impl/visit_repository.dart';
 import 'package:re_discover/domain/models/city.dart';
 import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/domain/models/user.dart';
+import 'package:re_discover/domain/models/visit.dart';
 
 enum Types {
   city,
@@ -32,6 +34,7 @@ class RepositoryHub {
   CityRepository cityRepository = CityRepository();
   POIRepository poiRepository = POIRepository();
   UserRepository userRepository = UserRepository();
+  VisitRepository visitRepository = VisitRepository();
   // TODO some types are missing
   
  
@@ -39,6 +42,7 @@ class RepositoryHub {
   Future<List<City>> get cities => cityRepository.data;
   Future<List<POI>> get pois => poiRepository.data;
   Future<List<User>> get users => userRepository.data;
+  Future<List<Visit>> get visits => visitRepository.data;
   // TODO some types are missing
 
 
