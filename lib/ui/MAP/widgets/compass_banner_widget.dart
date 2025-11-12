@@ -1,21 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/compass_widget.dart';
-import 'package:re_discover/ui/MAP/widgets/map_screen.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:flutter_compass/flutter_compass.dart';
 
-class CompassBannerCustom extends StatefulWidget {
-  const CompassBannerCustom({super.key, required this.mapViewModel});
+class CompassBannerCustom extends StatelessWidget {
+  const CompassBannerCustom({super.key});
 
-  final MapViewModel mapViewModel;
-
-  @override
-  State<StatefulWidget> createState() => _CompassBannerCustom();
-}
-
-class _CompassBannerCustom extends State<CompassBannerCustom> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -25,7 +13,7 @@ class _CompassBannerCustom extends State<CompassBannerCustom> {
         children: <Widget>[
           Align(
               alignment: Alignment.centerLeft,
-              child:CompassWidget(mapViewModel: widget.mapViewModel)
+              child:CompassWidget()
           ),
           Expanded(
               flex:1,

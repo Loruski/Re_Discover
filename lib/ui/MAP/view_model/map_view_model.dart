@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:latlong2/latlong.dart';
@@ -8,8 +9,10 @@ import 'package:geolocator/geolocator.dart';
 class MapViewModel extends ChangeNotifier {
   // insert repository here
   final MapController mapController = MapController();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   LatLng? currentCenter;
   double? currentZoom;
+
 
   AlignOnUpdate isFollowingUser = AlignOnUpdate.always;
   bool isFollowingUserBool = true;
@@ -31,6 +34,8 @@ class MapViewModel extends ChangeNotifier {
   }
 
   void getUserPosition() async{
+    bool permissionGranted = await checkLocationPermission();
+    if(!permissionGranted) return;
     Position position = await _determinePosition();
     mapController.move(LatLng(position.latitude, position.longitude), this.currentZoom!);
   }
@@ -73,11 +78,16 @@ class MapViewModel extends ChangeNotifier {
     return await Geolocator.getCurrentPosition();
   }
 
-  void initState() async {
+  Future<bool> checkLocationPermission() async {
     var status = await Permission.location.status;
-    if (!status.isGranted) {
+    if (status.isDenied) {
       await Permission.location.request();
     }
+    return true;
+  }
+
+  void initState() async {
+    await checkLocationPermission();
   }
 
 
