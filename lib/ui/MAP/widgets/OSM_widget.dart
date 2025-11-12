@@ -4,6 +4,7 @@ import 'package:re_discover/ui/MAP/widgets/POI_modal_bottom_sheet.dart';
 import 'package:re_discover/ui/MAP/widgets/level_widget.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:re_discover/ui/MAP/widgets/marker_widget.dart';
 import 'package:re_discover/ui/core/utils.dart';
 
 class OsmCustom extends StatelessWidget {
@@ -39,6 +40,24 @@ class OsmCustom extends StatelessWidget {
           TileLayer(
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             userAgentPackageName: 'it.univaq.egs.re_discover',
+          ),
+          MarkerLayer(
+              markers:[
+                //TODO: replace with dynamic POI markers and a for
+                Marker(
+                  point: LatLng(42.36139993187276, 13.378926341578635),
+                  width: 60,
+                  height: 60,
+                  rotate: true,
+                  child: GestureDetector(
+                    onTap: () => onShowModal(context, PoiModalBottomSheet()),
+                    child: Transform.translate(
+                      offset: const Offset(0, -20),
+                      child: const Icon(Icons.room, color: Colors.red, size: 40),
+                    ),
+                  ),
+                )
+              ]
           ),
           CurrentLocationLayer(
             alignPositionOnUpdate: isFollowingUser,
