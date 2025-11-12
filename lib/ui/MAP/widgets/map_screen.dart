@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
-import 'package:re_discover/ui/MAP/widgets/compass_banner_custom.dart';
-import 'package:re_discover/ui/MAP/widgets/OSM_custom.dart';
+import 'package:re_discover/ui/MAP/widgets/compass_banner_widget.dart';
+import 'package:re_discover/ui/MAP/widgets/OSM_widget.dart';
 
 class MapScreen extends StatelessWidget {
   const MapScreen({super.key});

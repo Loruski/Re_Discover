@@ -6,12 +6,14 @@ class PoiModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flex(
-
-        direction: Axis.horizontal,
-        children: [
-          Text('uca poi modal bottom sheet'),
-        ]
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Flex(
+          direction: Axis.horizontal,
+          children:[
+            Text("POI Modal Bottom Sheet"),
+          ]
+      )
     );
   }
 }

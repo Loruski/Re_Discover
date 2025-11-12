@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:re_discover/ui/MAP/widgets/compass_banner_custom.dart';
-import 'package:re_discover/ui/MAP/widgets/OSM_custom.dart';
+
 
 class LevelWidget extends StatelessWidget {
   const LevelWidget({super.key});

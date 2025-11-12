@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/compass_widget.dart';
 
 class CompassBannerCustom extends StatelessWidget {
