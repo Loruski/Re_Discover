@@ -3,7 +3,7 @@ import 'package:re_discover/ui/HOME/view_model/home_view_model.dart';
 import 'package:re_discover/ui/HOME/widgets/home_screen.dart';
 import 'package:re_discover/ui/LEADERBOARD/view_model/leaderboard_view_model.dart';
 import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_screen.dart';
-import 'package:re_discover/ui/MAP/widgets/map_screen.dart';
+import 'package:re_discover/ui/MAP/screens/map_screen.dart';
 import 'package:re_discover/ui/USER/view_model/user_view_model.dart';
 import 'package:re_discover/ui/USER/widgets/user_screen.dart';
 
