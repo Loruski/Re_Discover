@@ -10,14 +10,11 @@ import 'package:re_discover/ui/USER/widgets/user_screen.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
-
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-
 class _HomePageState extends State<HomePage> {
-
   int _selectedIndex = 0;
 
   void _navigateBottomBar(int index) {
@@ -30,35 +27,26 @@ class _HomePageState extends State<HomePage> {
     HomeScreen(),
     MapScreen(),
     UserScreen(userViewModel: UserViewModel()),
-    LeaderboardScreen(leaderboardViewModel: LeaderboardViewModel())
+    LeaderboardScreen(leaderboardViewModel: LeaderboardViewModel()),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _selectedIndex,
-          onTap: _navigateBottomBar,
-          type: BottomNavigationBarType.fixed,
-          items:[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.map),
-              label: 'Map',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
-              label: 'Profile',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.leaderboard),
-              label: 'Leaderboard',
-            )
-          ]
+        currentIndex: _selectedIndex,
+        onTap: _navigateBottomBar,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.map), label: 'Map'),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.leaderboard),
+            label: 'Leaderboard',
+          ),
+        ],
       ),
     );
   }
