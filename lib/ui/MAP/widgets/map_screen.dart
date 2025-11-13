@@ -27,11 +27,6 @@ class _MapScreenState extends State<MapScreen> {
     );
   }
 }
-// class MapScreen extends StatelessWidget {
-//   const MapScreen({super.key});
-
-  
-// }
 
 class MapScreenContent extends StatelessWidget {
   const MapScreenContent({super.key});

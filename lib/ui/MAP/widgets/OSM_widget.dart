@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:re_discover/ui/MAP/widgets/POI_modal_bottom_sheet.dart';
 import 'package:re_discover/ui/MAP/widgets/level_widget.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:re_discover/ui/core/utils.dart';
 
-class OsmCustom extends StatelessWidget {
+class OsmCustom extends StatefulWidget {
   const OsmCustom({
     super.key,
     required this.mapController,
@@ -28,28 +27,60 @@ class OsmCustom extends StatelessWidget {
   final bool isFollowingUserBool;
 
   @override
-  Widget build(BuildContext context) {
+  State<OsmCustom> createState() => _OsmCustomState();
+}
 
-     double calcDistance(LatLng userPos, LatLng poiPos) {
-      return Geolocator.distanceBetween(
-        userPos.latitude,
-        userPos.longitude,
-        poiPos.latitude,
-        poiPos.longitude,
-      );
+class _OsmCustomState extends State<OsmCustom> {
+  late ValueNotifier<double> distanceNotifier;
+  final LatLng poiPosition = LatLng(42.356357865311004, 13.388983714794294);
+
+  @override
+  void initState() {
+    super.initState();
+    distanceNotifier = ValueNotifier<double>(0);
+    _updateDistance();
+  }
+
+  @override
+  void didUpdateWidget(OsmCustom oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.currentPosition != widget.currentPosition) {
+      _updateDistance();
     }
+  }
 
-    final LatLng poiPosition = LatLng(42.356357865311004, 13.388983714794294);
+  void _updateDistance() {
+    final newDistance = Geolocator.distanceBetween(
+      widget.currentPosition.latitude,
+      widget.currentPosition.longitude,
+      poiPosition.latitude,
+      poiPosition.longitude,
+    );
 
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        distanceNotifier.value = newDistance;
+        print('Distance updated: ${distanceNotifier.value}');
+      }
+    });
+  }
 
+  @override
+  void dispose() {
+    distanceNotifier.dispose();
+    super.dispose();
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Expanded(
       child: FlutterMap(
-        mapController: mapController,
+        mapController: widget.mapController,
         options: MapOptions(
-          initialCenter: currentPosition ?? const LatLng(42.405916, 12.856193),
+          initialCenter:
+              widget.currentPosition ?? const LatLng(42.405916, 12.856193),
           onPositionChanged: (position, hasGesture) {
-            updateMapPosition(position.zoom);
+            widget.updateMapPosition(position.zoom);
           },
         ),
         children: [
@@ -66,7 +97,10 @@ class OsmCustom extends StatelessWidget {
                 height: 60,
                 rotate: true,
                 child: GestureDetector(
-                  onTap: () => onShowModal(context, PoiModalBottomSheet(distance: calcDistance(currentPosition, poiPosition))),
+                  onTap: () => onShowModalMap(
+                    context: context,
+                    distanceNotifier: distanceNotifier,
+                  ),
                   child: Transform.translate(
                     offset: const Offset(0, -20),
                     child: const Icon(Icons.room, color: Colors.red, size: 40),
@@ -76,7 +110,7 @@ class OsmCustom extends StatelessWidget {
             ],
           ),
           CurrentLocationLayer(
-            alignPositionOnUpdate: isFollowingUser,
+            alignPositionOnUpdate: widget.isFollowingUser,
             alignDirectionOnUpdate: AlignOnUpdate.never,
             style: LocationMarkerStyle(
               marker: const DefaultLocationMarker(
@@ -94,14 +128,17 @@ class OsmCustom extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   FloatingActionButton(
-                    onPressed: () => mapController.move(currentPosition, currentZoom),
+                    onPressed: () => widget.mapController.move(
+                      widget.currentPosition,
+                      widget.currentZoom,
+                    ),
                     child: const Icon(Icons.my_location),
                   ),
                   const SizedBox(height: 10),
                   FloatingActionButton(
-                    onPressed: followUserPositionToggle,
+                    onPressed: widget.followUserPositionToggle,
                     child: () {
-                      if (isFollowingUserBool) {
+                      if (widget.isFollowingUserBool) {
                         return const Icon(Icons.near_me);
                       } else {
                         return const Icon(Icons.near_me_disabled);
