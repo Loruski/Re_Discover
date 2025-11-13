@@ -6,13 +6,11 @@ import 'package:latlong2/latlong.dart';
 class CompassBannerCustom extends StatelessWidget {
   const CompassBannerCustom({super.key, required this.userPosition});
 
-  final LatLng? userPosition;
+  final LatLng userPosition;
 
   @override
   Widget build(BuildContext context) {
-    if (userPosition == null) {
-      return SizedBox.shrink();
-    }
+
     return Container(
       color: Colors.white,
       padding: EdgeInsets.all(10),

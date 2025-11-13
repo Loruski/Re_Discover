@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_compass/flutter_compass.dart';
+import 'package:flutter_map_math/flutter_geo_math.dart';
 import 'package:provider/provider.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:latlong2/latlong.dart';
@@ -8,7 +9,7 @@ import 'package:latlong2/latlong.dart';
 class CompassWidget extends StatefulWidget {
   const CompassWidget({super.key, required this.userPosition});
 
-  final LatLng? userPosition;
+  final LatLng userPosition;
 
   @override
   State<StatefulWidget> createState() => _CompassWidget();
@@ -17,8 +18,19 @@ class CompassWidget extends StatefulWidget {
 class _CompassWidget extends State<CompassWidget> {
   CompassEvent? _lastRead;
   DateTime? _lastReadAt;
-  LatLng POIposition = LatLng(42.36139993187276, 13.378926341578635);
+  LatLng poiPosition = LatLng(42.356357865311004, 13.388983714794294);
 
+  double bearingBetween(double lat1, double lon1, double lat2, double lon2) {
+    double dLon = (lon2 - lon1) * math.pi / 180;
+    lat1 = lat1 * math.pi / 180;
+    lat2 = lat2 * math.pi / 180;
+
+    double y = math.sin(dLon) * math.cos(lat2);
+    double x = math.cos(lat1) * math.sin(lat2) -
+        math.sin(lat1) * math.cos(lat2) * math.cos(dLon);
+    double bearing = math.atan2(y, x);
+    return (bearing * 180 / math.pi + 360) % 360; // normalize to 0–360°
+  }
 
 
   @override
@@ -35,13 +47,16 @@ class _CompassWidget extends State<CompassWidget> {
           return Center(child: CircularProgressIndicator());
         }
 
-        double? direction = snapshot.data!.heading;
+        double heading = snapshot.data!.heading ?? 0;
 
-        // if direction is null, then device does not support this sensor
-        // show error message
-        if (direction == null) {
-          return Center(child: Text("Device does not have sensors !"));
-        }
+        double angle = bearingBetween(
+          widget.userPosition.latitude,
+          widget.userPosition.longitude,
+          poiPosition.latitude,
+          poiPosition.longitude,
+        );
+
+        double rotation = (angle - heading + 540) % 360 - 180;
 
         return Material(
           shape: CircleBorder(),
@@ -52,7 +67,7 @@ class _CompassWidget extends State<CompassWidget> {
             alignment: Alignment.center,
             decoration: BoxDecoration(shape: BoxShape.circle),
             child: Transform.rotate(
-              angle: (direction * (math.pi / 180) * -1),
+              angle: rotation * (math.pi / 180),
               child: Icon(Icons.navigation, size: 50, color: Colors.blue),
             ),
           ),

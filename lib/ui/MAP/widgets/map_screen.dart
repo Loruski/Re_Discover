@@ -70,11 +70,10 @@ class MapScreenContent extends StatelessWidget {
             ),
             OsmCustom(
               mapController: mapViewModel.mapController,
-              currentCenter: mapViewModel.currentPosition,
+              currentPosition: mapViewModel.currentPosition,
               currentZoom: mapViewModel.currentZoom,
               updateMapPosition: mapViewModel.updateZoomLevel,
               isFollowingUser: mapViewModel.isFollowingUser,
-              getUserPosition: mapViewModel.getUserPosition,
               followUserPositionToggle: mapViewModel.followUserPositionToggle,
               isFollowingUserBool: mapViewModel.isFollowingUserBool,
             ),

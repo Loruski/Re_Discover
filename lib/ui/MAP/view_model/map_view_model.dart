@@ -30,6 +30,7 @@ class MapViewModel extends ChangeNotifier {
               ? 'Unknown'
               : 'stream ${position.latitude.toString()}, ${position.longitude.toString()}',
         );
+        print("stream updated");
         if(position!=null){
           currentPosition = LatLng(position.latitude, position.longitude);
           notifyListeners();
@@ -52,15 +53,6 @@ class MapViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getUserPosition() async {
-    // bool permissionGranted = await checkLocationPermission();
-    // if (!permissionGranted) return;
-    // Position position = await _determinePosition();
-    mapController.move(
-      LatLng(currentPosition.latitude, currentPosition.longitude),
-      currentZoom,
-    );
-  }
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -102,9 +94,9 @@ class MapViewModel extends ChangeNotifier {
   }
 
   void initState() async {
-    //Position position = await _determinePosition();
-    await _determinePosition();
-    //currentPosition = LatLng(position.latitude, position.longitude);
+    Position position = await _determinePosition();
+    currentPosition = LatLng(position.latitude, position.longitude);
+    notifyListeners();
   }
 }
 
