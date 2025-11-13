@@ -22,7 +22,7 @@ class MapViewModel extends ChangeNotifier {
 
   StreamSubscription<Position>? positionStream;
   void initLocationStream() => positionStream =
-      Geolocator.getPositionStream(locationSettings: locationSettings).listen( (
+      Geolocator.getPositionStream(locationSettings: locationSettings).listen((
         Position? position,
       ) {
         log(
@@ -31,7 +31,7 @@ class MapViewModel extends ChangeNotifier {
               : 'stream ${position.latitude.toString()}, ${position.longitude.toString()}',
         );
         print("stream updated");
-        if(position!=null){
+        if (position != null) {
           currentPosition = LatLng(position.latitude, position.longitude);
           notifyListeners();
         }
@@ -52,7 +52,6 @@ class MapViewModel extends ChangeNotifier {
     currentZoom = zoom;
     notifyListeners();
   }
-
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -86,18 +85,17 @@ class MapViewModel extends ChangeNotifier {
         'Location permissions are permanently denied, we cannot request permissions.',
       );
     }
-  
+
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-     initLocationStream();
+    initLocationStream();
     return await Geolocator.getCurrentPosition();
   }
 
   void initState() async {
     Position position = await _determinePosition();
     currentPosition = LatLng(position.latitude, position.longitude);
+    print("caricato");
     notifyListeners();
   }
 }
-
-

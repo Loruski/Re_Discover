@@ -7,7 +7,16 @@ import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:re_discover/ui/core/utils.dart';
 
 class OsmCustom extends StatelessWidget {
-  const OsmCustom({super.key, required this.mapController, required this.currentPosition, required this.currentZoom, required this.updateMapPosition, required this.isFollowingUser, required this.followUserPositionToggle, required this.isFollowingUserBool});
+  const OsmCustom({
+    super.key,
+    required this.mapController,
+    required this.currentPosition,
+    required this.currentZoom,
+    required this.updateMapPosition,
+    required this.isFollowingUser,
+    required this.followUserPositionToggle,
+    required this.isFollowingUserBool,
+  });
 
   final MapController mapController;
   final LatLng currentPosition;
@@ -17,20 +26,15 @@ class OsmCustom extends StatelessWidget {
   final VoidCallback followUserPositionToggle;
   final bool isFollowingUserBool;
 
-
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: FlutterMap(
         mapController: mapController,
         options: MapOptions(
-          initialCenter:
-          currentPosition ??
-              const LatLng(42.405916, 12.856193),
+          initialCenter: currentPosition ?? const LatLng(42.405916, 12.856193),
           onPositionChanged: (position, hasGesture) {
-            updateMapPosition(
-              position.zoom,
-            );
+            updateMapPosition(position.zoom);
           },
         ),
         children: [
@@ -39,22 +43,22 @@ class OsmCustom extends StatelessWidget {
             userAgentPackageName: 'it.univaq.egs.re_discover',
           ),
           MarkerLayer(
-              markers:[
-                //TODO: replace with dynamic POI markers and a for
-                Marker(
-                  point: LatLng(42.356357865311004, 13.388983714794294),
-                  width: 60,
-                  height: 60,
-                  rotate: true,
-                  child: GestureDetector(
-                    onTap: () => onShowModal(context, PoiModalBottomSheet()),
-                    child: Transform.translate(
-                      offset: const Offset(0, -20),
-                      child: const Icon(Icons.room, color: Colors.red, size: 40),
-                    ),
+            markers: [
+              //TODO: replace with dynamic POI markers and a for
+              Marker(
+                point: LatLng(42.356357865311004, 13.388983714794294),
+                width: 60,
+                height: 60,
+                rotate: true,
+                child: GestureDetector(
+                  onTap: () => onShowModal(context, PoiModalBottomSheet()),
+                  child: Transform.translate(
+                    offset: const Offset(0, -20),
+                    child: const Icon(Icons.room, color: Colors.red, size: 40),
                   ),
-                )
-              ]
+                ),
+              ),
+            ],
           ),
           CurrentLocationLayer(
             alignPositionOnUpdate: isFollowingUser,
@@ -88,15 +92,12 @@ class OsmCustom extends StatelessWidget {
                         return const Icon(Icons.near_me_disabled);
                       }
                     }(),
-                  )
+                  ),
                 ],
               ),
             ),
           ),
-          Align(
-            alignment: Alignment.topCenter,
-            child: LevelWidget(),
-          ),
+          Align(alignment: Alignment.topCenter, child: LevelWidget()),
         ],
       ),
     );

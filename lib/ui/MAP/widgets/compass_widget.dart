@@ -7,9 +7,14 @@ import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:latlong2/latlong.dart';
 
 class CompassWidget extends StatefulWidget {
-  const CompassWidget({super.key, required this.userPosition});
+  const CompassWidget({
+    super.key,
+    required this.userPosition,
+    required this.poiPosition,
+  });
 
   final LatLng userPosition;
+  final LatLng poiPosition;
 
   @override
   State<StatefulWidget> createState() => _CompassWidget();
@@ -18,7 +23,6 @@ class CompassWidget extends StatefulWidget {
 class _CompassWidget extends State<CompassWidget> {
   CompassEvent? _lastRead;
   DateTime? _lastReadAt;
-  LatLng poiPosition = LatLng(42.356357865311004, 13.388983714794294);
 
   double bearingBetween(double lat1, double lon1, double lat2, double lon2) {
     double dLon = (lon2 - lon1) * math.pi / 180;
@@ -31,7 +35,6 @@ class _CompassWidget extends State<CompassWidget> {
     double bearing = math.atan2(y, x);
     return (bearing * 180 / math.pi + 360) % 360; // normalize to 0–360°
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -52,8 +55,8 @@ class _CompassWidget extends State<CompassWidget> {
         double angle = bearingBetween(
           widget.userPosition.latitude,
           widget.userPosition.longitude,
-          poiPosition.latitude,
-          poiPosition.longitude,
+          widget.poiPosition.latitude,
+          widget.poiPosition.longitude,
         );
 
         double rotation = (angle - heading + 540) % 360 - 180;
@@ -75,5 +78,4 @@ class _CompassWidget extends State<CompassWidget> {
       },
     );
   }
-
 }
