@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:re_discover/ui/MAP/widgets/POI_modal_bottom_sheet.dart';
 import 'package:re_discover/ui/MAP/widgets/level_widget.dart';
 import 'package:latlong2/latlong.dart';
@@ -28,6 +29,20 @@ class OsmCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+     double calcDistance(LatLng userPos, LatLng poiPos) {
+      return Geolocator.distanceBetween(
+        userPos.latitude,
+        userPos.longitude,
+        poiPos.latitude,
+        poiPos.longitude,
+      );
+    }
+
+    final LatLng poiPosition = LatLng(42.356357865311004, 13.388983714794294);
+
+
+
     return Expanded(
       child: FlutterMap(
         mapController: mapController,
@@ -46,12 +61,12 @@ class OsmCustom extends StatelessWidget {
             markers: [
               //TODO: replace with dynamic POI markers and a for
               Marker(
-                point: LatLng(42.356357865311004, 13.388983714794294),
+                point: poiPosition,
                 width: 60,
                 height: 60,
                 rotate: true,
                 child: GestureDetector(
-                  onTap: () => onShowModal(context, PoiModalBottomSheet()),
+                  onTap: () => onShowModal(context, PoiModalBottomSheet(distance: calcDistance(currentPosition, poiPosition))),
                   child: Transform.translate(
                     offset: const Offset(0, -20),
                     child: const Icon(Icons.room, color: Colors.red, size: 40),
