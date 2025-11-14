@@ -4,8 +4,10 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class MapViewModel extends ChangeNotifier {
   // insert repository here
@@ -14,6 +16,7 @@ class MapViewModel extends ChangeNotifier {
   late double currentZoom = 15.0;
   AlignOnUpdate isFollowingUser = AlignOnUpdate.always;
   bool isFollowingUserBool = true;
+  bool gainedInitialPosition = false;
 
   final LocationSettings locationSettings = LocationSettings(
     accuracy: LocationAccuracy.high,
@@ -53,7 +56,19 @@ class MapViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Position> _determinePosition() async {
+  void showToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black54,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+  }
+
+  Future<void> _determinePermissions() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -63,7 +78,7 @@ class MapViewModel extends ChangeNotifier {
       // Location services are not enabled don't continue
       // accessing the position and request users of the
       // App to enable the location services.
-      return Future.error('Location services are disabled.');
+      return Future.error('------- Location services are disabled. -------');
     }
 
     permission = await Geolocator.checkPermission();
@@ -75,27 +90,61 @@ class MapViewModel extends ChangeNotifier {
         // Android's shouldShowRequestPermissionRationale
         // returned true. According to Android guidelines
         // your App should show an explanatory UI now.
-        return Future.error('Location permissions are denied');
+        return Future.error('------- Location permissions are denied -------');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
+
+      showToast("Permission denied forever ");
+
       return Future.error(
-        'Location permissions are permanently denied, we cannot request permissions.',
+        '------- Location permissions are permanently denied, we cannot request permissions. -------',
       );
     }
+  }
 
-    // When we reach here, permissions are granted and we can
-    // continue accessing the position of the device.
-    initLocationStream();
+
+  Future<bool> _waitForPermissionGrant({Duration timeout = const Duration(seconds: 15)}) async {
+    final end = DateTime.now().add(timeout);
+    while (DateTime.now().isBefore(end)) {
+      if (await Permission.location.isGranted) return true;
+      await Future.delayed(const Duration(milliseconds: 500));
+    }
+    return false;
+  }
+
+  Future<Position> initialPosition() async {
     return await Geolocator.getCurrentPosition();
   }
 
-  void initState() async {
-    Position position = await _determinePosition();
-    currentPosition = LatLng(position.latitude, position.longitude);
-    print("caricato");
-    notifyListeners();
+  Future<void> initState() async {
+    print("init 1");
+    final status = await Permission.location.request();
+    print("init 2 - status: $status");
+
+    if (!status.isGranted) {
+      final granted = await _waitForPermissionGrant();
+      if (!granted) {
+        showToast("Permesso posizione non concesso");
+        return;
+      }
+    }
+
+    // ora che il permesso è garantito, avvia lo stream e prendi la posizione iniziale
+    initLocationStream();
+
+    try {
+      final pos = await initialPosition();
+      currentPosition = LatLng(pos.latitude, pos.longitude);
+      gainedInitialPosition = true;
+      notifyListeners();
+      print("init6: posizione ottenuta ${currentPosition.latitude}, ${currentPosition.longitude}");
+    } catch (e, s) {
+      print("Impossibile ottenere la posizione iniziale: $e\n$s");
+      showToast("Impossibile ottenere la posizione iniziale");
+    }
   }
+
 }
