@@ -49,6 +49,19 @@ class _OsmCustomState extends State<OsmCustom> {
             userAgentPackageName: 'it.univaq.egs.re_discover',
           ),
           Consumer<MapViewModel>(
+            builder: (context, mapViewModel, child) => CurrentLocationLayer(
+              alignPositionOnUpdate: mapViewModel.isFollowingUser,
+              alignDirectionOnUpdate: AlignOnUpdate.never,
+              style: LocationMarkerStyle(
+                marker: const DefaultLocationMarker(
+                  child: Icon(Icons.my_location, color: Colors.blue, size: 3),
+                ),
+                markerSize: const Size(20, 20),
+                markerDirection: MarkerDirection.heading,
+              ),
+            ),
+          ),
+          Consumer<MapViewModel>(
             builder: (context, viewModel, child) => MarkerLayer(
               markers: [
                 //TODO: replace with dynamic POI markers and a for
@@ -69,19 +82,6 @@ class _OsmCustomState extends State<OsmCustom> {
                   ),
                 ),
               ],
-            ),
-          ),
-          Consumer<MapViewModel>(
-            builder: (context, mapViewModel, child) => CurrentLocationLayer(
-              alignPositionOnUpdate: mapViewModel.isFollowingUser,
-              alignDirectionOnUpdate: AlignOnUpdate.never,
-              style: LocationMarkerStyle(
-                marker: const DefaultLocationMarker(
-                  child: Icon(Icons.my_location, color: Colors.blue, size: 3),
-                ),
-                markerSize: const Size(20, 20),
-                markerDirection: MarkerDirection.heading,
-              ),
             ),
           ),
           Align(

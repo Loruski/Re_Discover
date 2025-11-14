@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:re_discover/ui/MAP/screens/quiz_screen.dart';
 
 class PoiModalBottomSheet extends StatelessWidget {
   const PoiModalBottomSheet({super.key, required this.distanceNotifier});
@@ -81,7 +82,14 @@ class PoiModalBottomSheet extends StatelessWidget {
                                 ),
                                 "Answer the quiz",
                               ),
-                              onPressed: () => {},
+                              onPressed: () => {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                        builder: (context) => const QuizScreen()
+                                    )
+                                )
+                              },
                             ),
                           )
                         else
