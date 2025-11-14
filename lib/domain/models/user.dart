@@ -1,5 +1,5 @@
 import 'package:re_discover/domain/models/badge.dart' as ReDiscover;
-import 'package:re_discover/domain/models/customizable.dart';
+import 'package:re_discover/domain/models/cosmetic.dart';
 
 class User {
   late final int id;
@@ -7,7 +7,7 @@ class User {
   late double xp;
   late int level;
   late Set<ReDiscover.Badge> badges;
-  late Set<Customizable> customizables;
+  late Set<Cosmetic> customizables;
 
   User({required this.id, required this.username, required this.xp, required this.level, required this.badges, required this.customizables});
 

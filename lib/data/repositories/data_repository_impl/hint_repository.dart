@@ -6,7 +6,7 @@ import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/hint.dart';
 
 class HintRepository extends AbstractDataRepository<HintData, Hint> {
-  HintRepository(): super(path: Paths.hintPath, fromJson: HintData.fromJson,
+  HintRepository(): super(path: Paths.hintsPath, fromJson: HintData.fromJson,
     assignIds: (List data, Map<Types, AbstractDataRepository>? requiredData) {
       Map<int, Hint> toSetToHolder = {};
       for (HintData element in data) {

@@ -1,7 +1,7 @@
 import 'package:re_discover/data/repositories/data_repository_impl/app_skin_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/badge_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/city_repository.dart';
-import 'package:re_discover/data/repositories/data_repository_impl/customizable_repository.dart';
+import 'package:re_discover/data/repositories/data_repository_impl/cosmetic_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/hint_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/poi_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/position_repository.dart';
@@ -11,7 +11,7 @@ import 'package:re_discover/data/repositories/data_repository_impl/visit_reposit
 import 'package:re_discover/domain/models/app_skin.dart';
 import 'package:re_discover/domain/models/badge.dart';
 import 'package:re_discover/domain/models/city.dart';
-import 'package:re_discover/domain/models/customizable.dart';
+import 'package:re_discover/domain/models/cosmetic.dart';
 import 'package:re_discover/domain/models/hint.dart';
 import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/domain/models/position.dart';
@@ -41,7 +41,7 @@ class RepositoryHub {
 
 
   final BadgeRepository badgeRepository = BadgeRepository();
-  final CustomizableRepository customizableRepository = CustomizableRepository();
+  final CosmeticRepository cosmeticRepository = CosmeticRepository();
   final AppSkinRepository appSkinRepository = AppSkinRepository();
 
   final QuizRepository quizRepository = QuizRepository();
@@ -59,7 +59,7 @@ class RepositoryHub {
     
     userRepository.setRequiredData({
       Types.badge: badgeRepository,
-      Types.customizable: customizableRepository,
+      Types.customizable: cosmeticRepository,
     });
 
     poiRepository.setRequiredData({Types.quiz: quizRepository});
@@ -69,7 +69,7 @@ class RepositoryHub {
 
   
   Future<List<Badge>> get badges => badgeRepository.data;
-  Future<List<Customizable>> get customizables => customizableRepository.data;
+  Future<List<Cosmetic>> get cosmetics => cosmeticRepository.data;
   Future<List<AppSkin>> get appSkins => appSkinRepository.data;
   Future<List<Quiz>> get quizzes => quizRepository.data;
   Future<List<Hint>> get hints => hintRepository.data;

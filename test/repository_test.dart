@@ -2,7 +2,7 @@
 import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/app_skin.dart';
 import 'package:re_discover/domain/models/badge.dart' as ReDiscover;
-import 'package:re_discover/domain/models/customizable.dart';
+import 'package:re_discover/domain/models/cosmetic.dart';
 import 'package:re_discover/domain/models/hint.dart';
 import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/domain/models/city.dart';
@@ -17,7 +17,7 @@ void main() async{
   List<City> a = await hub.cities;
   List<POI> b = await hub.pois;
   List<ReDiscover.Badge> c = await hub.badges;
-  List<Customizable> d = await hub.customizables;
+  List<Cosmetic> d = await hub.cosmetics;
   List<AppSkin> e = await hub.appSkins;
   List<Quiz> f = await hub.quizzes;
   List<Hint> g = await hub.hints;

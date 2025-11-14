@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -33,9 +32,12 @@ class MapViewModel extends ChangeNotifier {
 
   Future<void> initState() async {
     print("init 1");
-    if (! await Permission.location.isGranted) {
 
-      final status = await Permission.location.request();
+    var status = await Permission.location.status;
+
+    if (!status.isGranted) {
+
+      status = await Permission.location.request();
 
 
       print("init 2 - status: $status");
@@ -154,8 +156,11 @@ class MapViewModel extends ChangeNotifier {
   
   Future<bool> _waitForPermissionGrant({Duration timeout = const Duration(seconds: 15)}) async {
     final end = DateTime.now().add(timeout);
+
+    var status = await Permission.location.status;
+
     while (DateTime.now().isBefore(end)) {
-      if (await Permission.location.isGranted) return true;
+      if (status.isGranted) return true;
       await Future.delayed(const Duration(milliseconds: 500));
     }
     return false;

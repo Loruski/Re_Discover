@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:re_discover/data/repositories/paths/paths.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
-import 'package:re_discover/domain/models/customizable.dart';
+import 'package:re_discover/domain/models/cosmetic.dart';
 import 'package:re_discover/domain/models/user.dart';
 import 'package:re_discover/data/models/user_data.dart';
 import 'package:re_discover/data/repositories/abstract_data_repository.dart';
@@ -23,7 +23,7 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
 
         Set<Badge>? badges = element.badgesID.map((id) => requiredData?[Types.badge]?.get(id)).whereType<Badge>().toSet();
 
-        Set<Customizable>? customizables = element.customizablesID.map((id) => requiredData?[Types.customizable]?.get(id)).whereType<Customizable>().toSet();
+        Set<Cosmetic>? customizables = element.customizablesID.map((id) => requiredData?[Types.customizable]?.get(id)).whereType<Cosmetic>().toSet();
 
 
         if (badges.contains(null)) log("in User $UserData.id $UserData.name there's a badge not found in the holder: $badges");

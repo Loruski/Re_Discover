@@ -5,7 +5,7 @@ import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/quiz.dart';
 
 class QuizRepository extends AbstractDataRepository<QuizData, Quiz>{
-  QuizRepository(): super(path: Paths.quizPath, fromJson: QuizData.fromJson,
+  QuizRepository(): super(path: Paths.quizzesPath, fromJson: QuizData.fromJson,
     assignIds: (List data, Map<Types, AbstractDataRepository>? requiredData) {
       Map<int, Quiz> toSetToHolder = {};
       for (QuizData element in data) {

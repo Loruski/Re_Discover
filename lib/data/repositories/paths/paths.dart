@@ -6,9 +6,9 @@ class Paths {
   static const usersPath = "${_basicPath}Users.json";
   static const visitsPath = "${_basicPath}Visits.json";
   static const appSkinPath = "${_basicPath}AppSkin.json";
-  static const customizablePath = "${_basicPath}Customizable.json";
-  static const badgePath = "${_basicPath}Badges.json";
-  static const hintPath = "${_basicPath}Hints.json";
-  static const quizPath = "${_basicPath}Quizzes.json";
-  static const positionPath = "${_basicPath}Positions.json";
+  static const cosmeticsPath = "${_basicPath}Cosmetics.json";
+  static const badgesPath = "${_basicPath}Badges.json";
+  static const hintsPath = "${_basicPath}Hints.json";
+  static const quizzesPath = "${_basicPath}Quizzes.json";
+  static const positionsPath = "${_basicPath}Positions.json";
 }
