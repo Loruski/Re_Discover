@@ -20,8 +20,6 @@ class CompassWidget extends StatefulWidget {
 }
 
 class _CompassWidget extends State<CompassWidget> {
-  CompassEvent? _lastRead;
-  DateTime? _lastReadAt;
 
   double bearingBetween(double lat1, double lon1, double lat2, double lon2) {
     double dLon = (lon2 - lon1) * math.pi / 180;
@@ -37,7 +35,6 @@ class _CompassWidget extends State<CompassWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final mapViewModel = context.watch<MapViewModel>();
 
     return StreamBuilder<CompassEvent>(
       stream: FlutterCompass.events,
@@ -49,7 +46,7 @@ class _CompassWidget extends State<CompassWidget> {
           return Center(child: CircularProgressIndicator());
         }
 
-        double heading = snapshot.data!.heading ?? 0;
+        double heading = snapshot.data?.heading ?? 0;
 
         double angle = bearingBetween(
           widget.userPosition.latitude,

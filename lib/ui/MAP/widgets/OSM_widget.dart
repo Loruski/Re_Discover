@@ -33,7 +33,9 @@ class _OsmCustomState extends State<OsmCustom> {
   Widget build(BuildContext context) {
     
     return Expanded(
+      
       child: FlutterMap(
+
         mapController: widget.mapController,
         options: MapOptions(
           initialCenter: widget.currentPosition,

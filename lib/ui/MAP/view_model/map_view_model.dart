@@ -18,7 +18,7 @@ class MapViewModel extends ChangeNotifier {
   bool isFollowingUserBool = true;
   bool gainedInitialPosition = false;
 
-  final LatLng poiPosition = LatLng(42.356357865311004, 13.388983714794294); //TODO list of POIs of a selected city
+  LatLng poiPosition = LatLng(42.41333281534395, 12.889822361484878); //TODO list of POIs of a selected city
   
   ValueNotifier<double> distanceNotifier = ValueNotifier<double>(double.infinity);
 

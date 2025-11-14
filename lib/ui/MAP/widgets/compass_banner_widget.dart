@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/compass_widget.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -8,11 +10,16 @@ class CompassBannerCustom extends StatelessWidget {
 
   final LatLng userPosition;
 
+  
+
   //TODO: make POI data from parameters
 
   @override
   Widget build(BuildContext context) {
-    final LatLng poiPosition = LatLng(42.356357865311004, 13.388983714794294);
+    final viewModel = Provider.of<MapViewModel>(context);
+
+    LatLng poiPosition = viewModel.poiPosition;
+    
 
     double distance = Geolocator.distanceBetween(
       userPosition.latitude,
