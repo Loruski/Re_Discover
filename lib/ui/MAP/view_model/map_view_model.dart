@@ -24,6 +24,42 @@ class MapViewModel extends ChangeNotifier {
   );
 
   StreamSubscription<Position>? positionStream;
+
+
+
+  Future<void> initState() async {
+    print("init 1");
+    if (! await Permission.location.isGranted) {
+
+      final status = await Permission.location.request();
+
+
+      print("init 2 - status: $status");
+
+      if (!status.isGranted) {
+        final granted = await _waitForPermissionGrant();
+        if (!granted) {
+          showToast("Permesso posizione non concesso");
+          return;
+        }
+      }
+    }
+    // ora che il permesso è garantito, avvia lo stream e prendi la posizione iniziale
+    initLocationStream();
+
+    try {
+      final pos = await initialPosition();
+      currentPosition = LatLng(pos.latitude, pos.longitude);
+      gainedInitialPosition = true;
+      notifyListeners();
+      print("init6: posizione ottenuta ${currentPosition.latitude}, ${currentPosition.longitude}");
+    } catch (e, s) {
+      print("Impossibile ottenere la posizione iniziale: $e\n$s");
+      showToast("Impossibile ottenere la posizione iniziale");
+    }
+  }
+
+
   void initLocationStream() => positionStream =
       Geolocator.getPositionStream(locationSettings: locationSettings).listen((
         Position? position,
@@ -119,32 +155,5 @@ class MapViewModel extends ChangeNotifier {
     return await Geolocator.getCurrentPosition();
   }
 
-  Future<void> initState() async {
-    print("init 1");
-    final status = await Permission.location.request();
-    print("init 2 - status: $status");
-
-    if (!status.isGranted) {
-      final granted = await _waitForPermissionGrant();
-      if (!granted) {
-        showToast("Permesso posizione non concesso");
-        return;
-      }
-    }
-
-    // ora che il permesso è garantito, avvia lo stream e prendi la posizione iniziale
-    initLocationStream();
-
-    try {
-      final pos = await initialPosition();
-      currentPosition = LatLng(pos.latitude, pos.longitude);
-      gainedInitialPosition = true;
-      notifyListeners();
-      print("init6: posizione ottenuta ${currentPosition.latitude}, ${currentPosition.longitude}");
-    } catch (e, s) {
-      print("Impossibile ottenere la posizione iniziale: $e\n$s");
-      showToast("Impossibile ottenere la posizione iniziale");
-    }
-  }
-
+  
 }

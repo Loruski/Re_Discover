@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map_math/flutter_geo_math.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:re_discover/ui/MAP/widgets/compass_widget.dart';
 import 'package:latlong2/latlong.dart';

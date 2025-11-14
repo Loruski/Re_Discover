@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:re_discover/ui/HOME/view_model/home_view_model.dart';
 import 'package:re_discover/ui/HOME/widgets/home_screen.dart';
 import 'package:re_discover/ui/LEADERBOARD/view_model/leaderboard_view_model.dart';
 import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_screen.dart';

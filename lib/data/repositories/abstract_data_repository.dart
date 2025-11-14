@@ -17,7 +17,7 @@ abstract class AbstractDataRepository<TData, T> {
   late TData Function(Map<String, dynamic>) fromJson; 
 
   /// Necessary repositories for building objects made of objects, use the enum in RepositoryHub for the key, the corresponding repository itself as the value
-  late Map<Types, AbstractDataRepository>? requiredData = null;
+  Map<Types, AbstractDataRepository>? requiredData;
 
   /// Function to specify how to create T objects from TData objects, using the requiredData defined earlier
   /// The objects should be inserted following the pattern (object.ID, object)

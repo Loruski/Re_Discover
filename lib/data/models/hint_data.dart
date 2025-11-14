@@ -1,5 +1,4 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:re_discover/domain/models/poi.dart';
 
 part 'hint_data.g.dart';
 

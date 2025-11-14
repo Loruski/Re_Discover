@@ -34,13 +34,20 @@ class _OsmCustomState extends State<OsmCustom> {
   late ValueNotifier<double> distanceNotifier;
   final LatLng poiPosition = LatLng(42.356357865311004, 13.388983714794294);
 
+
   @override
   void initState() {
     super.initState();
-    distanceNotifier = ValueNotifier<double>(0);
-    _updateDistance();
+    distanceNotifier = ValueNotifier<double>(
+      Geolocator.distanceBetween(
+      widget.currentPosition.latitude,
+      widget.currentPosition.longitude,
+      poiPosition.latitude,
+      poiPosition.longitude,
+      )
+    );
   }
-
+  
   @override
   void didUpdateWidget(OsmCustom oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -73,12 +80,12 @@ class _OsmCustomState extends State<OsmCustom> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Expanded(
       child: FlutterMap(
         mapController: widget.mapController,
         options: MapOptions(
-          initialCenter:
-              widget.currentPosition ?? const LatLng(42.405916, 12.856193),
+          initialCenter: widget.currentPosition,
           onPositionChanged: (position, hasGesture) {
             widget.updateMapPosition(position.zoom);
           },

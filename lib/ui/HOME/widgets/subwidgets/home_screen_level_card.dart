@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class HomeScreenLevelCard extends StatelessWidget {
+  const HomeScreenLevelCard({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Card(
