@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
+import 'package:provider/provider.dart';
+import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/level_widget.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
@@ -11,72 +12,22 @@ class OsmCustom extends StatefulWidget {
     super.key,
     required this.mapController,
     required this.currentPosition,
-    required this.currentZoom,
     required this.updateMapPosition,
-    required this.isFollowingUser,
     required this.followUserPositionToggle,
-    required this.isFollowingUserBool,
   });
 
   final MapController mapController;
   final LatLng currentPosition;
-  final double currentZoom;
   final Function(double zoom) updateMapPosition;
-  final AlignOnUpdate isFollowingUser;
   final VoidCallback followUserPositionToggle;
-  final bool isFollowingUserBool;
+  
 
   @override
   State<OsmCustom> createState() => _OsmCustomState();
 }
 
 class _OsmCustomState extends State<OsmCustom> {
-  late ValueNotifier<double> distanceNotifier;
-  final LatLng poiPosition = LatLng(42.356357865311004, 13.388983714794294);
-
-
-  @override
-  void initState() {
-    super.initState();
-    distanceNotifier = ValueNotifier<double>(
-      Geolocator.distanceBetween(
-      widget.currentPosition.latitude,
-      widget.currentPosition.longitude,
-      poiPosition.latitude,
-      poiPosition.longitude,
-      )
-    );
-  }
   
-  @override
-  void didUpdateWidget(OsmCustom oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.currentPosition != widget.currentPosition) {
-      _updateDistance();
-    }
-  }
-
-  void _updateDistance() {
-    final newDistance = Geolocator.distanceBetween(
-      widget.currentPosition.latitude,
-      widget.currentPosition.longitude,
-      poiPosition.latitude,
-      poiPosition.longitude,
-    );
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) {
-        distanceNotifier.value = newDistance;
-        print('Distance updated: ${distanceNotifier.value}');
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    distanceNotifier.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -95,36 +46,40 @@ class _OsmCustomState extends State<OsmCustom> {
             urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
             userAgentPackageName: 'it.univaq.egs.re_discover',
           ),
-          MarkerLayer(
-            markers: [
-              //TODO: replace with dynamic POI markers and a for
-              Marker(
-                point: poiPosition,
-                width: 60,
-                height: 60,
-                rotate: true,
-                child: GestureDetector(
-                  onTap: () => onShowModalMap(
-                    context: context,
-                    distanceNotifier: distanceNotifier,
-                  ),
-                  child: Transform.translate(
-                    offset: const Offset(0, -20),
-                    child: const Icon(Icons.room, color: Colors.red, size: 40),
+          Consumer<MapViewModel>(
+            builder: (context, viewModel, child) => MarkerLayer(
+              markers: [
+                //TODO: replace with dynamic POI markers and a for
+                Marker(
+                  point: viewModel.poiPosition,
+                  width: 60,
+                  height: 60,
+                  rotate: true,
+                  child: GestureDetector(
+                    onTap: () => onShowModalMap(
+                      context: context,
+                      distanceNotifier: viewModel.distanceNotifier,
+                    ),
+                    child: Transform.translate(
+                      offset: const Offset(0, -20),
+                      child: const Icon(Icons.room, color: Colors.red, size: 40),
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          CurrentLocationLayer(
-            alignPositionOnUpdate: widget.isFollowingUser,
-            alignDirectionOnUpdate: AlignOnUpdate.never,
-            style: LocationMarkerStyle(
-              marker: const DefaultLocationMarker(
-                child: Icon(Icons.my_location, color: Colors.blue, size: 3),
+          Consumer<MapViewModel>(
+            builder: (context, mapViewModel, child) => CurrentLocationLayer(
+              alignPositionOnUpdate: mapViewModel.isFollowingUser,
+              alignDirectionOnUpdate: AlignOnUpdate.never,
+              style: LocationMarkerStyle(
+                marker: const DefaultLocationMarker(
+                  child: Icon(Icons.my_location, color: Colors.blue, size: 3),
+                ),
+                markerSize: const Size(20, 20),
+                markerDirection: MarkerDirection.heading,
               ),
-              markerSize: const Size(20, 20),
-              markerDirection: MarkerDirection.heading,
             ),
           ),
           Align(
@@ -134,23 +89,28 @@ class _OsmCustomState extends State<OsmCustom> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  FloatingActionButton(
-                    onPressed: () => widget.mapController.move(
-                      widget.currentPosition,
-                      widget.currentZoom,
+                  
+                  Consumer<MapViewModel>( // Consumer in order to rebuild only this part if zoom and current position change
+                    builder: (context, mapViewModel, child) => FloatingActionButton(
+                      onPressed: () => widget.mapController.move(
+                        mapViewModel.currentPosition,
+                        mapViewModel.currentZoom,
+                      ),
+                      child: const Icon(Icons.my_location),
                     ),
-                    child: const Icon(Icons.my_location),
                   ),
                   const SizedBox(height: 10),
                   FloatingActionButton(
                     onPressed: widget.followUserPositionToggle,
-                    child: () {
-                      if (widget.isFollowingUserBool) {
-                        return const Icon(Icons.near_me);
-                      } else {
-                        return const Icon(Icons.near_me_disabled);
-                      }
-                    }(),
+                    child: Consumer<MapViewModel>(
+                      builder: (context, mapViewModel, child) {
+                        if (mapViewModel.isFollowingUserBool) {
+                          return const Icon(Icons.near_me);
+                        } else {
+                          return const Icon(Icons.near_me_disabled);
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),

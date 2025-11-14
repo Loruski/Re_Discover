@@ -18,6 +18,10 @@ class MapViewModel extends ChangeNotifier {
   bool isFollowingUserBool = true;
   bool gainedInitialPosition = false;
 
+  final LatLng poiPosition = LatLng(42.356357865311004, 13.388983714794294); //TODO list of POIs of a selected city
+  
+  ValueNotifier<double> distanceNotifier = ValueNotifier<double>(double.infinity);
+
   final LocationSettings locationSettings = LocationSettings(
     accuracy: LocationAccuracy.high,
     distanceFilter: 0,
@@ -72,6 +76,12 @@ class MapViewModel extends ChangeNotifier {
         print("stream updated");
         if (position != null) {
           currentPosition = LatLng(position.latitude, position.longitude);
+          distanceNotifier.value = Geolocator.distanceBetween(
+            currentPosition.latitude,
+            currentPosition.longitude,
+            poiPosition.latitude,
+            poiPosition.longitude,
+          );
           notifyListeners();
         }
       });
@@ -141,7 +151,7 @@ class MapViewModel extends ChangeNotifier {
     }
   }
 
-
+  
   Future<bool> _waitForPermissionGrant({Duration timeout = const Duration(seconds: 15)}) async {
     final end = DateTime.now().add(timeout);
     while (DateTime.now().isBefore(end)) {

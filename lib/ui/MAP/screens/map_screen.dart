@@ -1,7 +1,5 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/compass_banner_widget.dart';
@@ -37,7 +35,7 @@ class MapScreenContent extends StatelessWidget {
     final mapViewModel = context.watch<MapViewModel>();
 
     if(!mapViewModel.gainedInitialPosition) {
-      return Scaffold(
+      return Scaffold( 
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -80,14 +78,12 @@ class MapScreenContent extends StatelessWidget {
               CompassBannerCustom(
                 userPosition: mapViewModel.currentPosition,
               ),
+              
               OsmCustom(
                 mapController: mapViewModel.mapController,
                 currentPosition: mapViewModel.currentPosition,
-                currentZoom: mapViewModel.currentZoom,
                 updateMapPosition: mapViewModel.updateZoomLevel,
-                isFollowingUser: mapViewModel.isFollowingUser,
                 followUserPositionToggle: mapViewModel.followUserPositionToggle,
-                isFollowingUserBool: mapViewModel.isFollowingUserBool,
               ),
             ],
           ),
