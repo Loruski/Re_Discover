@@ -13,8 +13,8 @@ class CityCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: 120,
-              height: 120,
+              width: 100,
+              height: 100,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.network(
@@ -49,7 +49,7 @@ class CityCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        "La città eterna ricca di storia e monumentiLa città eterna ricca di storia e monumentiLa città eterna ricca di storia e monumenti",
+                        "La città eterna ricca di storia e monumenti",
                         style: TextStyle(color: Colors.grey),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -65,7 +65,7 @@ class CityCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            "12 luoghi da scoprire",
+                            "12 luoghi",
                             style: TextStyle(color: Colors.blue[700]),
                           ),
                         ],
