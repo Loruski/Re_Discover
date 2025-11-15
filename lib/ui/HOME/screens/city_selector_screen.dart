@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:re_discover/ui/HOME/widgets/city_selector_subwidgets/city_selector_screen_header.dart';
+import 'package:re_discover/ui/HOME/widgets/city_selector_subwidgets/city_card.dart';
 
 class CitySelectorScreen extends StatelessWidget {
   const CitySelectorScreen({super.key});
@@ -7,35 +7,46 @@ class CitySelectorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("City selector", style: TextStyle(fontSize: 20)),
-      ),
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
-          child: Column(
-            children: [
-              CitySelectorScreenHeader(),
-              SizedBox(height: 20),
-              SearchBar(
-                hintText: "Search city",
-                padding: const WidgetStatePropertyAll<EdgeInsets>(
-                  EdgeInsets.symmetric(horizontal: 16.0),
-                ),
-                leading: Icon(Icons.search),
-
-                onChanged: (value) {},
+        child: CustomScrollView(
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              expandedHeight: 120.0,
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
+                title: Text("City selector", style: TextStyle(fontSize: 20)),
               ),
-              SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20.0),
-                  child: Text("test"),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: SearchBar(
+                  elevation: const WidgetStatePropertyAll<double>(0.7),
+                  backgroundColor: const WidgetStatePropertyAll<Color>(Colors.white),
+                  hintText: "Search city",
+                  padding: const WidgetStatePropertyAll<EdgeInsets>(
+                    EdgeInsets.symmetric(horizontal: 16.0),
+                  ),
+                  leading: const Icon(Icons.search),
+                  onChanged: (value) {},
                 ),
               ),
-            ],
-          ),
+            ),
+            SliverList(
+              // We can use this function also when we'll have the real data flowing into the app
+              delegate:
+                  SliverChildBuilderDelegate(childCount: 20, (context, index) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                  child: CityCard(),
+                );
+              }),
+            ),
+          ],
         ),
       ),
     );
