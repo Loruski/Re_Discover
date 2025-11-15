@@ -24,7 +24,6 @@ class HomeScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final homeViewModel = context.watch<HomeViewModel>();
 
     return Scaffold(
       body: SafeArea(
@@ -68,6 +67,7 @@ class HomeScreenContent extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizScreen()))),
     );
   }
 }

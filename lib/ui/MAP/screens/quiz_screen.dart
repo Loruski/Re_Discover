@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:re_discover/ui/MAP/screens/quiz_completed_screen.dart';
 
@@ -15,28 +17,53 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text("Quiz Time!", style: TextStyle(fontSize: 20)),
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+          padding: EdgeInsets.all(20),
           child: Column(
+            spacing: 2,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
                 "Unlock Colosseo",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ), // titolo quiz
+                style: TextStyle(
+                  fontSize: 24, 
+                  fontWeight: FontWeight.bold
+                  ),
+              ),  // titolo quiz
               SizedBox(height: 20),
               Text(
-                "<stessa descrizione della card del quiz>",
+                "<stessa descrizione della card del quiz>\n<stessa descrizione della card del quiz>",
                 style: TextStyle(fontSize: 16),
               ), // titolo e descrizione quiz
-              SizedBox(height: 50),
-              Flex(direction: Axis.horizontal, children: []),
+              Container(
+                padding: const EdgeInsets.all(15.0),
+                // clip the borders to be rounded
+                height: 250,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  
+                  // boxShadow: [BoxShadow(
+                  //   color: Colors.grey.withValues(alpha: 0.5),
+                  //   spreadRadius: 3,
+                  //   blurRadius: 18,
+                  //   offset: Offset(0, 0),
+                  //    // changes position of shadow
+                  // )],
+                  
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.network("https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800",),
+                  
+                  ),
+              ), // immagine quiz
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -47,7 +74,7 @@ class _QuizScreenState extends State<QuizScreen> {
                       Text("Tentativi: ", style: TextStyle(fontSize: 16)),
                       Icon(Icons.circle, color: Colors.green, size: 16),
                       Icon(Icons.circle, color: Colors.green, size: 16),
-                      Icon(Icons.circle, color: Colors.green, size: 16),
+                      Icon(Icons.circle, color: Colors.red, size: 16),
                     ],
                   ),
                 ],
@@ -57,62 +84,58 @@ class _QuizScreenState extends State<QuizScreen> {
                 direction: Axis.horizontal,
                 children: [
                   Expanded(
-                    child: Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text("Questa è una possibile domanda?"),
-                          SizedBox(height: 20),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            spacing: 2,
-                            children: [
-                              Flex(
-                                direction: Axis.vertical,
-                                children: [
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: OutlinedButton(
-                                      onPressed: () => {},
-                                      child: Text("Possibile risposta 1"),
-                                    ),
+                    child: Card(
+                      elevation: 4,
+              
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(100, 10, 100, 10),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text("Questa è una possibile domanda?"),
+                            SizedBox(height: 20),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              spacing: 18,
+                              children: [
+                                SizedBox( 
+                                  width: double.infinity,
+                                  child: OutlinedButton(
+                                    onPressed: () => {}, // TODO Padding on text too probably
+                                    child: Text("Possibile risposta 1 dedwediuwhedkuywegdygeyguweudyhewid2egdu2wydwuwjhdejhdwkjeydwedhywd"),
                                   ),
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: OutlinedButton(
-                                      onPressed: () => {},
-                                      child: Text("Possibile risposta 1"),
-                                    ),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: OutlinedButton(
+                                    onPressed: () => {},
+                                    child: Text("Possibile risposta 1"),
                                   ),
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: OutlinedButton(
-                                      onPressed: () => {},
-                                      child: Text("Possibile risposta 1"),
-                                    ),
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  child: OutlinedButton(
+                                    onPressed: () => {},
+                                    child: Text("Possibile risposta 1"),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ],
-              ), // box domanda e risposte
-              SizedBox(height: 20),
+              ),    // box domanda e risposte
+              Spacer(),
+              
               Flex(
                 direction: Axis.horizontal,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Expanded(
-                    child: FloatingActionButton(
+                    child:  FloatingActionButton(
                       backgroundColor: Colors.green,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
@@ -129,7 +152,8 @@ class _QuizScreenState extends State<QuizScreen> {
                     ),
                   ),
                 ],
-              ), // bottone conferma risposta
+              ),  // bottone conferma risposta
+             
             ],
           ),
         ),
