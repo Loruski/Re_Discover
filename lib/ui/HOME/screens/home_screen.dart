@@ -43,7 +43,6 @@ class HomeScreenContent extends StatelessWidget {
             ),
           )
       ),
-        floatingActionButton: FloatingActionButton(heroTag: null, onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => QuizScreen()))),
     );
   }
 

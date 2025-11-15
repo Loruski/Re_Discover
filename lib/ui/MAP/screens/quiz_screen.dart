@@ -56,12 +56,11 @@ class _QuizScreenState extends State<QuizScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text("Quiz Time!", style: TextStyle(fontSize: 20)),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor
       ),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20,0,20,20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,

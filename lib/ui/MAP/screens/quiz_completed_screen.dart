@@ -14,12 +14,11 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Quiz Completed!", style: TextStyle(fontSize: 20)),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.fromLTRB(20,0,20,20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -189,6 +188,7 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
                   child: Text(
                     "Continua",
                     style: TextStyle(
+                      fontSize: 16,
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
                     ),
