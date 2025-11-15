@@ -29,17 +29,14 @@ class _QuizScreenState extends State<QuizScreen> {
               Text(
                 "Unlock Colosseo",
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),  // titolo quiz
+              ), // titolo quiz
               SizedBox(height: 20),
               Text(
                 "<stessa descrizione della card del quiz>",
                 style: TextStyle(fontSize: 16),
               ), // titolo e descrizione quiz
               SizedBox(height: 50),
-              Flex(
-                  direction: Axis.horizontal,
-                  children: []
-              ),
+              Flex(direction: Axis.horizontal, children: []),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -54,7 +51,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     ],
                   ),
                 ],
-              ),  // titolo sezione domanda e tentativi
+              ), // titolo sezione domanda e tentativi
               SizedBox(height: 20),
               Flex(
                 direction: Axis.horizontal,
@@ -108,7 +105,7 @@ class _QuizScreenState extends State<QuizScreen> {
                     ),
                   ),
                 ],
-              ),    // box domanda e risposte
+              ), // box domanda e risposte
               SizedBox(height: 20),
               Flex(
                 direction: Axis.horizontal,
@@ -122,17 +119,17 @@ class _QuizScreenState extends State<QuizScreen> {
                       ),
                       onPressed: () {
                         Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute<void>(
-                                builder: (context) => const QuizCompletedScreen()
-                            )
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (context) => const QuizCompletedScreen(),
+                          ),
                         );
                       },
                       child: Text("Conferma Risposta"),
                     ),
                   ),
                 ],
-              ),  // bottone conferma risposta
+              ), // bottone conferma risposta
             ],
           ),
         ),

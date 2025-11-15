@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
@@ -17,9 +16,9 @@ class _MapScreenState extends State<MapScreen> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-    
     return ChangeNotifierProvider(
       create: (context) => MapViewModel()..initState(),
       child: MapScreenContent(),
@@ -34,8 +33,8 @@ class MapScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final mapViewModel = context.watch<MapViewModel>();
 
-    if(!mapViewModel.gainedInitialPosition) {
-      return Scaffold( 
+    if (!mapViewModel.gainedInitialPosition) {
+      return Scaffold(
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -45,11 +44,10 @@ class MapScreenContent extends StatelessWidget {
               SizedBox(height: 20),
               Text("Obtaining current position..."),
             ],
-          )
+          ),
         ),
       );
-    }
-    else{
+    } else {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -63,7 +61,10 @@ class MapScreenContent extends StatelessWidget {
                   children: [
                     Text(
                       'Roma, Italia',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Text("0/5 luoghi visitati"),
                   ],
@@ -75,10 +76,7 @@ class MapScreenContent extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              CompassBannerCustom(
-                userPosition: mapViewModel.currentPosition,
-              ),
-              
+              CompassBannerCustom(userPosition: mapViewModel.currentPosition),
               OsmCustom(
                 mapController: mapViewModel.mapController,
                 currentPosition: mapViewModel.currentPosition,
@@ -90,6 +88,5 @@ class MapScreenContent extends StatelessWidget {
         ),
       );
     }
-
   }
 }

@@ -46,7 +46,7 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: BorderSide(color: Colors.grey, width: 1)
+                        side: BorderSide(color: Colors.grey, width: 1),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -56,18 +56,38 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text("Correct answers ", style: TextStyle(fontSize: 14)),
+                                Text(
+                                  "Correct answers ",
+                                  style: TextStyle(fontSize: 14),
+                                ),
                                 SizedBox(height: 8),
-                                Text("1", style: TextStyle(fontSize: 26, color: Colors.green, fontWeight: FontWeight.bold)),
+                                Text(
+                                  "1",
+                                  style: TextStyle(
+                                    fontSize: 26,
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
 
                               children: [
-                                Text("Wrong answers ", style: TextStyle(fontSize: 14)),
+                                Text(
+                                  "Wrong answers ",
+                                  style: TextStyle(fontSize: 14),
+                                ),
                                 SizedBox(height: 8),
-                                Text("0", style: TextStyle(fontSize: 26, color: Colors.red, fontWeight: FontWeight.bold)),
+                                Text(
+                                  "0",
+                                  style: TextStyle(
+                                    fontSize: 26,
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
                             ),
                           ],
@@ -82,7 +102,7 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
                       color: Colors.transparent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: BorderSide(color: Colors.grey, width: 1)
+                        side: BorderSide(color: Colors.grey, width: 1),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -92,9 +112,19 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text("XP Gained", style: TextStyle(fontSize: 14)),
+                                Text(
+                                  "XP Gained",
+                                  style: TextStyle(fontSize: 14),
+                                ),
                                 SizedBox(height: 8),
-                                Text("+10 XP", style: TextStyle(fontSize: 26, color: Color.fromARGB(255,21, 93, 252), fontWeight: FontWeight.bold)),
+                                Text(
+                                  "+10 XP",
+                                  style: TextStyle(
+                                    fontSize: 26,
+                                    color: Color.fromARGB(255, 21, 93, 252),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ],
                             ),
                           ],
@@ -109,16 +139,26 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
                       color: Colors.white,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
-                        side: BorderSide(color: Colors.grey, width: 1)
+                        side: BorderSide(color: Colors.grey, width: 1),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text("Total precision", style: TextStyle(fontSize: 14)),
+                            Text(
+                              "Total precision",
+                              style: TextStyle(fontSize: 14),
+                            ),
                             SizedBox(height: 10),
-                            Text("100%", style: TextStyle(fontSize: 26, color: Color.fromARGB(255, 3, 2, 19), fontWeight: FontWeight.bold)),
+                            Text(
+                              "100%",
+                              style: TextStyle(
+                                fontSize: 26,
+                                color: Color.fromARGB(255, 3, 2, 19),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                             SizedBox(height: 10),
                             LinearProgressIndicator(
                               value: 1.0,
@@ -146,16 +186,18 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
                     Navigator.pop(context);
                   },
                   child: Text(
-                      "Continua",
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    "Continua",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),  // bottone per andare avanti
+              ), // bottone per andare avanti
             ],
           ),
         ),
       ),
-
     );
   }
 }

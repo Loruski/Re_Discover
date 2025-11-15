@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:re_discover/ui/HOME/screens/city_selector_screen.dart';
 import 'package:re_discover/ui/HOME/view_model/home_view_model.dart';
 import 'package:re_discover/ui/HOME/widgets/home_screen_answers_accuracy_cards.dart';
 import 'package:re_discover/ui/HOME/widgets/home_screen_exploration_button.dart';
@@ -49,7 +50,12 @@ class HomeScreenContent extends StatelessWidget {
 
                       TextButton(
                         onPressed: () {
-                          // TODO: Implement navigation
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const CitySelectorScreen()
+                              )
+                          );
                         },
                         child: const Text("Cambia città"),
                       ),
