@@ -37,36 +37,41 @@ class CityCard extends StatelessWidget {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                       Text(
                         "Italia",
                         style: TextStyle(color: Colors.grey),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ],
                   ),
                   const SizedBox(height: 10),
-                  Column(
+                  const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         "La città eterna ricca di storia e monumenti",
                         style: TextStyle(color: Colors.grey),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Icon(
                             Icons.place_outlined,
                             size: 20,
-                            color: Colors.blue[700],
+                            color: Colors.blue,
                           ),
-                          const SizedBox(width: 5),
-                          Text(
-                            "12 luoghi",
-                            style: TextStyle(color: Colors.blue[700]),
+                          SizedBox(width: 5),
+                          Expanded(
+                            child: Text(
+                              "12 luoghi",
+                              style: TextStyle(color: Colors.blue),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
                       ),
