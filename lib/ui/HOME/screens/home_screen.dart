@@ -6,6 +6,7 @@ import 'package:re_discover/ui/HOME/widgets/home_screen_answers_accuracy_cards.d
 import 'package:re_discover/ui/HOME/widgets/home_screen_exploration_button.dart';
 import 'package:re_discover/ui/HOME/widgets/home_screen_header.dart';
 import 'package:re_discover/ui/HOME/widgets/home_screen_level_card.dart';
+import 'package:re_discover/ui/MAP/screens/quiz_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});

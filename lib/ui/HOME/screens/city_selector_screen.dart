@@ -8,6 +8,7 @@ class CitySelectorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text("City selector", style: TextStyle(fontSize: 20)),
       ),

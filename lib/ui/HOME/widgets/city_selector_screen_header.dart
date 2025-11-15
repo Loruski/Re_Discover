@@ -7,7 +7,7 @@ class CitySelectorScreenHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Icon(Icons.map, size: 60, color: Color.fromARGB(255, 3, 2, 19)),
+        Icon(Icons.map, size: 60, color: Colors.purple),
         Text(
           "Re:Discover",
           style: TextStyle(

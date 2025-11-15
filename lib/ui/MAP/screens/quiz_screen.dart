@@ -13,147 +13,188 @@ class QuizScreen extends StatefulWidget {
 }
 
 class _QuizScreenState extends State<QuizScreen> {
+  // Dati demo del quiz (possono arrivare da repo/API in futuro)
+  final String _title = "Unlock Colosseo";
+  final String _description =
+      "<stessa descrizione della card del quiz>\n<stessa descrizione della card del quiz>";
+  final String _question = "Questa è una possibile domanda?";
+  final List<String> _answers = const [
+    "Possibile risposta 1",
+    "Possibile risposta 2",
+    "Possibile risposta 3",
+  ];
+
+  final int _correctIndex = 1; // indice della risposta corretta
+
+  int _attemptsLeft = 3;
+
+  int? _selectedIndex;
+
+  void _onConfirm() {
+    if (_selectedIndex == null || _attemptsLeft == 0) return;
+
+    final isCorrect = _selectedIndex == _correctIndex;
+    if (isCorrect) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute<void>(
+          builder: (context) => const QuizCompletedScreen(),
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _attemptsLeft = (_attemptsLeft - 1).clamp(0, 3);
+      _selectedIndex = null;
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Quiz Time!", style: TextStyle(fontSize: 20)),
+        title: const Text("Quiz Time!", style: TextStyle(fontSize: 20)),
       ),
       body: SafeArea(
         child: Container(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
-            spacing: 2,
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.max,
             children: [
               Text(
-                "Unlock Colosseo",
-                style: TextStyle(
-                  fontSize: 24, 
-                  fontWeight: FontWeight.bold
-                  ),
-              ),  // titolo quiz
-              SizedBox(height: 20),
-              Text(
-                "<stessa descrizione della card del quiz>\n<stessa descrizione della card del quiz>",
-                style: TextStyle(fontSize: 16),
-              ), // titolo e descrizione quiz
-              Container(
-                padding: const EdgeInsets.all(15.0),
-                // clip the borders to be rounded
-                height: 250,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  
-                  // boxShadow: [BoxShadow(
-                  //   color: Colors.grey.withValues(alpha: 0.5),
-                  //   spreadRadius: 3,
-                  //   blurRadius: 18,
-                  //   offset: Offset(0, 0),
-                  //    // changes position of shadow
-                  // )],
-                  
+                _title,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(10),
-                  child: Image.network("https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800",),
-                  
+              ), // titolo quiz
+              const SizedBox(height: 20),
+              Text(
+                _description,
+                style: const TextStyle(fontSize: 16),
+              ), // titolo e descrizione quiz
+              const SizedBox(height: 12),
+              // Sostituito il Container con height fisso con un widget responsive
+              SizedBox(
+                width: double.infinity,
+                child: AspectRatio(
+                  aspectRatio: 16 / 9,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Image.network(
+                      "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800",
+                      fit: BoxFit.cover,
+                    ),
                   ),
-              ), // immagine quiz
+                ),
+              ), // immagine quiz responsive
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Domanda di sblocco", style: TextStyle(fontSize: 16)),
+                  const Text("Domanda di sblocco", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text("Tentativi: ", style: TextStyle(fontSize: 16)),
-                      Icon(Icons.circle, color: Colors.green, size: 16),
-                      Icon(Icons.circle, color: Colors.green, size: 16),
-                      Icon(Icons.circle, color: Colors.red, size: 16),
+                      const Text("Tentativi: ", style: TextStyle(fontSize: 16)),
+                      // indicatori tentativi dinamici
+                      ...List.generate(3, (i) {
+                        final color = i < _attemptsLeft ? Colors.green : Colors.red;
+                        return Row(
+                          children: [
+                            Icon(Icons.circle, color: color, size: 16),
+                            if (i < 2) const SizedBox(width: 4),
+                          ],
+                        );
+                      })
                     ],
                   ),
                 ],
               ), // titolo sezione domanda e tentativi
-              SizedBox(height: 20),
+              const SizedBox(height: 5),
               Flex(
                 direction: Axis.horizontal,
                 children: [
                   Expanded(
                     child: Card(
                       elevation: 4,
-              
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(100, 10, 100, 10),
+                        // padding più responsivo rispetto a valori fissi grandi
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Text("Questa è una possibile domanda?"),
-                            SizedBox(height: 20),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              spacing: 18,
-                              children: [
-                                SizedBox( 
-                                  width: double.infinity,
-                                  child: OutlinedButton(
-                                    onPressed: () => {}, // TODO Padding on text too probably
-                                    child: Text("Possibile risposta 1 dedwediuwhedkuywegdygeyguweudyhewid2egdu2wydwuwjhdejhdwkjeydwedhywd"),
+                            Text(_question),
+                            const SizedBox(height: 20),
+                            // Elenco risposte selezionabili
+                            ...List.generate(_answers.length, (i) {
+                              final selected = _selectedIndex == i;
+                              return Padding(
+                                padding: const EdgeInsets.only(bottom: 12),
+                                child: OutlinedButton(
+                                  onPressed: _attemptsLeft == 0
+                                      ? null
+                                      : () {
+                                          setState(() => _selectedIndex = i);
+                                        },
+                                  style: OutlinedButton.styleFrom(
+                                    padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+                                    side: BorderSide(
+                                      color: selected
+                                          ? Theme.of(context).colorScheme.primary
+                                          : Colors.grey.shade400,
+                                    ),
+                                    backgroundColor: selected
+                                        ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.12)
+                                        : null,
+                                  ),
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(_answers[i]),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: OutlinedButton(
-                                    onPressed: () => {},
-                                    child: Text("Possibile risposta 1"),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: double.infinity,
-                                  child: OutlinedButton(
-                                    onPressed: () => {},
-                                    child: Text("Possibile risposta 1"),
-                                  ),
-                                ),
-                              ],
-                            ),
+                              );
+                            }),
                           ],
                         ),
                       ),
                     ),
                   ),
                 ],
-              ),    // box domanda e risposte
-              Spacer(),
-              
-              Flex(
-                direction: Axis.horizontal,
-                mainAxisAlignment: MainAxisAlignment.center,
+              ), // box domanda e risposte
+              const Spacer(),
+              // Bottone conferma a larghezza piena
+              Row(
                 children: [
                   Expanded(
-                    child:  FloatingActionButton(
-                      backgroundColor: Colors.green,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                    child: ElevatedButton(
+                      onPressed: (_selectedIndex == null || _attemptsLeft == 0) ? null : _onConfirm,
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        backgroundColor: (_selectedIndex == null || _attemptsLeft == 0)
+                            ? null
+                            : Colors.green,
                       ),
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute<void>(
-                            builder: (context) => const QuizCompletedScreen(),
+                      child: const Text(
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
                           ),
-                        );
-                      },
-                      child: Text("Conferma Risposta"),
+                          "Conferma Risposta"
+                      ),
                     ),
                   ),
                 ],
-              ),  // bottone conferma risposta
-             
+              ), // bottone conferma risposta
             ],
           ),
         ),
