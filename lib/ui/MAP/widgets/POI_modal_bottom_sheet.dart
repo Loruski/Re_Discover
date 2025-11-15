@@ -70,6 +70,7 @@ class PoiModalBottomSheet extends StatelessWidget {
                         if (distance < 20)
                           Expanded(
                             child: FloatingActionButton(
+                              heroTag: null,
                               backgroundColor: Colors.green,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(15),

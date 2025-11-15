@@ -19,6 +19,7 @@ class LeaderboardScreen extends StatelessWidget {
                     children: [
                       Text('Benvenuto nella schermata leaderboard'),
                       FloatingActionButton.extended(
+                        heroTag: null,
                           label: Text('Counter: ${leaderboardViewModel.counter}'),
                           onPressed: leaderboardViewModel.incrementCounter
                       ),

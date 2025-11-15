@@ -94,6 +94,7 @@ class _OsmCustomState extends State<OsmCustom> {
                   
                   Consumer<MapViewModel>( // Consumer in order to rebuild only this part if zoom and current position change
                     builder: (context, mapViewModel, child) => FloatingActionButton(
+                      heroTag: null,
                       onPressed: () => widget.mapController.move(
                         mapViewModel.currentPosition,
                         mapViewModel.currentZoom,
@@ -103,6 +104,7 @@ class _OsmCustomState extends State<OsmCustom> {
                   ),
                   const SizedBox(height: 10),
                   FloatingActionButton(
+                    heroTag: null,
                     onPressed: widget.followUserPositionToggle,
                     child: Consumer<MapViewModel>(
                       builder: (context, mapViewModel, child) {

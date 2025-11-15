@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:re_discover/ui/HOME/widgets/city_selector_screen_header.dart';
+import 'package:re_discover/ui/HOME/widgets/city_selector_subwidgets/city_selector_screen_header.dart';
 
 class CitySelectorScreen extends StatelessWidget {
   const CitySelectorScreen({super.key});

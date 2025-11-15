@@ -178,6 +178,7 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
               SizedBox(
                 width: double.infinity,
                 child: FloatingActionButton(
+                  heroTag: null,
                   backgroundColor: Color.fromARGB(255, 3, 2, 19),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15),

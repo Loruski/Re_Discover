@@ -19,6 +19,7 @@ class UserScreen extends StatelessWidget {
                     children: [
                       Text('Benvenuto nella schermata user'),
                       FloatingActionButton.extended(
+                        heroTag: null,
                           label: Text('Counter: ${userViewModel.counter}'),
                           onPressed: userViewModel.incrementCounter
                       ),
