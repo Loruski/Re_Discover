@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:re_discover/ui/core/ui/homepage.dart';
 
+// Main method that runs the first widget: MyApp
 void main() {
   runApp(
       const MyApp()
