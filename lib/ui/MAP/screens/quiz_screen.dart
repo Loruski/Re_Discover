@@ -54,7 +54,36 @@ class _QuizScreenState extends State<QuizScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: true,
+        centerTitle: false,
+        title: Align(
+          alignment: Alignment.centerRight,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.track_changes, size: 20, color: Colors.orange),
+              Text(
+                "1500XP",
+                style: TextStyle(fontSize: 16, color: Colors.blueGrey),
+              ),
+              SizedBox(width: 15),
+              Icon(Icons.diamond, size: 20, color: Colors.pink),
+              Text(
+                "5",
+                style: TextStyle(fontSize: 16, color: Colors.blueGrey),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {  },
+            child: Row(
+              children: const [
+                Text("Help"),
+              ],
+            ),
+          ),
+        ],
         backgroundColor: Theme.of(context).scaffoldBackgroundColor
       ),
       body: SafeArea(

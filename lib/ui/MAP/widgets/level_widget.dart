@@ -42,11 +42,23 @@ class LevelWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Level 1',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          )
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('Level 1',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              )
+                          ),
+                          SizedBox(width: 10),
+                          Icon(Icons.diamond, size: 16, color: Colors.pink),
+                          Text(
+                            "5",
+                            style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+                          ),
+                        ],
                       ),
                       Text("XP in this session: +1500 XP")
                     ],

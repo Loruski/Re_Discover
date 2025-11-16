@@ -13,10 +13,22 @@ class UserScreenHeader extends StatelessWidget {
             "Esploratore",
             style: TextStyle(fontSize: 18, color: Colors.black),
           ),
-          Text(
-            "Livello 1",
-            style: TextStyle(fontSize: 15, color: Colors.blueGrey),
-          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Livello 1",
+                style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+              ),
+              SizedBox(width: 5),
+              Icon(Icons.diamond, size: 16, color: Colors.pink),
+              Text(
+                "5",
+                style: TextStyle(fontSize: 15, color: Colors.blueGrey),
+              ),
+            ],
+          )
+
       ],
     );
   }
