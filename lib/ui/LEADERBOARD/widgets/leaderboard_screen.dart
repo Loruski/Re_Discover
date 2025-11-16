@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:re_discover/ui/LEADERBOARD/utils/leaderboard_header_sliver_delegate.dart';
-import 'package:re_discover/ui/LEADERBOARD/view_model/leaderboard_view_model.dart';
-import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_tile.dart';
+import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_scroll_view.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({super.key});
@@ -60,54 +59,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
                   ).colorScheme.surfaceDim,
                   tabs: const [
                     Tab(text: 'Global'),
-                    Tab(text: 'Friends'),
                     Tab(text: 'Local'),
+                    Tab(text: 'Friends'),
                   ],
                 ),
               ),
             ),
           ],
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              CustomScrollView(
-                slivers: [
-                  SliverList.builder(
-                    itemBuilder:
-                        (context, index) => // Global
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: LeaderboardTile(),
-                            ),
-                  ),
-                ],
-              ),
-              CustomScrollView(
-                slivers: [
-                  SliverList.builder(
-                    itemBuilder:
-                        (context, index) => // Global
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: LeaderboardTile(),
-                            ),
-                  ),
-                ],
-              ),
-              CustomScrollView(
-                slivers: [
-                  SliverList.builder(
-                    itemBuilder:
-                        (context, index) => // Global
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: LeaderboardTile(),
-                            ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+          body: LeaderboardScrollView(tabController: _tabController),
         ),
       ),
     );
