@@ -1,4 +1,3 @@
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:re_discover/ui/MAP/screens/quiz_completed_screen.dart';
