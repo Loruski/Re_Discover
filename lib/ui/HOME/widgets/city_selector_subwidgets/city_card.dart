@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:re_discover/domain/models/city.dart';
 
 class CityCard extends StatelessWidget {
-  const CityCard({super.key});
+  final City city;
+
+  const CityCard({super.key, required this.city});
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +31,18 @@ class CityCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Roma",
-                        style: TextStyle(
+                        city.name,
+                        style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                         overflow: TextOverflow.ellipsis,
                       ),
-                      Text(
+                      const Text(
                         "Italia",
                         style: TextStyle(color: Colors.grey),
                         overflow: TextOverflow.ellipsis,
@@ -47,29 +50,29 @@ class CityCard extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 10),
-                  const Column(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "La città eterna ricca di storia e monumenti",
-                        style: TextStyle(color: Colors.grey),
+                        city.description,
+                        style: const TextStyle(color: Colors.grey),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.place_outlined,
                             size: 20,
                             color: Colors.blue,
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           Expanded(
                             child: Text(
-                              "12 luoghi",
-                              style: TextStyle(color: Colors.blue),
+                              "${city.pois?.length} luoghi",
+                              style: const TextStyle(color: Colors.blue),
                               overflow: TextOverflow.ellipsis,
                             ),
                           ),
