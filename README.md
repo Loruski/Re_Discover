@@ -1,4 +1,4 @@
-# Re:discover
+# Re:Discover
 
 A new Flutter project.
 
