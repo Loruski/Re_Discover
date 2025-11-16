@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:re_discover/ui/USER/screens/badges_screen.dart';
+import 'package:re_discover/ui/USER/screens/profile_personalization.dart';
+import 'package:re_discover/ui/USER/widgets/user_screen_header.dart';
 import 'package:re_discover/ui/USER/view_model/user_view_model.dart';
+import 'package:re_discover/ui/USER/widgets/users_infos_cards.dart';
+import 'package:re_discover/ui/core/widgets/level_card.dart';
 
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});
@@ -21,9 +26,115 @@ class UserScreenContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Text("user screen"),
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                pinned: true,
+                expandedHeight: 160.0, // aumenta per fare spazio al tuo header
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 20, 16, 5),
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: UserScreenHeader(),
+                    ),
+                  ),
+                ),
+              ),
+              SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 5, 16, 5),
+                          child:  Column(
+                            spacing: 3,
+                            children: [
+                              // Dart
+                              SizedBox(
+                                width: double.infinity,
+                                height: 55,
+                                child: FloatingActionButton.extended(
+                                  elevation: 1,
+                                  heroTag: null,
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: const BorderSide(color: Colors.grey, width: 1),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const ProfilePersonalization()),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.auto_awesome, color: Colors.black),
+                                  label: const Text(
+                                    'Profile Personalization',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              LevelCard(),
+                              UsersInfosCards(
+                                iconCard1: Icons.check,
+                                iconCard2: Icons.trending_up_outlined,
+                                titleCard1: 'Correct Answers',
+                                titleCard2: 'Precision',
+                                infoCard1: '60',
+                                infoCard2: '90%',
+                                cardColor1: Colors.green,
+                                cardColor2: Colors.blue,
+                              ),
+                              UsersInfosCards(
+                                iconCard1: Icons.place_outlined,
+                                iconCard2: Icons.workspace_premium,
+                                titleCard1: 'Visited placed',
+                                titleCard2: 'Unlocked badges',
+                                infoCard1: '3',
+                                infoCard2: '6',
+                                cardColor1: Colors.purple,
+                                cardColor2: Colors.orange,
+                              ),
+                              SizedBox(height: 10),
+                              SizedBox(
+                                width: double.infinity,
+                                height: 40,
+                                child: FloatingActionButton.extended(
+                                  elevation: 1,
+                                  heroTag: null,
+                                  backgroundColor: Colors.white,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                    side: const BorderSide(color: Colors.purple, width: 1),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => const BadgesScreen()),
+                                    );
+                                  },
+                                  icon: const Icon(Icons.workspace_premium, color: Colors.black),
+                                  label: const Text(
+                                    'See your Badges',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                      ),
+                    ]
+                  )
+              )
+            ]
           )
       ),
     );
