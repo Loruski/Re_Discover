@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:re_discover/ui/LEADERBOARD/utils/leaderboard_header_sliver_delegate.dart';
 import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_scroll_view.dart';
+import 'package:re_discover/ui/LEADERBOARD/widgets/user_leaderboard_place_card.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({super.key});
@@ -28,35 +29,45 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Leaderboard',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Theme.of(context).primaryColor,
-          ),
-        ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      ),
       body: SafeArea(
         child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverAppBar(
-              pinned: false,
+              pinned: true,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              expandedHeight: 0,
+              expandedHeight: 100,
+              flexibleSpace: FlexibleSpaceBar( //TODO unite title and usercard using customlayout and taking inspiration from FlexibleSpaceBar
+                centerTitle: true,
+                title: Text(
+                  'Leaderboard',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                stretchModes: [
+                  StretchMode.blurBackground,
+                  StretchMode.fadeTitle,
+                ],
+              ),
+              // bottom: UserLeaderboardPlaceCard(),
             ),
+            SliverAppBar(
+              pinned: true,
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              collapsedHeight: 75,
+              bottom: UserLeaderboardPlaceCard(),
+            ),
+                
             SliverPersistentHeader(
               pinned: true,
               delegate: LeaderboardHeaderSliverDelegate(
                 tabBar: TabBar(
                   controller: _tabController,
                   labelColor: Theme.of(context).primaryColor,
-                  unselectedLabelColor: Theme.of(
-                    context,
-                  ).colorScheme.surfaceDim,
+                  unselectedLabelColor: Theme.of(context).colorScheme.onSurface,
+                  indicatorColor: Theme.of(context).primaryColor,
                   tabs: const [
                     Tab(text: 'Global'),
                     Tab(text: 'Local'),

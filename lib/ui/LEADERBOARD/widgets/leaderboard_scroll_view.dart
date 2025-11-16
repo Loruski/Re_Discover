@@ -32,7 +32,7 @@ class _LeaderboardScrollViewState extends State<LeaderboardScrollView> {
       slivers: [
         SliverList.builder(
           itemBuilder:
-              (context, index) => // Global
+              (context, index) =>
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ListTile(
