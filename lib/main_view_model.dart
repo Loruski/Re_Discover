@@ -12,6 +12,7 @@ class MainViewModel extends ChangeNotifier {
 
   Future<void> fetchUsers() async {
     _appUsers = await RepositoryHub().users;
+    notifyListeners();
   }
 
   User? get user => _user;

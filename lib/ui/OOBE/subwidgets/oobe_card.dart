@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:re_discover/ui/OOBE/oobe.dart';
 
 class OobeCard extends StatelessWidget {
   const OobeCard({super.key});
@@ -13,10 +14,10 @@ class OobeCard extends StatelessWidget {
           children: [
             Column(
               children: [
-                Icon(Icons.waving_hand, size: 80, color: Colors.yellow[800]),
+                Icon(Icons.waving_hand, size: 60, color: Colors.yellow[800]),
                 Text(
                   "Benvenuto!",
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 Text("Dicci qualcosa su di te", style: TextStyle(fontSize: 14)),
               ],
@@ -40,12 +41,16 @@ class OobeCard extends StatelessWidget {
               ],
             ),
             SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () => {},
-              style: ButtonStyle(backgroundColor: WidgetStatePropertyAll<Color>(Colors.black), foregroundColor: WidgetStatePropertyAll<Color>(Colors.white)),
-              child: Text(
-                "Avanti",
-                style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const OobeCompleted())),
+                style: ButtonStyle(backgroundColor: WidgetStatePropertyAll<Color>(Colors.black), foregroundColor: WidgetStatePropertyAll<Color>(Colors.white)),
+                label: const Text(
+                  "Avanti",
+                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                ),
+                icon: const Icon(Icons.arrow_forward),
               ),
             ),
           ],
