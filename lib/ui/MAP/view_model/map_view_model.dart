@@ -31,38 +31,42 @@ class MapViewModel extends ChangeNotifier {
 
 
   Future<void> initState() async {
-    print("init 1");
-
     var status = await Permission.location.status;
 
     if (!status.isGranted) {
 
       status = await Permission.location.request();
 
-
-      print("init 2 - status: $status");
-
       if (!status.isGranted) {
         final granted = await _waitForPermissionGrant();
         if (!granted) {
-          showToast("Permesso posizione non concesso");
+          showToast("Position permission not allowed");
           return;
         }
       }
     }
-    // ora che il permesso è garantito, avvia lo stream e prendi la posizione iniziale
-    initLocationStream();
+    if (status == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+
+      showToast("Position permission denied forever, reallow from settings!");
+
+    }
 
     try {
       final pos = await initialPosition();
       currentPosition = LatLng(pos.latitude, pos.longitude);
       gainedInitialPosition = true;
       notifyListeners();
-      print("init6: posizione ottenuta ${currentPosition.latitude}, ${currentPosition.longitude}");
+      log("posizione ottenuta ${currentPosition.latitude}, ${currentPosition.longitude}");
     } catch (e, s) {
-      print("Impossibile ottenere la posizione iniziale: $e\n$s");
-      showToast("Impossibile ottenere la posizione iniziale");
+      log("Impossibile ottenere la posizione iniziale: $e\n$s");
+      showToast("Can't get your initial position");
     }
+
+    // ora che il permesso è garantito, avvia lo stream e prendi la posizione iniziale
+    initLocationStream();
+
+    
   }
 
 
@@ -145,7 +149,7 @@ class MapViewModel extends ChangeNotifier {
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
 
-      showToast("Permission denied forever ");
+      showToast("Position permission denied forever, reallow from settings!");
 
       return Future.error(
         '------- Location permissions are permanently denied, we cannot request permissions. -------',

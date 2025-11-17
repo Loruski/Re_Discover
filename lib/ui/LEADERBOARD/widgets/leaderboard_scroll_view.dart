@@ -34,7 +34,7 @@ class _LeaderboardScrollViewState extends State<LeaderboardScrollView> {
           itemBuilder:
               (context, index) =>
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(1.2),
                 child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),

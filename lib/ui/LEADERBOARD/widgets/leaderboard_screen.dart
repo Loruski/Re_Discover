@@ -28,9 +28,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: NestedScrollView(
+    return SafeArea(
+      child: NestedScrollView(
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverAppBar(
               pinned: true,
@@ -79,7 +78,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
           ],
           body: LeaderboardScrollView(tabController: _tabController),
         ),
-      ),
     );
   }
 }
