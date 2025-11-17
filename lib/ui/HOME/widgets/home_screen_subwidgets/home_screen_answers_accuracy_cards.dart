@@ -15,7 +15,7 @@ class HomeScreenAnswersAccuracyCards extends StatelessWidget {
               child: Column(
                 children: [
                   Icon(Icons.check_circle_outline, size: 40, color: Colors.green),
-                  Text("Risposte corrette", style: TextStyle(fontWeight: FontWeight.bold)),
+                  Text("Risposte esatte", style: TextStyle(fontWeight: FontWeight.bold)),
                   Text("11"),
                 ],
               ),

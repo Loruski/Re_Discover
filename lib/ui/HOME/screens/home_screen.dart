@@ -4,6 +4,7 @@ import 'package:re_discover/ui/HOME/view_model/home_view_model.dart';
 import 'package:re_discover/ui/HOME/widgets/home_screen_subwidgets/home_screen_answers_accuracy_cards.dart';
 import 'package:re_discover/ui/HOME/widgets/home_screen_subwidgets/home_screen_exploration_button.dart';
 import 'package:re_discover/ui/HOME/widgets/home_screen_subwidgets/home_screen_header.dart';
+import 'package:re_discover/ui/OOBE/oobe.dart';
 import 'package:re_discover/ui/core/widgets/level_card.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -42,6 +43,7 @@ class HomeScreenContent extends StatelessWidget {
             ),
           )
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const Oobe()))),
     );
   }
 
