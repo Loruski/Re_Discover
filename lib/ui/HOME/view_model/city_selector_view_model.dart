@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:flutter/foundation.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/city.dart';

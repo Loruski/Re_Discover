@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:re_discover/ui/OOBE/subwidgets/oobe_card.dart';
 import 'package:re_discover/ui/OOBE/subwidgets/oobe_completed_card.dart';
+import 'package:re_discover/ui/OOBE/view_model/oobe_view_model.dart';
 
 // Entrypoint for OOBE
 class Oobe extends StatelessWidget {
@@ -8,13 +10,16 @@ class Oobe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.all(20.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [OobeCard()],
+    return ChangeNotifierProvider(
+      create: (_) => OobeViewModel(),
+      child: Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [OobeCard()],
+            ),
           ),
         ),
       ),

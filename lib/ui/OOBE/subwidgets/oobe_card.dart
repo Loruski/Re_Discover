@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:re_discover/ui/OOBE/oobe.dart';
+import 'package:re_discover/ui/OOBE/view_model/oobe_view_model.dart';
 
 class OobeCard extends StatelessWidget {
   const OobeCard({super.key});
@@ -31,27 +33,65 @@ class OobeCard extends StatelessWidget {
                   "Come ti chiami?",
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                 ),
-                TextField(
-                  decoration: InputDecoration(
-                    icon: Icon(Icons.keyboard),
-                    hintText: "Inserisci il tuo nome",
-                    hintStyle: TextStyle(fontSize: 13),
-                  ),
+                Consumer<OobeViewModel>(
+                  builder: (context, oobeViewModel, child) {
+                    return Form(
+                      key: oobeViewModel.formKey,
+                      child: Column(
+                        children: [
+                          TextFormField(
+                            controller: oobeViewModel.usernameController,
+                            validator: (value) {
+                              return oobeViewModel.validateUsername(value);
+                            },
+                            decoration: InputDecoration(
+                              icon: Icon(Icons.keyboard),
+                              hintText: "Inserisci il tuo nome",
+                              hintStyle: TextStyle(fontSize: 13),
+                              errorMaxLines: 5,
+                            ),
+                          ),
+                          SizedBox(height: 30),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton.icon(
+                              onPressed: () => {
+                                if (oobeViewModel.formKey.currentState!
+                                    .validate()) {
+                                    oobeViewModel.username = oobeViewModel.usernameController.text,
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const OobeCompleted(),
+                                      ),
+                                    ),
+                                  },
+                              },
+                              style: ButtonStyle(
+                                backgroundColor: WidgetStatePropertyAll<Color>(
+                                  Colors.black,
+                                ),
+                                foregroundColor: WidgetStatePropertyAll<Color>(
+                                  Colors.white,
+                                ),
+                              ),
+                              label: const Text(
+                                "Avanti",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              icon: const Icon(Icons.arrow_forward),
+                            ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ],
-            ),
-            SizedBox(height: 30),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const OobeCompleted())),
-                style: ButtonStyle(backgroundColor: WidgetStatePropertyAll<Color>(Colors.black), foregroundColor: WidgetStatePropertyAll<Color>(Colors.white)),
-                label: const Text(
-                  "Avanti",
-                  style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-                ),
-                icon: const Icon(Icons.arrow_forward),
-              ),
             ),
           ],
         ),

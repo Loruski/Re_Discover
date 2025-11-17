@@ -35,19 +35,21 @@ class _LeaderboardScrollViewState extends State<LeaderboardScrollView> {
               (context, index) =>
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ListTile(
-                  title: Text("Leaderboard Tile $type"),
-                  subtitle: TextButton(
-                    onPressed: () {},
-                    child: const Text("View Profile"),
-                  ),
-                  leading: const CircleAvatar(child: Icon(Icons.emoji_events)),
+                child: Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                     side: BorderSide(
                       color: Theme.of(context).colorScheme.primary,
                       width: 1,
                     ),
+                  ),
+                  child: ListTile(
+                    title: Text("Leaderboard Tile $type"),
+                    subtitle: TextButton(
+                      onPressed: () {},
+                      child: const Text("View Profile"),
+                    ),
+                    leading: const CircleAvatar(child: Icon(Icons.emoji_events)),
                   ),
                 ),
               ),
@@ -56,5 +58,3 @@ class _LeaderboardScrollViewState extends State<LeaderboardScrollView> {
     );
   }
 }
-
-
