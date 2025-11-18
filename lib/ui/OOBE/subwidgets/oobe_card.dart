@@ -17,19 +17,19 @@ class OobeCard extends StatelessWidget {
             Column(
               children: [
                 Icon(Icons.waving_hand, size: 60, color: Colors.yellow[800]),
-                Text(
+                const Text(
                   "Benvenuto!",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                Text("Dicci qualcosa su di te", style: TextStyle(fontSize: 14)),
+                const Text("Dicci qualcosa su di te", style: TextStyle(fontSize: 14)),
               ],
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   "Come ti chiami?",
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                 ),
@@ -44,30 +44,33 @@ class OobeCard extends StatelessWidget {
                             validator: (value) {
                               return oobeViewModel.validateUsername(value);
                             },
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               icon: Icon(Icons.keyboard),
                               hintText: "Inserisci il tuo nome",
                               hintStyle: TextStyle(fontSize: 13),
                               errorMaxLines: 5,
                             ),
                           ),
-                          SizedBox(height: 30),
+                          const SizedBox(height: 30),
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton.icon(
-                              onPressed: () => {
+                              onPressed: () {
                                 if (oobeViewModel.formKey.currentState!.validate()) {
-                                    oobeViewModel.username = oobeViewModel.usernameController.text,
+                                  oobeViewModel.username = oobeViewModel.usernameController.text;
 
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => const OobeCompleted(),
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => ChangeNotifierProvider.value(
+                                        value: oobeViewModel,
+                                        child: const OobeCompleted(),
                                       ),
                                     ),
-                                  },
+                                  );
+                                }
                               },
-                              style: ButtonStyle(
+                              style: const ButtonStyle(
                                 backgroundColor: WidgetStatePropertyAll<Color>(
                                   Colors.black,
                                 ),

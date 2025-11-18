@@ -9,7 +9,7 @@ class QuizRepository extends AbstractDataRepository<QuizData, Quiz>{
     path: Paths.quizzesPath,
     fromJson: QuizData.fromJson,
     toJson: (Quiz element) {
-      QuizData quizData = QuizData(id: element.id, description: element.description, questions: element.questions.map((e) => QuestionData(id: e.id, questionText: e.questionText, answers: e.answers, correctOptionIndex: e.correctOptionIndex)).toList());
+      QuizData quizData = QuizData(id: element.id, description: element.description, questions: element.questions.map((e) => QuestionData(questionText: e.questionText, answers: e.answers, correctOptionIndex: e.correctOptionIndex)).toList());
       return quizData.toJson();
     },
     assignIds: (List data, Map<Types, AbstractDataRepository>? requiredData) {
@@ -17,7 +17,6 @@ class QuizRepository extends AbstractDataRepository<QuizData, Quiz>{
       for (QuizData element in data) {
         List<Question> questions = element.questions.map((questionData) =>
           Question(
-            id: questionData.id,
             questionText: questionData.questionText,
             answers: questionData.answers,
             correctOptionIndex: questionData.correctOptionIndex

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/user_repository.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
-import 'package:re_discover/domain/models/cosmetic.dart';
-import 'package:re_discover/domain/models/user.dart';
-import 'package:re_discover/domain/models/badge.dart' as ReDiscover;
 
 class OobeViewModel extends ChangeNotifier {
   final _formKey = GlobalKey<FormState>();
@@ -37,8 +34,9 @@ class OobeViewModel extends ChangeNotifier {
     return null;
   }
   
-  void saveTemporaryUser(String username) {
-    userRepository.storeTemporaryUser(username);
+  void saveTemporaryUser() {
+    userRepository.storeTemporaryUser(_username);
+    notifyListeners();
   }
 
 }

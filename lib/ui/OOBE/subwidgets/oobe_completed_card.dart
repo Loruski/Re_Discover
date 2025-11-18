@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:re_discover/ui/OOBE/view_model/oobe_view_model.dart';
+import 'package:re_discover/ui/core/ui/homepage.dart';
 
 class OobeCompletedCard extends StatelessWidget {
   const OobeCompletedCard({super.key});
@@ -23,18 +26,29 @@ class OobeCompletedCard extends StatelessWidget {
                 SizedBox(height: 10),
                 SizedBox(
                   width: double.infinity,
-                  child: ElevatedButton.icon(
-                    onPressed: () => {},
-                    style: ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll<Color>(
-                        Colors.black,
-                      ),
-                      foregroundColor: WidgetStatePropertyAll<Color>(
-                        Colors.white,
-                      ),
-                    ),
-                    label: const Text("Inizia la tua avventura"),
-                    icon: Icon(Icons.rocket_launch)
+                  child: Consumer<OobeViewModel>(
+                    builder: (context, oobeViewModel, child) {
+                      return ElevatedButton.icon(
+                          onPressed: () => {
+                            oobeViewModel.saveTemporaryUser(),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const HomePage(),
+                              )
+                            )},
+                          style: ButtonStyle(
+                            backgroundColor: WidgetStatePropertyAll<Color>(
+                              Colors.black,
+                            ),
+                            foregroundColor: WidgetStatePropertyAll<Color>(
+                              Colors.white,
+                            ),
+                          ),
+                          label: const Text("Inizia la tua avventura"),
+                          icon: Icon(Icons.rocket_launch)
+                      );
+                    },
                   ),
                 ),
               ],

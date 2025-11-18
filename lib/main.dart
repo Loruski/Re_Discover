@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:re_discover/main_view_model.dart';
+import 'package:re_discover/ui/OOBE/oobe.dart';
 import 'package:re_discover/ui/core/ui/homepage.dart';
 
 // Main method that runs the first widget: MyApp
@@ -34,7 +37,48 @@ class MyApp extends StatelessWidget {
         // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: HomePage(),
+      home: ChangeNotifierProvider(
+        create: (_) => MainViewModel(),
+        child: const InitialScreen(),
+      ),
+    );
+  }
+}
+
+class InitialScreen extends StatefulWidget {
+  const InitialScreen({super.key});
+
+  @override
+  State<InitialScreen> createState() => _InitialScreenState();
+}
+
+class _InitialScreenState extends State<InitialScreen> {
+  late Future<bool> _shouldOobeBeRunned;
+
+  @override
+  void initState() {
+    super.initState();
+    _shouldOobeBeRunned = Provider.of<MainViewModel>(context, listen: false).shouldOobeBeRunned();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<bool>(
+      future: _shouldOobeBeRunned,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        if (snapshot.hasError) {
+          return const Scaffold(body: Center(child: Text('Something went wrong')));
+        }
+        final shouldOobe = snapshot.data ?? true;
+        return shouldOobe ? Oobe() : HomePage();
+      },
     );
   }
 }
