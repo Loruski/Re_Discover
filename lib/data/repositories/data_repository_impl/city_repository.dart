@@ -11,6 +11,10 @@ class CityRepository extends AbstractDataRepository<CityData, City> {
   CityRepository(): super(
     path: Paths.citiesPath,
     fromJson: CityData.fromJson, // assign its fromJson function
+    toJson: (City element) {
+      CityData cityData = CityData(id: element.id, name: element.name, description: element.description, positionID: element.position!.id, poisID: element.pois!.map((e) => e.id).toSet());
+      return cityData.toJson();
+    },
     assignIds: (List<CityData> data, Map<Types, AbstractDataRepository>? requiredData) { //assign the method of assigning IDs
 
       Map<int, City> toSetToHolder = {}; //the data to set goes here

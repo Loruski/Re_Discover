@@ -45,6 +45,7 @@ dependencies:
   geolocator: ^14.0.2
   flutter_map_math: ^0.2.4
   fluttertoast: ^9.0.0
+  shared_preferences: ^2.5.3
 
 dev_dependencies:
   flutter_test:

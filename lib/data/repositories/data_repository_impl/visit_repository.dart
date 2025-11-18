@@ -12,6 +12,10 @@ class VisitRepository extends AbstractDataRepository<VisitData, Visit> {
   VisitRepository(): super(
       path: Paths.visitsPath,
       fromJson: VisitData.fromJson,
+      toJson: (Visit element) {
+        VisitData visitData = VisitData(id: element.id, cityID: element.city!.id, visitedPOIs: element.visitedPOIs.map((key, value) => MapEntry(key.id, value)));
+        return visitData.toJson();
+      },
       assignIds: (List<VisitData> data, Map<Types, AbstractDataRepository>? requiredData) {
 
         Map<int, Visit> toSetToHolder = {};

@@ -22,11 +22,12 @@ class Quiz {
 }
 
 class Question {
+  late final int id;
   late String questionText;
   late List<String> answers;
   late int correctOptionIndex;
 
-  Question({required this.questionText, required this.answers, required this.correctOptionIndex});
+  Question({required this.id, required this.questionText, required this.answers, required this.correctOptionIndex});
   @override
     String toString() {
       

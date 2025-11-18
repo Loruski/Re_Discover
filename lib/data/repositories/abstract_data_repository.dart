@@ -22,12 +22,17 @@ abstract class AbstractDataRepository<TData, T> {
   /// Function to specify how to create T objects from TData objects, using the requiredData defined earlier
   /// The objects should be inserted following the pattern (object.ID, object)
   late Map<int, T> Function(List<TData>, Map<Types, AbstractDataRepository>? requiredData) assignIds;
+  
+  /// Function that converts T objects to TData objects, used for updating JSON files
+  late Map<String, dynamic> Function(T) toJson;
+  
+  
 
   Future<void>? updateFutureLock; // lock necessary to prevent multiple simultaneous executions of the same update function
 
 
 
-  AbstractDataRepository({required this.path, required this.fromJson, required this.assignIds});
+  AbstractDataRepository({required this.path, required this.fromJson, required this.assignIds, required this.toJson});
 
 
   void setRequiredData(Map<Types, AbstractDataRepository> data) {

@@ -5,7 +5,13 @@ import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/badge.dart';
 
 class BadgeRepository extends AbstractDataRepository<BadgeData, Badge> {
-  BadgeRepository(): super(path: Paths.badgesPath, fromJson: BadgeData.fromJson,
+  BadgeRepository(): super(
+    path: Paths.badgesPath,
+    fromJson: BadgeData.fromJson,
+    toJson: (Badge element) {
+      BadgeData badgeData = BadgeData(id: element.id, name: element.name, imgPath: element.imgPath);
+      return badgeData.toJson();
+    },
     assignIds: (List data, Map<Types, AbstractDataRepository>? requiredData) {
       Map<int, Badge> toSetToHolder = {};
       for (BadgeData element in data) {

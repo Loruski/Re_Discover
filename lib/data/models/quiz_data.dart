@@ -31,6 +31,7 @@ class QuizData {
       id: id,
       description: description,
       questions: questions.map((questions) => domain.Question(
+        id: questions.id,
         questionText: questions.questionText,
         answers: questions.answers,
         correctOptionIndex: questions.correctOptionIndex,
@@ -42,11 +43,12 @@ class QuizData {
 
 @JsonSerializable(explicitToJson: true)
 class QuestionData {
+  late int id;
   late String questionText;
   late List<String> answers;
   late int correctOptionIndex;
 
-  QuestionData({required this.questionText, required this.answers, required this.correctOptionIndex});
+  QuestionData({required this.id, required this.questionText, required this.answers, required this.correctOptionIndex});
 
   factory QuestionData.fromJson(Map<String, dynamic> json) => _$QuestionDataFromJson(json);
 

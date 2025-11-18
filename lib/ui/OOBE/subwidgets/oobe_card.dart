@@ -56,14 +56,13 @@ class OobeCard extends StatelessWidget {
                             width: double.infinity,
                             child: ElevatedButton.icon(
                               onPressed: () => {
-                                if (oobeViewModel.formKey.currentState!
-                                    .validate()) {
+                                if (oobeViewModel.formKey.currentState!.validate()) {
                                     oobeViewModel.username = oobeViewModel.usernameController.text,
+
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            const OobeCompleted(),
+                                        builder: (context) => const OobeCompleted(),
                                       ),
                                     ),
                                   },

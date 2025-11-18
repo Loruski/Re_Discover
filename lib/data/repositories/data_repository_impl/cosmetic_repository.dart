@@ -5,7 +5,13 @@ import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/cosmetic.dart';
 
 class CosmeticRepository extends AbstractDataRepository<CosmeticData, Cosmetic> {
-  CosmeticRepository(): super(path: Paths.cosmeticsPath, fromJson: CosmeticData.fromJson,
+  CosmeticRepository(): super(
+    path: Paths.cosmeticsPath,
+    fromJson: CosmeticData.fromJson,
+    toJson: (Cosmetic element) {
+      CosmeticData cosmeticData = CosmeticData(id: element.id, name: element.name, imgPath: element.imgPath);
+      return cosmeticData.toJson();
+    },
     assignIds: (List data, Map<Types, AbstractDataRepository>? requiredData) {
       Map<int, Cosmetic> toSetToHolder = {};
       for (CosmeticData element in data) {

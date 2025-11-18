@@ -13,7 +13,6 @@ class User {
 
   @override
     String toString() {
-      
       return "id: $id, username: $username, xp: $xp, level: $level, badges: $badges, customizables: $customizables";
     }
 }
