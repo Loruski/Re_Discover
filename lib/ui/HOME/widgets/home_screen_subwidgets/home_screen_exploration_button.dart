@@ -10,7 +10,12 @@ class HomeScreenExplorationButton extends StatelessWidget {
       children: [
         ElevatedButton.icon(
           onPressed: () {
-            // TODO: Implement navigation
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => CitySelectorScreen()
+                )
+            );
           },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
@@ -23,17 +28,6 @@ class HomeScreenExplorationButton extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
         ),
-        TextButton(
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => CitySelectorScreen()
-                )
-            );
-          },
-          child: const Text("Cambia città"),
-        )
       ],
     );
   }

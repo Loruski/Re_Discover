@@ -30,20 +30,20 @@ class HomeScreenContent extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Center(
               child: Column(
-                spacing: 20,
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   HomeScreenHeader(),
+                  SizedBox(height: 20),
                   LevelCard(),
                   HomeScreenAnswersAccuracyCards(),
+                  SizedBox(height: 20),
                   HomeScreenExplorationButton(),
                 ]
               )
             ),
           )
-      ),
-      floatingActionButton: FloatingActionButton(onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const Oobe()))),
+      )
     );
   }
 
