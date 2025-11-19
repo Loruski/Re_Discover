@@ -7,7 +7,9 @@ import 'package:re_discover/domain/models/user.dart';
 import 'package:re_discover/data/models/user_data.dart';
 import 'package:re_discover/data/repositories/abstract_data_repository.dart';
 import 'package:re_discover/domain/models/badge.dart';
+import 'package:re_discover/domain/models/badge.dart' as ReDiscover;
 import 'package:shared_preferences/shared_preferences.dart';
+
 
 class UserRepository extends AbstractDataRepository<UserData, User> {
 
@@ -40,15 +42,31 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
     }
   );
 
-  Future<String?> storeTemporaryUser(String username) async {
+  Future<List<String>?> storeTemporaryUser(String username) async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString("username", username);
-    return prefs.getString("username");
+    if(prefs.getStringList("user") != null) prefs.remove("user");
+    prefs.setStringList("user", ["0", username, "0", "1", "", ""]);
+    return prefs.getStringList("user");
   }
 
-  Future<String?> getTemporaryUser() async {
+  Future<List<String>?> getTemporaryUser() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getString("username");
+    return prefs.getStringList("user");
+  }
+
+  Future<User?> getLoggedInUser() async {
+    var temporaryUser = await getTemporaryUser();
+    var isTemporaryUserNull = temporaryUser == null;
+
+    if (isTemporaryUserNull) return null;
+
+    return User(
+        id: int.parse(temporaryUser[0]),
+        username: temporaryUser[1],
+        xp: double.parse(temporaryUser[2]),
+        level: int.parse(temporaryUser[3]),
+        badges: <ReDiscover.Badge>{},
+        customizables: <Cosmetic>{});
   }
 
 }

@@ -31,11 +31,12 @@ class OobeCompletedCard extends StatelessWidget {
                       return ElevatedButton.icon(
                           onPressed: () => {
                             oobeViewModel.saveTemporaryUser(),
-                            Navigator.push(
+                            Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => const HomePage(),
-                              )
+                              ),
+                              (r) => false
                             )},
                           style: ButtonStyle(
                             backgroundColor: WidgetStatePropertyAll<Color>(
