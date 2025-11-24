@@ -79,7 +79,7 @@ class _QuizScreenState extends State<QuizScreen> {
             onPressed: () {  },
             child: Row(
               children: const [
-                Text("Help"),
+                Text("Hint"),
               ],
             ),
           ),
