@@ -5,6 +5,8 @@ class UserLeaderboardPlaceCard extends StatelessWidget implements PreferredSizeW
   
     @override
   Size get preferredSize => const Size.fromHeight(70);
+  
+
 
   @override
   Widget build(BuildContext context) {

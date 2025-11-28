@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
 
 class LeaderboardHeaderSliverDelegate extends SliverPersistentHeaderDelegate{
-  final TabBar tabBar;
+  final PreferredSizeWidget child;
   
-  LeaderboardHeaderSliverDelegate({required this.tabBar});
+  LeaderboardHeaderSliverDelegate({required this.child});
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: Theme.of(context).scaffoldBackgroundColor,
-      child: tabBar,
+      child: child,
     );
   }
 
   @override
-  double get maxExtent => tabBar.preferredSize.height;
+  double get maxExtent => child.preferredSize.height; //TODO find a way to reduce the child size without destroying its structure
 
   @override
-
-  double get minExtent => tabBar.preferredSize.height;
+  double get minExtent => child.preferredSize.height;
 
   @override
   bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {

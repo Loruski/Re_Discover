@@ -6,10 +6,6 @@ class HomeViewModel extends ChangeNotifier {
   int counter = 0;
 
 
-  Future<void> _load() async {
-    // load at the first time
-    notifyListeners();
-  }
 
   void incrementCounter() {
     counter++;
