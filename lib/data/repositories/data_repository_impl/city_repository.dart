@@ -27,8 +27,11 @@ class CityRepository extends AbstractDataRepository<CityData, City> {
         Set<POI>? pois = element.poisID.map((id) => requiredData?[Types.poi]?.get(id)).whereType<POI>().toSet(); // same here but in a set
 
         // in case some data is not found, continue regardless but alert
-        if (position == null) log("in City $CityData.id $CityData.name the position was not found in the holder");
-        if (pois.contains(null)) log("in City $CityData.id $CityData.name there's a POI not found in the holder: $pois");
+        if (position == null){
+          log("in City ${element.id} ${element.name} the position was not found in the holder");
+          continue;
+        }
+        if (pois.contains(null)) log("in City ${element.id} ${element.name} there's a POI not found in the holder: $pois");
 
         toSetToHolder[element.id] = City(id: element.id, name: element.name, description: element.description, position: position, pois: pois); // set to the key id the corresponding object
       }

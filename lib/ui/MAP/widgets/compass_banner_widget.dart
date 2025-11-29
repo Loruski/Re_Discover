@@ -18,7 +18,7 @@ class CompassBannerCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MapViewModel>(context);
 
-    LatLng poiPosition = viewModel.poiPosition;
+    LatLng poiPosition = viewModel.poiToFindPosition;
     
 
     double distance = Geolocator.distanceBetween(

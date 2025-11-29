@@ -14,8 +14,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => HomeViewModel()),
-        ChangeNotifierProvider(create: (_) => StateHub().userState)
+        ChangeNotifierProvider(create: (context) => HomeViewModel()..initState()),
+        ChangeNotifierProvider(create: (_) => StateHub().userState),
       ],
       child: HomeScreenContent(),
     );
@@ -41,7 +41,7 @@ class HomeScreenContent extends StatelessWidget {
                 LevelCard(),
                 HomeScreenAnswersAccuracyCards(),
                 SizedBox(height: 20),
-                HomeScreenExplorationButton(),
+                HomeScreenExplorationButton(isVisiting: context.watch<HomeViewModel>().isVisiting),
               ]
             )
           ),

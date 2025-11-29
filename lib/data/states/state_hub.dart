@@ -1,4 +1,5 @@
 import 'package:re_discover/data/repositories/repository_hub.dart';
+import 'package:re_discover/data/states/city_state.dart';
 import 'package:re_discover/data/states/user_state.dart';
 import 'package:re_discover/data/states/visit_state.dart';
 
@@ -16,6 +17,9 @@ class StateHub {
 
   late final _visitState = VisitState();
 
+  late final _cityState = CityState();
+
   UserState get userState => _userState;
   VisitState get visitState => _visitState;
+  CityState get cityState => _cityState;
 }

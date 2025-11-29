@@ -24,7 +24,7 @@ class HomeScreenHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Ciao, ${userState.user?.username}!",
+                  "Hi, ${userState.user?.username}!",
                   style: TextStyle(fontSize: 15, color: Colors.black),
                 ),
                 SizedBox(width: 5),

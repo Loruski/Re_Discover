@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:provider/provider.dart';
+import 'package:re_discover/domain/models/city.dart';
+import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/level_widget.dart';
 import 'package:latlong2/latlong.dart';
@@ -14,28 +16,53 @@ class OsmCustom extends StatefulWidget {
     required this.currentPosition,
     required this.updateMapPosition,
     required this.followUserPositionToggle,
+    required this.allCities,
+    required this.poisOfSelectedCity,
+    required this.isVisiting,
+    required this.poiPosition,
   });
 
   final MapController mapController;
   final LatLng currentPosition;
   final Function(double zoom) updateMapPosition;
   final VoidCallback followUserPositionToggle;
-  
+  final List<City> allCities;
+  final List<POI> poisOfSelectedCity;
+  final bool isVisiting;
+  final LatLng poiPosition;
 
   @override
   State<OsmCustom> createState() => _OsmCustomState();
 }
 
 class _OsmCustomState extends State<OsmCustom> {
-  
-
   @override
   Widget build(BuildContext context) {
-    
-    return Expanded(
-      
-      child: FlutterMap(
 
+    List<Marker> cityMarkers(List<City> cities) {
+      return cities.map((city) {
+        final lat = city.position.latitude;
+        final lng = city.position.longitude;
+
+        return Marker(
+          point: LatLng(lat, lng),
+          width: 40,
+          height: 40,
+          rotate: true,
+          child: GestureDetector(
+            onTap: () => onShowModalCity(context: context, city: city),
+            child: Transform.translate(
+              offset: const Offset(0, -10),
+              child: const Icon(Icons.location_city_rounded, color: Colors.black, size: 20),
+            ),
+          ),
+        );
+      }).toList();
+    }
+
+
+    return Expanded(
+      child: FlutterMap(
         mapController: widget.mapController,
         options: MapOptions(
           initialCenter: widget.currentPosition,
@@ -62,28 +89,58 @@ class _OsmCustomState extends State<OsmCustom> {
             ),
           ),
           Consumer<MapViewModel>(
-            builder: (context, viewModel, child) => MarkerLayer(
-              markers: [
-                //TODO: replace with dynamic POI markers and a for
-                Marker(
-                  point: viewModel.poiPosition,
-                  width: 60,
-                  height: 60,
-                  rotate: true,
-                  child: GestureDetector(
-                    onTap: () => onShowModalMap(
-                      context: context,
-                      distanceNotifier: viewModel.distanceNotifier,
-                    ),
-                    child: Transform.translate(
-                      offset: const Offset(0, -20),
-                      child: const Icon(Icons.room, color: Colors.red, size: 40),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            builder: (context, viewModel, child) {
+              List<Marker> markers = widget.isVisiting
+                  ? [
+                      Marker(
+                        point: widget.poiPosition,
+                        width: 60,
+                        height: 60,
+                        rotate: true,
+                        child: GestureDetector(
+                          onTap: () => onShowModalMap(
+                            context: context,
+                            distanceNotifier: viewModel.distanceNotifier,
+                          ),
+                          child: Transform.translate(
+                            offset: const Offset(0, -20),
+                            child: const Icon(
+                              Icons.room,
+                              color: Colors.red,
+                              size: 40,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]
+                  : cityMarkers(widget.allCities);
+
+              return MarkerLayer(markers: markers);
+            },
           ),
+          // builder: (context, viewModel, child) => MarkerLayer(
+          //   markers: mapMarkers,
+          // markers: [
+          //   //TODO: replace with dynamic POI markers and a for
+          //   Marker(
+          //     point: widget.poiPosition,
+          //     width: 60,
+          //     height: 60,
+          //     rotate: true,
+          //     child: GestureDetector(
+          //       onTap: () => onShowModalMap(
+          //         context: context,
+          //         distanceNotifier: viewModel.distanceNotifier,
+          //       ),
+          //       child: Transform.translate(
+          //         offset: const Offset(0, -20),
+          //         child: const Icon(Icons.room, color: Colors.red, size: 40),
+          //       ),
+          //     ),
+          //   ),
+          // ],
+          //   ),
+          // ),
           Align(
             alignment: Alignment.bottomRight,
             child: Container(
@@ -91,16 +148,17 @@ class _OsmCustomState extends State<OsmCustom> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  
-                  Consumer<MapViewModel>( // Consumer in order to rebuild only this part if zoom and current position change
-                    builder: (context, mapViewModel, child) => FloatingActionButton(
-                      heroTag: null,
-                      onPressed: () => widget.mapController.move(
-                        mapViewModel.currentPosition,
-                        mapViewModel.currentZoom,
-                      ),
-                      child: const Icon(Icons.my_location),
-                    ),
+                  Consumer<MapViewModel>(
+                    // Consumer in order to rebuild only this part if zoom and current position change
+                    builder: (context, mapViewModel, child) =>
+                        FloatingActionButton(
+                          heroTag: null,
+                          onPressed: () => widget.mapController.move(
+                            mapViewModel.currentPosition,
+                            mapViewModel.currentZoom,
+                          ),
+                          child: const Icon(Icons.my_location),
+                        ),
                   ),
                   const SizedBox(height: 10),
                   FloatingActionButton(
@@ -120,7 +178,8 @@ class _OsmCustomState extends State<OsmCustom> {
               ),
             ),
           ),
-          Align(alignment: Alignment.topCenter, child: LevelWidget()),
+          if (widget.isVisiting)
+            Align(alignment: Alignment.topCenter, child: LevelWidget()),
         ],
       ),
     );

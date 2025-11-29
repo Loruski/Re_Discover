@@ -20,7 +20,7 @@ class CitySelectorScreen extends StatelessWidget {
                 backgroundColor: Theme.of(context).colorScheme.inversePrimary,
                 flexibleSpace: const FlexibleSpaceBar(
                   centerTitle: true,
-                  title: Text("Inizia selezionando una città", style: TextStyle(fontSize: 20)),
+                  title: Text("Select a city", style: TextStyle(fontSize: 18)),
                 ),
               ),
               SliverToBoxAdapter(
@@ -35,7 +35,7 @@ class CitySelectorScreen extends StatelessWidget {
                         elevation: const WidgetStatePropertyAll<double>(0.7),
                         backgroundColor:
                             const WidgetStatePropertyAll<Color>(Colors.white),
-                        hintText: "Cerca una città",
+                        hintText: "Search a city",
                         padding: const WidgetStatePropertyAll<EdgeInsets>(
                           EdgeInsets.symmetric(horizontal: 16.0),
                         ),

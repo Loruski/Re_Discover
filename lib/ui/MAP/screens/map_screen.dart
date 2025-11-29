@@ -58,15 +58,28 @@ class MapScreenContent extends StatelessWidget {
               child: Align(
                 alignment: Alignment.topLeft,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Roma, Italia',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                    if(mapViewModel.isVisiting) ...[
+                      Text(
+                        'Roma, Italia',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    Text("0/5 luoghi visitati"),
+                      Text("0/5 visited places"),
+                    ]
+                    else ...[
+                      Text(
+                        'Available Cities',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text("Select a city to show details"),
+                    ]
                   ],
                 ),
               ),
@@ -76,12 +89,16 @@ class MapScreenContent extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              CompassBannerCustom(userPosition: mapViewModel.currentPosition),
+              if(mapViewModel.isVisiting) CompassBannerCustom(userPosition: mapViewModel.currentPosition),
               OsmCustom(
                 mapController: mapViewModel.mapController,
                 currentPosition: mapViewModel.currentPosition,
                 updateMapPosition: mapViewModel.updateZoomLevel,
                 followUserPositionToggle: mapViewModel.followUserPositionToggle,
+                allCities: mapViewModel.allCities,
+                poisOfSelectedCity: mapViewModel.poisOfSelectedCity,
+                isVisiting: mapViewModel.isVisiting,
+                poiPosition: mapViewModel.poiToFindPosition,
               ),
             ],
           ),
