@@ -33,6 +33,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
       child: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
+            scrolledUnderElevation: 0,
             pinned: true,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             expandedHeight: 100,
