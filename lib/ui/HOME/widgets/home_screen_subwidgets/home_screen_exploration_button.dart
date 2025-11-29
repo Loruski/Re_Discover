@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/ui/HOME/screens/city_selector_screen.dart';
 
 class HomeScreenExplorationButton extends StatelessWidget {
@@ -10,6 +11,10 @@ class HomeScreenExplorationButton extends StatelessWidget {
       children: [
         ElevatedButton.icon(
           onPressed: () {
+            final visitState = StateHub().visitState;
+
+            visitState.startVisit(); //TODO remove and insert only when user selects a city
+
             Navigator.push(
                 context,
                 MaterialPageRoute(

@@ -9,12 +9,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/city_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/poi_repository.dart';
+import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/data/states/state_hub.dart';
+import 'package:re_discover/domain/models/city.dart';
+import 'package:re_discover/domain/models/poi.dart';
 
 class MapViewModel extends ChangeNotifier {
-
-  final POIRepository poiRepository = POIRepository();
-  final CityRepository cityRepository = CityRepository();
 
   final MapController mapController = MapController();
   LatLng currentPosition = LatLng(0, 0);
@@ -22,10 +22,19 @@ class MapViewModel extends ChangeNotifier {
   AlignOnUpdate isFollowingUser = AlignOnUpdate.always;
   bool isFollowingUserBool = true;
   bool gainedInitialPosition = false;
+  bool isVisiting = false;
 
-  LatLng poiPosition = LatLng(42.41333281534395, 12.889822361484878); //TODO list of POIs of a selected city
-  
-  ValueNotifier<double> distanceNotifier = ValueNotifier<double>(double.infinity);
+  LatLng poiToFindPosition = LatLng(
+    42.41333281534395,
+    12.889822361484878,
+  ); //TODO list of POIs of a selected city
+
+  List<POI> poisOfSelectedCity = List<POI>.empty(growable: true);
+  List<City> allCities = List<City>.empty(growable: true);
+
+  ValueNotifier<double> distanceNotifier = ValueNotifier<double>(
+    double.infinity,
+  );
 
   final LocationSettings locationSettings = LocationSettings(
     accuracy: LocationAccuracy.high,
@@ -36,13 +45,10 @@ class MapViewModel extends ChangeNotifier {
 
   final visitState = StateHub().visitState;
 
-
   Future<void> initState() async {
-
     var status = await Permission.location.status;
 
     if (!status.isGranted) {
-
       status = await Permission.location.request();
 
       if (!status.isGranted) {
@@ -57,7 +63,6 @@ class MapViewModel extends ChangeNotifier {
       // Permissions are denied forever, handle appropriately.
 
       showToast("Position permission denied forever, reallow from settings!");
-
     }
 
     try {
@@ -65,35 +70,43 @@ class MapViewModel extends ChangeNotifier {
       currentPosition = LatLng(pos.latitude, pos.longitude);
       gainedInitialPosition = true;
       notifyListeners();
-      log("posizione ottenuta ${currentPosition.latitude}, ${currentPosition.longitude}");
+      log(
+        "posizione ottenuta ${currentPosition.latitude}, ${currentPosition.longitude}",
+      );
     } catch (e, s) {
       log("Impossibile ottenere la posizione iniziale: $e\n$s");
       showToast("Can't get your initial position");
     }
 
     visitState.isVisiting.addListener(_onVisitStateChanged);
+    await _onVisitStateChanged();
 
     // ora che il permesso è garantito, avvia lo stream e prendi la posizione iniziale
     initLocationStream();
-    
   }
 
-  void _onVisitStateChanged() {
-    final isVisiting = visitState.isVisiting.value;
-    log("Visit state changed: $isVisiting");
+  Future<void> _onVisitStateChanged() async {
+    isVisiting = visitState.isVisiting.value;
+    print("Visit state changed: $isVisiting");
 
-    // Esegui le azioni necessarie quando lo stato cambia
-    if (isVisiting) {
-      // L'utente ha iniziato una visita
-      print("User started a visit");
+    if (visitState.isVisiting.value) {
+      print("show POIs of selected city");
+      mapController.move(currentPosition, 15.0);
+      updateZoomLevel(15.0);
+      _setFollowUserPosition(true);
     } else {
-      // L'utente ha terminato una visita
-      print("User ended a visit");
+      print("show all cities");
+      if (allCities.isEmpty) {
+        List<City> citiesFromRepo = await RepositoryHub().cities;
+        allCities.addAll(citiesFromRepo);
+      }
+      mapController.move(currentPosition, 5.0);
+      updateZoomLevel(5.0);
+      _setFollowUserPosition(false);
     }
 
-    //notifyListeners();
+    notifyListeners();
   }
-
 
   void initLocationStream() => positionStream =
       Geolocator.getPositionStream(locationSettings: locationSettings).listen((
@@ -110,8 +123,8 @@ class MapViewModel extends ChangeNotifier {
           distanceNotifier.value = Geolocator.distanceBetween(
             currentPosition.latitude,
             currentPosition.longitude,
-            poiPosition.latitude,
-            poiPosition.longitude,
+            poiToFindPosition.latitude,
+            poiToFindPosition.longitude,
           );
           notifyListeners();
         }
@@ -124,6 +137,17 @@ class MapViewModel extends ChangeNotifier {
     } else {
       isFollowingUser = AlignOnUpdate.always;
       isFollowingUserBool = true;
+    }
+    notifyListeners();
+  }
+
+  void _setFollowUserPosition(bool follow) {
+    if (follow) {
+      isFollowingUser = AlignOnUpdate.always;
+      isFollowingUserBool = true;
+    } else {
+      isFollowingUser = AlignOnUpdate.never;
+      isFollowingUserBool = false;
     }
     notifyListeners();
   }
@@ -182,8 +206,10 @@ class MapViewModel extends ChangeNotifier {
     }
   }
 
-  
-  Future<bool> _waitForPermissionGrant({Duration timeout = const Duration(seconds: 15)}) async {
+  Future<bool> _waitForPermissionGrant({
+    Duration timeout = const Duration(seconds: 15),
+  })
+  async {
     final end = DateTime.now().add(timeout);
 
     var status = await Permission.location.status;
@@ -205,6 +231,4 @@ class MapViewModel extends ChangeNotifier {
     positionStream?.cancel();
     super.dispose();
   }
-
-  
 }

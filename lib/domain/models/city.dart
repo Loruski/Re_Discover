@@ -4,7 +4,7 @@ import 'package:re_discover/domain/models/position.dart';
 class City{
   late final int id;
   late String name;
-  late Position? position;
+  late Position position;
   late String description;
   late Set<POI>? pois;
 

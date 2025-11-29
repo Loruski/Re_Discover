@@ -1,0 +1,124 @@
+import 'package:flutter/material.dart';
+import 'package:re_discover/domain/models/city.dart';
+import 'package:re_discover/ui/MAP/screens/quiz_screen.dart';
+
+class CityModalBottomSheet extends StatelessWidget {
+  const CityModalBottomSheet({super.key, required this.city});
+
+  final City city;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20),
+      child: Flex(
+        direction: Axis.horizontal,
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  city.name,
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  city.description,
+                  style: TextStyle(fontSize: 16),
+                  softWrap: true,
+                ),
+                SizedBox(height: 10),
+                Center(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.0),
+                    child: Image.network(
+                      "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800",
+                    ),
+                  ),
+                ),
+                SizedBox(height: 3),
+                Text(
+                  'Descrizione imamgine o didascalia.',
+                  style: TextStyle(fontSize: 13),
+                  softWrap: true,
+                ),
+                // SizedBox(height: 15),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   mainAxisSize: MainAxisSize.max,
+                //   children: [
+                //     if (distance < 20)
+                //       Expanded(
+                //         child: FloatingActionButton(
+                //           heroTag: null,
+                //           backgroundColor: Colors.green,
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(15),
+                //           ),
+                //           child: Text(
+                //             style: TextStyle(
+                //               fontSize: 16,
+                //               fontWeight: FontWeight.bold,
+                //               color: Colors.white,
+                //             ),
+                //             "Answer the quiz",
+                //           ),
+                //           onPressed: () => {
+                //             Navigator.push(
+                //                 context,
+                //                 MaterialPageRoute<void>(
+                //                     builder: (context) => const QuizScreen()
+                //                 )
+                //             )
+                //           },
+                //         ),
+                //       )
+                //     else
+                //       Expanded(
+                //         child: Card(
+                //           color: Colors.deepPurple[50],
+                //           elevation: 1,
+                //           shadowColor: Colors.black,
+                //           clipBehavior: Clip.antiAlias,
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(15),
+                //             side: BorderSide(
+                //               color: Theme.of(
+                //                 context,
+                //               ).colorScheme.inversePrimary,
+                //               width: 3,
+                //             ),
+                //           ),
+                //           child: Padding(
+                //             padding: const EdgeInsets.all(12),
+                //             child: Column(
+                //               mainAxisAlignment: MainAxisAlignment.center,
+                //               crossAxisAlignment: CrossAxisAlignment.center,
+                //               children: [
+                //                 Icon(
+                //                   Icons.near_me_outlined,
+                //                   size: 40,
+                //                   color: Colors.deepPurple[300],
+                //                 ),
+                //                 Text(
+                //                   "Approach the location to unlock the quiz",
+                //                 ),
+                //               ],
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //   ],
+                // ),
+                // SizedBox(height: 20),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
