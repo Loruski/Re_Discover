@@ -13,10 +13,14 @@ class HomeScreenExplorationButton extends StatelessWidget {
       children: [
         ElevatedButton.icon(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => CitySelectorScreen()),
-            );
+            if (!isVisiting){
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => CitySelectorScreen()),
+              );
+            } else {
+              StateHub().visitState.endVisit();
+            }
           },
           style: ElevatedButton.styleFrom(
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
@@ -26,18 +30,11 @@ class HomeScreenExplorationButton extends StatelessWidget {
             backgroundColor: Colors.purple,
           ),
           icon: const Icon(Icons.explore_outlined, color: Colors.white),
-          label: const Text(
-            "Start Exploring",
-            style: TextStyle(color: Colors.white),
+          label: Text(
+            !isVisiting ? "Start Exploring" : "Stop Exploring",
+            style: const TextStyle(color: Colors.white),
           ),
         ),
-        if (isVisiting)
-          TextButton(
-            onPressed: () {
-              StateHub().visitState.endVisit();
-            },
-            child: Text("Stop Exploring"),
-          ),
       ],
     );
   }
