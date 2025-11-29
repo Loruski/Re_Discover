@@ -12,6 +12,9 @@ class UserLeaderboardPlaceCard extends StatelessWidget implements PreferredSizeW
   Widget build(BuildContext context) {
     return Card(
       color: Theme.of(context).cardColor,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(6.0),
         child: Row(

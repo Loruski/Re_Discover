@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:re_discover/ui/LEADERBOARD/utils/leaderboard_header_sliver_delegate.dart';
 import 'package:re_discover/ui/LEADERBOARD/utils/leaderboard_appbar_sliver_delegate.dart';
+import 'package:re_discover/ui/LEADERBOARD/view_model/leaderboard_view_model.dart';
 import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_scroll_view.dart';
 import 'package:re_discover/ui/LEADERBOARD/widgets/user_leaderboard_place_card.dart';
 
 class LeaderboardScreen extends StatefulWidget {
   const LeaderboardScreen({super.key});
-
+  
   @override
   State<LeaderboardScreen> createState() => _LeaderboardScreenState();
 }
@@ -30,8 +31,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(),
+        slivers: [
           SliverAppBar(
             scrolledUnderElevation: 0,
             pinned: true,
@@ -39,11 +41,11 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
             expandedHeight: 100,
             flexibleSpace: FlexibleSpaceBar(
               //TODO unite title and usercard using customlayout and taking inspiration from FlexibleSpaceBar
-              centerTitle: true,
+              // centerTitle: true,
               title: Text(
                 'Leaderboard',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).primaryColor,
                 ),
@@ -59,10 +61,9 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
           //   collapsedHeight: 75,
           //   // bottom:,
           // ),
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: LeaderboardAppBarSliverDelegate(
-              tabBar: TabBar(
+          PinnedHeaderSliver(
+            child: Card(
+              child: TabBar(
                 controller: _tabController,
                 labelColor: Theme.of(context).primaryColor,
                 unselectedLabelColor: Theme.of(context).colorScheme.onSurface,
@@ -75,14 +76,12 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
               ),
             ),
           ),
-          SliverPersistentHeader(
-            pinned: true,
-            delegate: LeaderboardHeaderSliverDelegate(
-              child: UserLeaderboardPlaceCard(),
-            ),
-          ),
+          PinnedHeaderSliver(
+          // child: SliverResizingHeader(child: UserLeaderboardPlaceCard()),
+          child: UserLeaderboardPlaceCard(),
+        ),
+          LeaderboardScrollView(tabController: _tabController),
         ],
-        body: LeaderboardScrollView(tabController: _tabController),
       ),
     );
   }
