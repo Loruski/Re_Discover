@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/user_repository.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
+import 'package:re_discover/data/states/state_hub.dart';
+import 'package:re_discover/data/states/user_state.dart';
 
 class OobeViewModel extends ChangeNotifier {
   final _formKey = GlobalKey<FormState>();
-  late String _username;
+  late String username;
   final TextEditingController _usernameController = TextEditingController();
   final UserRepository userRepository = RepositoryHub().userRepository;
+  final UserState userState = StateHub().userState;
 
   OobeViewModel();
 
   GlobalKey<FormState> get formKey => _formKey;
   TextEditingController get usernameController => _usernameController;
-
-  String get username => _username;
-
-  set username(String value) {
-    _username = value;
-    notifyListeners();
-  }
 
   String? validateUsername(String? typedUsername) {
     if (typedUsername == null || typedUsername.isEmpty) {
@@ -35,7 +31,8 @@ class OobeViewModel extends ChangeNotifier {
   }
   
   void saveTemporaryUser() {
-    userRepository.storeTemporaryUser(_username);
+    userRepository.storeTemporaryUser(username);
+    userState.loadUser();
     notifyListeners();
   }
 
