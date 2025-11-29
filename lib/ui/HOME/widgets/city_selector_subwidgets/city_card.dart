@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/domain/models/city.dart';
+import 'package:re_discover/ui/core/ui/homepage.dart';
 
 class CityCard extends StatelessWidget {
   final City city;
@@ -10,9 +12,23 @@ class CityCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       color: Colors.white,
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Row(
+      child: InkWell(
+        onTap: () {
+          StateHub().cityState.selectCity(city);
+
+          StateHub().visitState.startVisit();
+
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (context) => const HomePage(initialIndex: 1),
+            ),
+            (route) => route.isFirst,
+          );
+        },
+        borderRadius: BorderRadius.circular(12.0),
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
@@ -84,6 +100,7 @@ class CityCard extends StatelessWidget {
               ),
             ),
           ],
+        ),
         ),
       ),
     );
