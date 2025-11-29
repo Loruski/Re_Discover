@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:re_discover/data/states/user_state.dart';
 
 class LevelCard extends StatelessWidget {
   const LevelCard({super.key});
@@ -21,13 +23,17 @@ class LevelCard extends StatelessWidget {
                       "Livello",
                       style: TextStyle(fontSize: 13, color: Colors.black),
                     ),
-                    Text(
-                      "1",
-                      style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Consumer<UserState>(
+                      builder: (context, userState, child) {
+                        return Text(
+                          "${userState.user?.level}",
+                          style: TextStyle(
+                            fontSize: 30,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

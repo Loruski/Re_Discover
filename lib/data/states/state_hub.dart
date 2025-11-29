@@ -1,0 +1,21 @@
+import 'package:re_discover/data/repositories/repository_hub.dart';
+import 'package:re_discover/data/states/user_state.dart';
+import 'package:re_discover/data/states/visit_state.dart';
+
+class StateHub {
+  static final StateHub _instance = StateHub._internal();
+
+  factory StateHub() => _instance;
+
+  StateHub._internal();
+
+
+  final _userRepository = RepositoryHub().userRepository;
+
+  late final _userState = UserState(_userRepository);
+
+  late final _visitState = VisitState();
+
+  UserState get userState => _userState;
+  VisitState get visitState => _visitState;
+}

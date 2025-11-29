@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:re_discover/main_view_model.dart';
+import 'package:re_discover/data/states/user_state.dart';
 
 class HomeScreenHeader extends StatelessWidget {
   const HomeScreenHeader({super.key});
@@ -18,13 +18,13 @@ class HomeScreenHeader extends StatelessWidget {
             color: Colors.purple,
           ),
         ),
-        Consumer<MainViewModel>(
-          builder: (context, mainViewModel, child) {
+        Consumer<UserState>(
+          builder: (context, userState, child) {
             return Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "Ciao, ${mainViewModel.user?.username}!",
+                  "Ciao, ${userState.user?.username}!",
                   style: TextStyle(fontSize: 15, color: Colors.black),
                 ),
                 SizedBox(width: 5),

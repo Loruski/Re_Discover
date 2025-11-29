@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/ui/USER/screens/badges_screen.dart';
 import 'package:re_discover/ui/USER/screens/profile_personalization.dart';
 import 'package:re_discover/ui/USER/widgets/user_screen_header.dart';
@@ -12,8 +13,11 @@ class UserScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => UserViewModel(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserViewModel()),
+        ChangeNotifierProvider(create: (_) => StateHub().userState)
+      ],
       child: UserScreenContent(),
     );
   }

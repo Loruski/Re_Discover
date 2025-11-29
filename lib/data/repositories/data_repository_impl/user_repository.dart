@@ -42,11 +42,10 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
     }
   );
 
-  Future<List<String>?> storeTemporaryUser(String username) async {
+  Future<void> storeTemporaryUser(String username) async {
     final prefs = await SharedPreferences.getInstance();
     if(prefs.getStringList("user") != null) prefs.remove("user");
     prefs.setStringList("user", ["0", username, "0", "1", "", ""]);
-    return prefs.getStringList("user");
   }
 
   Future<List<String>?> getTemporaryUser() async {
