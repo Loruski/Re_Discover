@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/city_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/poi_repository.dart';
+import 'package:re_discover/data/states/state_hub.dart';
 
 class MapViewModel extends ChangeNotifier {
 
@@ -33,9 +34,11 @@ class MapViewModel extends ChangeNotifier {
 
   StreamSubscription<Position>? positionStream;
 
+  final visitState = StateHub().visitState;
 
 
   Future<void> initState() async {
+
     var status = await Permission.location.status;
 
     if (!status.isGranted) {
@@ -68,10 +71,27 @@ class MapViewModel extends ChangeNotifier {
       showToast("Can't get your initial position");
     }
 
+    visitState.isVisiting.addListener(_onVisitStateChanged);
+
     // ora che il permesso è garantito, avvia lo stream e prendi la posizione iniziale
     initLocationStream();
-
     
+  }
+
+  void _onVisitStateChanged() {
+    final isVisiting = visitState.isVisiting.value;
+    log("Visit state changed: $isVisiting");
+
+    // Esegui le azioni necessarie quando lo stato cambia
+    if (isVisiting) {
+      // L'utente ha iniziato una visita
+      print("User started a visit");
+    } else {
+      // L'utente ha terminato una visita
+      print("User ended a visit");
+    }
+
+    //notifyListeners();
   }
 
 
@@ -177,6 +197,13 @@ class MapViewModel extends ChangeNotifier {
 
   Future<Position> initialPosition() async {
     return await Geolocator.getCurrentPosition();
+  }
+
+  @override
+  void dispose() {
+    visitState.isVisiting.removeListener(_onVisitStateChanged);
+    positionStream?.cancel();
+    super.dispose();
   }
 
   

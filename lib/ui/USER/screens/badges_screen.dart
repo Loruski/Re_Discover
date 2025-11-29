@@ -88,7 +88,7 @@ class BadgesScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8),
                     color: Colors.green[600],
                     child: const Text('Revolution, they...'),
-                  ),
+                  )
                 ],
               ),
             )
