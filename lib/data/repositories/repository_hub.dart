@@ -62,9 +62,9 @@ class RepositoryHub {
       Types.customizable: cosmeticRepository,
     });
 
-    poiRepository.setRequiredData({Types.quiz: quizRepository});
-    visitRepository.setRequiredData({Types.poi: poiRepository});
-    cityRepository.setRequiredData({Types.poi: poiRepository});
+    poiRepository.setRequiredData({Types.quiz: quizRepository, Types.position: positionRepository});
+    visitRepository.setRequiredData({Types.poi: poiRepository, Types.city: cityRepository});
+    cityRepository.setRequiredData({Types.poi: poiRepository, Types.position: positionRepository});
   }
 
   
