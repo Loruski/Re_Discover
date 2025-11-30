@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:re_discover/ui/HOME/screens/home_screen.dart';
-import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_screen.dart';
+import 'package:re_discover/ui/LEADERBOARD/screen/leaderboard_screen.dart';
 import 'package:re_discover/ui/MAP/screens/map_screen.dart';
 import 'package:re_discover/ui/USER/screens/user_screen.dart';
 
