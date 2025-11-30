@@ -29,6 +29,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
 
   late final TabController _tabController;
 
+  late final PageController _pageController;
+
   // late DropdownButton<Categories> dropdown =
 
   // DropdownMenu(
@@ -47,29 +49,47 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   //       .toList(),
   // );
 
-  late final PreferredSizeWidget tabBar = PreferredSizeTabbarCard(
-    tabController: _tabController,
-  );
+  late final PreferredSizeWidget tabBar;
+
+  late final LeaderboardScrollView leaderboardScrollView;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
+    _pageController = PageController(
+      initialPage: _tabController.index,
+      keepPage: true,
+    );
+
+    _tabController.addListener(
+      () => _tabController.indexIsChanging
+          ? _pageController.animateToPage(
+              _tabController.index,
+              duration: Durations.medium4,
+              curve: Curves.ease,
+            )
+          : null,
+    );
+
+    tabBar = PreferredSizeTabbarCard(tabController: _tabController);
+    
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: CustomScrollView(
+      child: NestedScrollView(
         physics: const BouncingScrollPhysics(),
 
-        slivers: [
+        headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
             scrolledUnderElevation: 0,
             // centerTitle: true,
@@ -77,21 +97,21 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
             floating: true,
             actions: [
               DropdownButton(
-                      value: selectedCategory,
-                      items: Categories.values
-                          .map(
-                            (category) => DropdownMenuItem(
-                              value: category,
-                              child: Text(category.name),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) => {
-                        setState(() {
-                          selectedCategory = value ?? Categories.xp;
-                        }),
-                      },
-                    ),
+                value: selectedCategory,
+                items: Categories.values
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(category.name),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) => {
+                  setState(() {
+                    selectedCategory = value ?? Categories.xp;
+                  }),
+                },
+              ),
             ],
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             collapsedHeight: tabBar.preferredSize.height + 24,
@@ -120,8 +140,14 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
             // child: SliverResizingHeader(child: UserLeaderboardPlaceCard()),
             child: UserLeaderboardPlaceCard(),
           ),
-          LeaderboardScrollView(tabController: _tabController),
         ],
+        body: PageView.builder(
+          itemCount: _tabController.length,
+          controller: _pageController,
+          onPageChanged: (value) => !_tabController.indexIsChanging ? _tabController.animateTo(value) : null,
+          physics: BouncingScrollPhysics(),
+          itemBuilder: (context, index) => LeaderboardScrollView(leaderboardType: LeaderboardType.values[index]),
+        ),
       ),
     );
   }
