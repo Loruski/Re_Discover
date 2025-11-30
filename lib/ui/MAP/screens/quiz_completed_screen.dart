@@ -5,6 +5,7 @@ class QuizCompletedScreen extends StatefulWidget {
 
   //TODO: implementare la presa dell'utente, gli xp guadagnati, e altre info necessarie per aumentare di livello/xp
 
+
   @override
   State<StatefulWidget> createState() => _QuizCompletedScreenState();
 }
@@ -72,7 +73,6 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
                             ),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
-
                               children: [
                                 Text(
                                   "Wrong answers ",
