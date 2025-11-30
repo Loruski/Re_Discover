@@ -16,7 +16,7 @@ class UserScreen extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserViewModel()),
-        ChangeNotifierProvider(create: (_) => StateHub().userState)
+        ChangeNotifierProvider.value(value: StateHub().userState)
       ],
       child: UserScreenContent(),
     );
