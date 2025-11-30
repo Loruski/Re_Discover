@@ -10,7 +10,7 @@ class CompassBannerCustom extends StatelessWidget {
 
   final LatLng userPosition;
 
-  
+
 
   //TODO: make POI data from parameters
 
@@ -19,7 +19,8 @@ class CompassBannerCustom extends StatelessWidget {
     final viewModel = Provider.of<MapViewModel>(context);
 
     LatLng poiPosition = viewModel.poiToFindPosition;
-    
+
+
 
     double distance = Geolocator.distanceBetween(
       userPosition.latitude,

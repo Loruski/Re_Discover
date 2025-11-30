@@ -14,16 +14,16 @@ class CityCard extends StatelessWidget {
       color: Colors.white,
       child: InkWell(
         onTap: () {
+          // Salva la città selezionata nello state globale
           StateHub().cityState.selectCity(city);
 
+          // Inizia la visita
           StateHub().visitState.startVisit();
 
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => const HomePage(initialIndex: 1),
-            ),
-            (route) => route.isFirst,
-          );
+          // Naviga alla HomePage con la mappa aperta, rimuovendo tutte le route tranne la prima
+          StateHub().navigationState.setSelectedIndex(1);
+
+          Navigator.pop(context);
         },
         borderRadius: BorderRadius.circular(12.0),
         child: Padding(

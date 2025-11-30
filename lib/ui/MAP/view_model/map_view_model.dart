@@ -27,7 +27,7 @@ class MapViewModel extends ChangeNotifier {
   LatLng poiToFindPosition = LatLng(
     42.41333281534395,
     12.889822361484878,
-  ); //TODO list of POIs of a selected city
+  ); //TODO POI of a selected city
 
   List<POI> poisOfSelectedCity = List<POI>.empty(growable: true);
   List<City> allCities = List<City>.empty(growable: true);

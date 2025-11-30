@@ -29,7 +29,7 @@ class HomeScreenExplorationButton extends StatelessWidget {
             ),
             backgroundColor: Colors.purple,
           ),
-          icon: const Icon(Icons.explore_outlined, color: Colors.white),
+          icon: !isVisiting ? const Icon(Icons.explore_outlined, color: Colors.white) : const Icon(Icons.cancel, color: Colors.white),
           label: Text(
             !isVisiting ? "Start Exploring" : "Stop Exploring",
             style: const TextStyle(color: Colors.white),

@@ -1,5 +1,6 @@
 import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/data/states/city_state.dart';
+import 'package:re_discover/data/states/navigator_state.dart';
 import 'package:re_discover/data/states/user_state.dart';
 import 'package:re_discover/data/states/visit_state.dart';
 
@@ -19,7 +20,11 @@ class StateHub {
 
   late final _cityState = CityState();
 
+  late final _navigationState = NavigationState();
+
   UserState get userState => _userState;
   VisitState get visitState => _visitState;
   CityState get cityState => _cityState;
+  NavigationState get navigationState => _navigationState;
+
 }

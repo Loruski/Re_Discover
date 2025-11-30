@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/domain/models/city.dart';
 import 'package:re_discover/ui/MAP/screens/quiz_screen.dart';
 
@@ -45,75 +46,35 @@ class CityModalBottomSheet extends StatelessWidget {
                   style: TextStyle(fontSize: 13),
                   softWrap: true,
                 ),
-                // SizedBox(height: 15),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   mainAxisSize: MainAxisSize.max,
-                //   children: [
-                //     if (distance < 20)
-                //       Expanded(
-                //         child: FloatingActionButton(
-                //           heroTag: null,
-                //           backgroundColor: Colors.green,
-                //           shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(15),
-                //           ),
-                //           child: Text(
-                //             style: TextStyle(
-                //               fontSize: 16,
-                //               fontWeight: FontWeight.bold,
-                //               color: Colors.white,
-                //             ),
-                //             "Answer the quiz",
-                //           ),
-                //           onPressed: () => {
-                //             Navigator.push(
-                //                 context,
-                //                 MaterialPageRoute<void>(
-                //                     builder: (context) => const QuizScreen()
-                //                 )
-                //             )
-                //           },
-                //         ),
-                //       )
-                //     else
-                //       Expanded(
-                //         child: Card(
-                //           color: Colors.deepPurple[50],
-                //           elevation: 1,
-                //           shadowColor: Colors.black,
-                //           clipBehavior: Clip.antiAlias,
-                //           shape: RoundedRectangleBorder(
-                //             borderRadius: BorderRadius.circular(15),
-                //             side: BorderSide(
-                //               color: Theme.of(
-                //                 context,
-                //               ).colorScheme.inversePrimary,
-                //               width: 3,
-                //             ),
-                //           ),
-                //           child: Padding(
-                //             padding: const EdgeInsets.all(12),
-                //             child: Column(
-                //               mainAxisAlignment: MainAxisAlignment.center,
-                //               crossAxisAlignment: CrossAxisAlignment.center,
-                //               children: [
-                //                 Icon(
-                //                   Icons.near_me_outlined,
-                //                   size: 40,
-                //                   color: Colors.deepPurple[300],
-                //                 ),
-                //                 Text(
-                //                   "Approach the location to unlock the quiz",
-                //                 ),
-                //               ],
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //   ],
-                // ),
-                // SizedBox(height: 20),
+                SizedBox(height: 15),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                      Expanded(
+                        child: FloatingActionButton(
+                          heroTag: null,
+                          backgroundColor: Colors.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Text(
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                            "Begin to Explore!",
+                          ),
+                          onPressed: () {
+                            StateHub().navigationState.setSelectedIndex(0);
+                            Navigator.pop(context);
+                          },
+                        ),
+                      )
+                  ],
+                ),
+                SizedBox(height: 20),
               ],
             ),
           ),

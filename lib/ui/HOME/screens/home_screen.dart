@@ -15,7 +15,7 @@ class HomeScreen extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => HomeViewModel()..initState()),
-        ChangeNotifierProvider(create: (_) => StateHub().userState),
+        ChangeNotifierProvider.value(value: StateHub().userState),
       ],
       child: HomeScreenContent(),
     );
