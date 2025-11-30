@@ -27,7 +27,10 @@ class POIRepository extends AbstractDataRepository<POIData, POI> {
         List<Quiz> quizzes = element.quizzesId.map((id) => requiredData?[Types.quiz]?.get(id)).whereType<Quiz>().toList();
         // List<String> images = element.imagesId.map((id) => requiredData?[String]?.get(id)).whereType<String>().toList();
 
-        if (position == null) log("in POI $POIData.id $POIData.name the position was not found in the holder");
+        if (position == null){
+          log("in POI $POIData.id $POIData.name the position was not found in the holder");
+          continue;
+        }
         if (quizzes.contains(null)) log("in POI $POIData.id $POIData.name there's a quiz not found in the holder: $quizzes");
         // if (images.contains(null)) log("in POI $POIData.id $POIData.name there's an image not found in the holder: $images");
 

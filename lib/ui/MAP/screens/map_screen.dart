@@ -98,7 +98,7 @@ class MapScreenContent extends StatelessWidget {
                 allCities: mapViewModel.allCities,
                 poisOfSelectedCity: mapViewModel.poisOfSelectedCity,
                 isVisiting: mapViewModel.isVisiting,
-                poiPosition: mapViewModel.poiToFindPosition,
+                poiToUnlock: mapViewModel.poiToFind,
               ),
             ],
           ),

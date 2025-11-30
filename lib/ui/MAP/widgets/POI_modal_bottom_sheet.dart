@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/ui/MAP/screens/quiz_screen.dart';
 
 class PoiModalBottomSheet extends StatelessWidget {
-  const PoiModalBottomSheet({super.key, required this.distanceNotifier});
+  const PoiModalBottomSheet({super.key, required this.distanceNotifier, required this.poi});
 
   final ValueNotifier<double> distanceNotifier;
+  final POI poi;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class PoiModalBottomSheet extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Colosseo',
+                      poi.name,
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -31,7 +33,7 @@ class PoiModalBottomSheet extends StatelessWidget {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      'Descrizione breve/dettagliata del punto di interesse.',
+                      poi.description,
                       style: TextStyle(fontSize: 16),
                       softWrap: true,
                     ),

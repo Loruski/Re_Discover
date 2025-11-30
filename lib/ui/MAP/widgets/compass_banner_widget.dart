@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/compass_widget.dart';
 import 'package:latlong2/latlong.dart';
@@ -18,15 +19,26 @@ class CompassBannerCustom extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MapViewModel>(context);
 
-    LatLng poiPosition = viewModel.poiToFindPosition;
+    POI? poiToFind = viewModel.poiToFind;
 
-
+    if (poiToFind == null) {
+      return Container(
+        color: Colors.white,
+        padding: EdgeInsets.all(10),
+        child: Center(
+          child: Text(
+            "No destination selected",
+            style: TextStyle(fontSize: 16, color: Colors.grey),
+          ),
+        ),
+      );
+    }
 
     double distance = Geolocator.distanceBetween(
       userPosition.latitude,
       userPosition.longitude,
-      poiPosition.latitude,
-      poiPosition.longitude,
+      poiToFind.position.latitude,
+      poiToFind.position.longitude,
     );
 
     return Container(
@@ -38,7 +50,7 @@ class CompassBannerCustom extends StatelessWidget {
             alignment: Alignment.centerLeft,
             child: CompassWidget(
               userPosition: userPosition,
-              poiPosition: poiPosition,
+              poiPosition: LatLng(poiToFind.position.latitude, poiToFind.position.longitude),
             ),
           ),
           Expanded(
@@ -49,7 +61,7 @@ class CompassBannerCustom extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Li Paparuni',
+                    poiToFind.name,
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   Text("${distance.toStringAsFixed(2)}m to destination"),

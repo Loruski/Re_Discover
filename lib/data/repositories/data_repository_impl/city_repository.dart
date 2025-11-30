@@ -38,4 +38,13 @@ class CityRepository extends AbstractDataRepository<CityData, City> {
       return toSetToHolder;
     }
   );
+
+  List<POI> getPOIsOfCityFromID(int cityID) {
+    City? city = get(cityID);
+    if (city == null) {
+      log("City with ID $cityID not found when trying to get its POIs.");
+      return [];
+    }
+    return city.pois?.toList() ?? [];
+  }
 }

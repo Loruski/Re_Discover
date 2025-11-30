@@ -23,11 +23,7 @@ class MapViewModel extends ChangeNotifier {
   bool isFollowingUserBool = true;
   bool gainedInitialPosition = false;
   bool isVisiting = false;
-
-  LatLng poiToFindPosition = LatLng(
-    42.41333281534395,
-    12.889822361484878,
-  ); //TODO POI of a selected city
+  POI? poiToFind;
 
   List<POI> poisOfSelectedCity = List<POI>.empty(growable: true);
   List<City> allCities = List<City>.empty(growable: true);
@@ -91,20 +87,67 @@ class MapViewModel extends ChangeNotifier {
 
     if (visitState.isVisiting.value) {
       print("show POIs of selected city");
-      mapController.move(currentPosition, 15.0);
       updateZoomLevel(15.0);
       _setFollowUserPosition(true);
+      poisOfSelectedCity.clear();
+      City selectedCity = StateHub().cityState.selectedCity!;
+      List<POI> poisOfACity = await RepositoryHub().cityRepository.getPOIsOfCityFromID(selectedCity.id);
+      poisOfSelectedCity.addAll(poisOfACity);
+      newPoiDecision();
+
+        if (mapController.camera != null) {
+          mapController.move(currentPosition, 15.0);
+        }
+
     } else {
       print("show all cities");
       if (allCities.isEmpty) {
         List<City> citiesFromRepo = await RepositoryHub().cities;
         allCities.addAll(citiesFromRepo);
       }
-      mapController.move(currentPosition, 5.0);
       updateZoomLevel(5.0);
       _setFollowUserPosition(false);
+
+
+        if (mapController.camera != null) {
+          mapController.move(currentPosition, 5.0);
+        }
     }
 
+    notifyListeners();
+  }
+
+  void newPoiDecision(){
+    // choose a new POI to find based on the distance from the user
+    if (poisOfSelectedCity.isEmpty) {
+      poiToFind = null;
+      distanceNotifier.value = double.infinity;
+      notifyListeners();
+      return;
+    }
+    // comparison between every distance from ListOfPOI and user Position
+    // the selectet POI will be inserted in poiToFind
+    POI closestPOI = poisOfSelectedCity[0];
+    double closestDistance = Geolocator.distanceBetween(
+      currentPosition.latitude,
+      currentPosition.longitude,
+      closestPOI.position!.latitude,
+      closestPOI.position!.longitude,
+    );
+    for (var poi in poisOfSelectedCity) {
+      double distance = Geolocator.distanceBetween(
+        currentPosition.latitude,
+        currentPosition.longitude,
+        poi.position!.latitude,
+        poi.position!.longitude,
+      );
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestPOI = poi;
+      }
+    }
+    poiToFind = closestPOI;
+    distanceNotifier.value = closestDistance;
     notifyListeners();
   }
 
@@ -120,12 +163,14 @@ class MapViewModel extends ChangeNotifier {
         print("stream updated");
         if (position != null) {
           currentPosition = LatLng(position.latitude, position.longitude);
-          distanceNotifier.value = Geolocator.distanceBetween(
-            currentPosition.latitude,
-            currentPosition.longitude,
-            poiToFindPosition.latitude,
-            poiToFindPosition.longitude,
-          );
+          if (poiToFind != null) {
+            distanceNotifier.value = Geolocator.distanceBetween(
+              currentPosition.latitude,
+              currentPosition.longitude,
+              poiToFind!.position.latitude,
+              poiToFind!.position.longitude,
+            );
+          }
           notifyListeners();
         }
       });

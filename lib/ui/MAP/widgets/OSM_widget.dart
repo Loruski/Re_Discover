@@ -19,7 +19,7 @@ class OsmCustom extends StatefulWidget {
     required this.allCities,
     required this.poisOfSelectedCity,
     required this.isVisiting,
-    required this.poiPosition,
+    required this.poiToUnlock,
   });
 
   final MapController mapController;
@@ -29,7 +29,7 @@ class OsmCustom extends StatefulWidget {
   final List<City> allCities;
   final List<POI> poisOfSelectedCity;
   final bool isVisiting;
-  final LatLng poiPosition;
+  final POI? poiToUnlock;
 
   @override
   State<OsmCustom> createState() => _OsmCustomState();
@@ -90,10 +90,10 @@ class _OsmCustomState extends State<OsmCustom> {
           ),
           Consumer<MapViewModel>(
             builder: (context, viewModel, child) {
-              List<Marker> markers = widget.isVisiting
+              List<Marker> markers = widget.isVisiting && widget.poiToUnlock != null
                   ? [
                       Marker(
-                        point: widget.poiPosition,
+                        point: LatLng(widget.poiToUnlock!.position.latitude, widget.poiToUnlock!.position.longitude),
                         width: 60,
                         height: 60,
                         rotate: true,
@@ -101,6 +101,7 @@ class _OsmCustomState extends State<OsmCustom> {
                           onTap: () => onShowModalMap(
                             context: context,
                             distanceNotifier: viewModel.distanceNotifier,
+                            poi: widget.poiToUnlock!,
                           ),
                           child: Transform.translate(
                             offset: const Offset(0, -20),
@@ -113,7 +114,7 @@ class _OsmCustomState extends State<OsmCustom> {
                         ),
                       ),
                     ]
-                  : cityMarkers(widget.allCities);
+                  : widget.isVisiting ? [] : cityMarkers(widget.allCities);
 
               return MarkerLayer(markers: markers);
             },
