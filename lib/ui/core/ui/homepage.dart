@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/ui/HOME/screens/home_screen.dart';
 import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_screen.dart';
 import 'package:re_discover/ui/MAP/screens/map_screen.dart';
 import 'package:re_discover/ui/USER/screens/user_screen.dart';
 
 class HomePage extends StatefulWidget {
-  final int initialIndex;
-
-  const HomePage({super.key, this.initialIndex = 0});
+  const HomePage({super.key}); // Rimuovi initialIndex
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -19,13 +18,32 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _selectedIndex = widget.initialIndex;
+    _selectedIndex = StateHub().navigationState.selectedIndex;
+
+    // Ascolta i cambiamenti dall'esterno
+    StateHub().navigationState.addListener(_onIndexChanged);
+  }
+
+  void _onIndexChanged() {
+    if (mounted) {
+      setState(() {
+        _selectedIndex = StateHub().navigationState.selectedIndex;
+      });
+    }
   }
 
   void _navigateBottomBar(int index) {
     setState(() {
       _selectedIndex = index;
     });
+    // Aggiorna anche lo stato globale
+    StateHub().navigationState.setSelectedIndex(index);
+  }
+
+  @override
+  void dispose() {
+    StateHub().navigationState.removeListener(_onIndexChanged);
+    super.dispose();
   }
 
   final List<Widget> _pages = [

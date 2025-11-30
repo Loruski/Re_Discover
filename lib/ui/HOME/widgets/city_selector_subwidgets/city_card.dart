@@ -21,12 +21,9 @@ class CityCard extends StatelessWidget {
           StateHub().visitState.startVisit();
 
           // Naviga alla HomePage con la mappa aperta, rimuovendo tutte le route tranne la prima
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(
-              builder: (context) => const HomePage(initialIndex: 1),
-            ),
-            (route) => route.isFirst,
-          );
+          StateHub().navigationState.setSelectedIndex(1);
+
+          Navigator.pop(context);
         },
         borderRadius: BorderRadius.circular(12.0),
         child: Padding(
