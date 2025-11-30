@@ -13,6 +13,7 @@ import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/domain/models/city.dart';
 import 'package:re_discover/domain/models/poi.dart';
+import 'package:re_discover/domain/models/visit.dart';
 
 class MapViewModel extends ChangeNotifier {
 
@@ -24,6 +25,9 @@ class MapViewModel extends ChangeNotifier {
   bool gainedInitialPosition = false;
   bool isVisiting = false;
   POI? poiToFind;
+  late Visit visit;
+  late City selectedCity;
+
 
   List<POI> poisOfSelectedCity = List<POI>.empty(growable: true);
   List<City> allCities = List<City>.empty(growable: true);
@@ -90,8 +94,9 @@ class MapViewModel extends ChangeNotifier {
       updateZoomLevel(15.0);
       _setFollowUserPosition(true);
       poisOfSelectedCity.clear();
-      City selectedCity = StateHub().cityState.selectedCity!;
+      selectedCity = StateHub().cityState.selectedCity!;
       List<POI> poisOfACity = await RepositoryHub().cityRepository.getPOIsOfCityFromID(selectedCity.id);
+      //TODO aggiungere la visita, e pensara a cosa salvare
       poisOfSelectedCity.addAll(poisOfACity);
       newPoiDecision();
 

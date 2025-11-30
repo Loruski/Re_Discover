@@ -62,13 +62,14 @@ class MapScreenContent extends StatelessWidget {
                   children: [
                     if(mapViewModel.isVisiting) ...[
                       Text(
-                        'Roma, Italia',
+                        '${mapViewModel.selectedCity.name}, Italia',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      Text("0/5 visited places"),
+                      Text("0/${mapViewModel.selectedCity.pois.length} visited places"),
+                      //TODO implement visit to get number of visited places
                     ]
                     else ...[
                       Text(

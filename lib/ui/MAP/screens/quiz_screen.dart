@@ -1,36 +1,52 @@
 
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:re_discover/domain/models/poi.dart';
+import 'package:re_discover/domain/models/quiz.dart';
 import 'package:re_discover/ui/MAP/screens/quiz_completed_screen.dart';
 
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  const QuizScreen({super.key, required this.poi});
 
-  //TODO: implementare parametri necessari per il quiz (probabilmente si passa solo l'id)
+  final POI poi;
+
+
+  //TODO: implementare parametri necessari per il quiz
+  //TODO: implementare le chiamate al gameEngine tramite funzione nel viewmodel
 
   @override
   State<StatefulWidget> createState() => _QuizScreenState();
 }
 
 class _QuizScreenState extends State<QuizScreen> {
-  // Dati demo del quiz (possono arrivare da repo/API in futuro)
-  final String _title = "Unlock Colosseo";
-  final String _description =
-      "<stessa descrizione della card del quiz>\n<stessa descrizione della card del quiz>";
-  final String _question = "Questa è una possibile domanda?";
-  final List<String> _answers = const [
-    "Possibile risposta 1",
-    "Possibile risposta 2",
-    "Possibile risposta 3",
-  ];
 
-  final int _correctIndex = 1; // indice della risposta corretta
+  late var randomValueQuiz = Random().nextInt(widget.poi.quizzes.length);
+  late var randomValueQuestion = Random().nextInt(widget.poi.quizzes[randomValueQuiz].questions.length);
+
+  // Dati demo del quiz (possono arrivare da repo/API in futuro)
+  late final String _title = "Unlock ${widget.poi.name}";
+  late final String _description = widget.poi.quizzes[randomValueQuiz].description;
+  late final String _question = widget.poi.quizzes[randomValueQuiz].questions[randomValueQuestion].questionText;
+  late final List<String> _answers = widget.poi.quizzes[randomValueQuiz].questions[randomValueQuestion].answers;
+
+  late final int _correctIndex = widget.poi.quizzes[randomValueQuiz].questions[randomValueQuestion].correctOptionIndex; // indice della risposta corretta
 
   int _attemptsLeft = 3;
 
   int? _selectedIndex;
 
   void _onConfirm() {
-    if (_selectedIndex == null || _attemptsLeft == 0) return;
+    if (_selectedIndex == null) return;
+    if (_attemptsLeft == 0){
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute<void>(
+          builder: (context) => const QuizCompletedScreen(),
+        ),
+      );
+    };
+
 
     final isCorrect = _selectedIndex == _correctIndex;
     if (isCorrect) {
@@ -50,8 +66,18 @@ class _QuizScreenState extends State<QuizScreen> {
 
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    if (_attemptsLeft == 0){
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute<void>(
+          builder: (context) => const QuizCompletedScreen(),
+        ),
+      );
+    };
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -125,11 +151,11 @@ class _QuizScreenState extends State<QuizScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text("Domanda di sblocco", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  const Text("Answer to Unlock", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text("Tentativi: ", style: TextStyle(fontSize: 16)),
+                      const Text("Attempts: ", style: TextStyle(fontSize: 16)),
                       // indicatori tentativi dinamici
                       ...List.generate(3, (i) {
                         final color = i < _attemptsLeft ? Colors.green : Colors.red;

@@ -113,7 +113,7 @@
         "name": "Casa Manu",
         "description": "Casa storica situata nel centro di L'Aquila, famosa per la sua architettura tradizionale.",
         "images": ["sample 23", "sample 24"],
-        "quizzesId": [33, 34, 35],
+        "quizzesId": [0],
         "qrCode": "qrCode12",
         "positionId": 17
       },
@@ -122,7 +122,7 @@
         "name": "Casa Giac e Raffo",
         "description": "Antica abitazione nel cuore de L'Aquila, rappresentativa della cultura locale.",
         "images": ["sample 23", "sample 24"],
-        "quizzesId": [33, 34, 35],
+        "quizzesId": [2],
         "qrCode": "qrCode12",
         "positionId": 18
       },
@@ -131,7 +131,7 @@
         "name": "Casa Giac Rieti",
         "description": "Dimora storica situata a Rieti, esempio di architettura tradizionale reatina.",
         "images": ["sample 23", "sample 24"],
-        "quizzesId": [33, 34, 35],
+        "quizzesId": [0],
         "qrCode": "qrCode12",
         "positionId": 19
       },
@@ -140,7 +140,7 @@
         "name": "Università de L'Aquila Coppito",
         "description": "Campus universitario situato a Coppito, L'Aquila, centro di formazione e ricerca. Luogo di sofferenza",
         "images": ["sample 23", "sample 24"],
-        "quizzesId": [33, 34, 35],
+        "quizzesId": [1],
         "qrCode": "qrCode12",
         "positionId": 20
       }

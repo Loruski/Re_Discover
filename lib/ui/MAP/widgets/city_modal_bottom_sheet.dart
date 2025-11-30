@@ -42,7 +42,7 @@ class CityModalBottomSheet extends StatelessWidget {
                 ),
                 SizedBox(height: 3),
                 Text(
-                  'Descrizione imamgine o didascalia.',
+                  'Descrizione immagine o didascalia.',
                   style: TextStyle(fontSize: 13),
                   softWrap: true,
                 ),
