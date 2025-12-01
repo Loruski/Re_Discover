@@ -7,8 +7,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:re_discover/data/repositories/data_repository_impl/city_repository.dart';
-import 'package:re_discover/data/repositories/data_repository_impl/poi_repository.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/domain/models/city.dart';
@@ -95,10 +93,8 @@ class MapViewModel extends ChangeNotifier {
       poisOfSelectedCity.addAll(poisOfACity);
       newPoiDecision();
 
-        if (mapController.camera != null) {
-          mapController.move(currentPosition, 15.0);
-        }
-
+        mapController.move(currentPosition, 15.0);
+      
     } else {
       print("show all cities");
       if (allCities.isEmpty) {
@@ -109,10 +105,8 @@ class MapViewModel extends ChangeNotifier {
       _setFollowUserPosition(false);
 
 
-        if (mapController.camera != null) {
-          mapController.move(currentPosition, 5.0);
-        }
-    }
+        mapController.move(currentPosition, 5.0);
+          }
 
     notifyListeners();
   }
@@ -131,15 +125,15 @@ class MapViewModel extends ChangeNotifier {
     double closestDistance = Geolocator.distanceBetween(
       currentPosition.latitude,
       currentPosition.longitude,
-      closestPOI.position!.latitude,
-      closestPOI.position!.longitude,
+      closestPOI.position.latitude,
+      closestPOI.position.longitude,
     );
     for (var poi in poisOfSelectedCity) {
       double distance = Geolocator.distanceBetween(
         currentPosition.latitude,
         currentPosition.longitude,
-        poi.position!.latitude,
-        poi.position!.longitude,
+        poi.position.latitude,
+        poi.position.longitude,
       );
       if (distance < closestDistance) {
         closestDistance = distance;

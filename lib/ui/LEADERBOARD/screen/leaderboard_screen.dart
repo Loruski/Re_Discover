@@ -1,5 +1,5 @@
-import 'dart:developer';
-
+import 'package:cool_dropdown/cool_dropdown.dart';
+import 'package:cool_dropdown/models/cool_dropdown_item.dart';
 import 'package:flutter/material.dart';
 
 import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_scroll_view.dart';
@@ -7,13 +7,15 @@ import 'package:re_discover/ui/LEADERBOARD/widgets/preferred_size_tabbar_card.da
 import 'package:re_discover/ui/LEADERBOARD/widgets/user_leaderboard_place_card.dart';
 
 enum Categories {
-  xp("XP"),
-  distanceTraveled("Distance Traveled"),
-  quizPrecision("Quiz Precision");
+  xp("XP", Icons.diamond),
+  distanceTraveled("Distance Traveled", Icons.map_outlined),
+  quizPrecision("Quiz Precision", Icons.quiz_outlined);
 
-  const Categories(this.name);
+  const Categories(this.name, this.icon);
 
   final String name;
+
+  final IconData icon;
 }
 
 class LeaderboardScreen extends StatefulWidget {
@@ -25,29 +27,11 @@ class LeaderboardScreen extends StatefulWidget {
 
 class _LeaderboardScreenState extends State<LeaderboardScreen>
     with TickerProviderStateMixin {
-  Categories selectedCategory = Categories.xp;
+  Categories selectedCategory = Categories.values[0];
 
   late final TabController _tabController;
 
   late final PageController _pageController;
-
-  // late DropdownButton<Categories> dropdown =
-
-  // DropdownMenu(
-  //   enableSearch: false,
-  //   initialSelection: Categories.xp,
-  //   // menuController: ,
-  //   // menuStyle: MenuStyle(
-  //   //   minimumSize: WidgetStatePropertyAll(Size.fromHeight(100.0)),
-  //   //   maximumSize: WidgetStatePropertyAll(Size.fromHeight(300)),
-  //   // ),
-  //   dropdownMenuEntries: Categories.values
-  //       .map(
-  //         (category) =>
-  //             DropdownMenuEntry(value: category, label: category.name),
-  //       )
-  //       .toList(),
-  // );
 
   late final PreferredSizeWidget tabBar;
 
@@ -73,7 +57,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
     );
 
     tabBar = PreferredSizeTabbarCard(tabController: _tabController);
-    
   }
 
   @override
@@ -96,21 +79,29 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
             pinned: true,
             floating: true,
             actions: [
-              DropdownButton(
-                value: selectedCategory,
-                items: Categories.values
+
+              CoolDropdown(
+                defaultItem: CoolDropdownItem(
+                  value: selectedCategory,
+                  label: selectedCategory.name,
+                  icon: Icon(selectedCategory.icon) 
+                ),
+                dropdownList: Categories.values
                     .map(
-                      (category) => DropdownMenuItem(
+                      (category) => CoolDropdownItem(
                         value: category,
-                        child: Text(category.name),
+                        label: category.name,
+                        icon: Icon(category.icon)
                       ),
                     )
                     .toList(),
-                onChanged: (value) => {
-                  setState(() {
-                    selectedCategory = value ?? Categories.xp;
-                  }),
-                },
+                controller: DropdownController(),
+                onChange: (value) =>
+                    (value) => {
+                      setState(() {
+                        selectedCategory = value ?? Categories.values[0];
+                      }),
+                    },
               ),
             ],
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -123,8 +114,6 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
                 right: 16,
                 bottom: 16.0 + tabBar.preferredSize.height,
               ),
-              // centerTitle: true,
-              // centerTitle: true,
               title: Text(
                 'Leaderboard',
                 style: TextStyle(
@@ -144,9 +133,13 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
         body: PageView.builder(
           itemCount: _tabController.length,
           controller: _pageController,
-          onPageChanged: (value) => !_tabController.indexIsChanging ? _tabController.animateTo(value) : null,
+          onPageChanged: (value) => !_tabController.indexIsChanging
+              ? _tabController.animateTo(value)
+              : null,
           physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) => LeaderboardScrollView(leaderboardType: LeaderboardType.values[index]),
+          itemBuilder: (context, index) => LeaderboardScrollView(
+            leaderboardType: LeaderboardType.values[index],
+          ),
         ),
       ),
     );
