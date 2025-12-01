@@ -69,76 +69,94 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: NestedScrollView(
-        physics: const BouncingScrollPhysics(),
-
-        headerSliverBuilder: (context, innerBoxIsScrolled) => [
-          SliverAppBar(
-            scrolledUnderElevation: 0,
-            // centerTitle: true,
-            pinned: true,
-            floating: true,
-            actions: [
-
-              CoolDropdown(
-                defaultItem: CoolDropdownItem(
-                  value: selectedCategory,
-                  label: selectedCategory.name,
-                  icon: Icon(selectedCategory.icon) 
-                ),
-                dropdownList: Categories.values
-                    .map(
-                      (category) => CoolDropdownItem(
-                        value: category,
-                        label: category.name,
-                        icon: Icon(category.icon)
+      child: Scaffold(
+        floatingActionButton: CoolDropdown(
+                        dropdownOptions: DropdownOptions(
+                          align: DropdownAlign.center,
+                          animationType: DropdownAnimationType.size,
+                        ),
+                        resultOptions: ResultOptions(
+                          // textStyle: TextStyle(fontSize: 12),
+                        ),
+                        defaultItem: CoolDropdownItem(
+                          value: selectedCategory,
+                          label: selectedCategory.name,
+                          icon: Icon(selectedCategory.icon),
+                        ),
+                        dropdownList: Categories.values
+                            .map(
+                              (category) => CoolDropdownItem(
+                                value: category,
+                                label: category.name,
+                                icon: Icon(category.icon),
+                              ),
+                            )
+                            .toList(),
+                        controller: DropdownController(),
+                        onChange: (value) =>
+                            (value) => {
+                              setState(() {
+                                selectedCategory = value ?? Categories.values[0];
+                              }),
+                            },
                       ),
-                    )
-                    .toList(),
-                controller: DropdownController(),
-                onChange: (value) =>
-                    (value) => {
-                      setState(() {
-                        selectedCategory = value ?? Categories.values[0];
-                      }),
-                    },
-              ),
-            ],
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-            collapsedHeight: tabBar.preferredSize.height + 24,
-            expandedHeight: 200,
-            bottom: tabBar,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: EdgeInsets.only(
-                left: 16,
-                right: 16,
-                bottom: 16.0 + tabBar.preferredSize.height,
-              ),
-              title: Text(
-                'Leaderboard',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
+        body: NestedScrollView(
+          physics: const BouncingScrollPhysics(),
+          floatHeaderSlivers: true,
+        
+          headerSliverBuilder: (context, innerBoxIsScrolled) => [
+            SliverAppBar(
+              scrolledUnderElevation: 0,
+              // centerTitle: true,
+              pinned: true,
+              floating: true,
+              actions: [],
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              collapsedHeight: tabBar.preferredSize.height + 24,
+              expandedHeight: 200,
+              flexibleSpace: FlexibleSpaceBar(
+                titlePadding: EdgeInsets.only(
+                  left: 16,
+                  right: 16,
+                  bottom: 16.0 + tabBar.preferredSize.height,
                 ),
+                title: Row(
+                  // spacing: 5,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Flexible(
+                      fit: FlexFit.tight,
+                      child: Text(
+                        'Leaderboard',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+        
+                stretchModes: [StretchMode.blurBackground, StretchMode.fadeTitle],
               ),
-              stretchModes: [StretchMode.blurBackground, StretchMode.fadeTitle],
+              bottom: tabBar,
             ),
-          ),
-          PinnedHeaderSliver(
-            // child: SliverResizingHeader(child: UserLeaderboardPlaceCard()),
-            child: UserLeaderboardPlaceCard(),
-          ),
-        ],
-        body: PageView.builder(
-          itemCount: _tabController.length,
-          controller: _pageController,
-          onPageChanged: (value) => !_tabController.indexIsChanging
-              ? _tabController.animateTo(value)
-              : null,
-          physics: BouncingScrollPhysics(),
-          itemBuilder: (context, index) => LeaderboardScrollView(
-            leaderboardType: LeaderboardType.values[index],
+            PinnedHeaderSliver(
+              // child: SliverResizingHeader(child: UserLeaderboardPlaceCard()),
+              child: UserLeaderboardPlaceCard(),
+            ),
+          ],
+          body: PageView.builder(
+            itemCount: _tabController.length,
+            controller: _pageController,
+            onPageChanged: (value) => !_tabController.indexIsChanging
+                ? _tabController.animateTo(value)
+                : null,
+            physics: BouncingScrollPhysics(),
+            itemBuilder: (context, index) => LeaderboardScrollView(
+              leaderboardType: LeaderboardType.values[index],
+            ),
           ),
         ),
       ),
