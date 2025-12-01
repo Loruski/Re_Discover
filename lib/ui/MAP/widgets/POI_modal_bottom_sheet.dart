@@ -69,7 +69,7 @@ class PoiModalBottomSheet extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        if (distance < 25)
+                        if (distance < 60)
                           Expanded(
                             child: FloatingActionButton(
                               heroTag: null,

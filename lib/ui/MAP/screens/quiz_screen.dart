@@ -50,14 +50,6 @@ class _QuizScreenState extends State<QuizScreen> {
 
   void _onConfirm() {
     if (_selectedIndex == null) return;
-    if (_attemptsLeft == 0) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute<void>(
-          builder: (context) => QuizCompletedScreen(poi: widget.poi,),
-        ),
-      );
-    };
 
     final isCorrect = _selectedIndex == _correctIndex;
     if (isCorrect) {
@@ -74,19 +66,19 @@ class _QuizScreenState extends State<QuizScreen> {
       _attemptsLeft = (_attemptsLeft - 1).clamp(0, 3);
       _selectedIndex = null;
     });
-  }
 
-  @override
-  Widget build(BuildContext context) {
     if (_attemptsLeft == 0) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute<void>(
-          builder: (context) =>  QuizCompletedScreen(poi: widget.poi ),
+          builder: (context) => QuizCompletedScreen(poi: widget.poi,),
         ),
       );
-    }
-    ;
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
