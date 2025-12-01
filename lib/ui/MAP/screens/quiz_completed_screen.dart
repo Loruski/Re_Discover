@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:re_discover/domain/models/poi.dart';
 
 class QuizCompletedScreen extends StatefulWidget {
-  const QuizCompletedScreen({super.key});
+  const QuizCompletedScreen({super.key, required this.poi});
 
   //TODO: implementare la presa dell'utente, gli xp guadagnati, e altre info necessarie per aumentare di livello/xp
+
+  final POI poi;
 
 
   @override
@@ -30,7 +33,7 @@ class _QuizCompletedScreenState extends State<QuizCompletedScreen> {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               Text(
-                "Colosseo",
+                widget.poi.name,
                 style: TextStyle(fontSize: 16, color: Colors.blueGrey),
               ),
               SizedBox(height: 20),
