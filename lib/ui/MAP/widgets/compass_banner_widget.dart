@@ -13,7 +13,6 @@ class CompassBannerCustom extends StatelessWidget {
 
 
 
-  //TODO: make POI data from parameters
 
   @override
   Widget build(BuildContext context) {

@@ -48,7 +48,7 @@ class PoiModalBottomSheet extends StatelessWidget {
                     ),
                     SizedBox(height: 3),
                     Text(
-                      'Descrizione imamgine o didascalia.',
+                      'Descrizione immagine o didascalia.',
                       style: TextStyle(fontSize: 13),
                       softWrap: true,
                     ),
@@ -69,7 +69,7 @@ class PoiModalBottomSheet extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        if (distance < 20)
+                        if (distance < 25)
                           Expanded(
                             child: FloatingActionButton(
                               heroTag: null,
@@ -89,7 +89,7 @@ class PoiModalBottomSheet extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute<void>(
-                                        builder: (context) => const QuizScreen()
+                                        builder: (context) => QuizScreen(poi: poi)
                                     )
                                 )
                               },

@@ -122,7 +122,6 @@ class _OsmCustomState extends State<OsmCustom> {
           // builder: (context, viewModel, child) => MarkerLayer(
           //   markers: mapMarkers,
           // markers: [
-          //   //TODO: replace with dynamic POI markers and a for
           //   Marker(
           //     point: widget.poiPosition,
           //     width: 60,
