@@ -7,9 +7,10 @@ part 'badge_data.g.dart';
 class BadgeData {
   late final int id;
   late String name;
-  late String imgPath;
+  late String description;
+  late String img;
 
-  BadgeData({required this.id, required this.name, required this.imgPath});
+  BadgeData({required this.id, required this.name, required this.description, required this.img});
 
   factory BadgeData.fromJson(Map<String, dynamic> json) => _$BadgeDataFromJson(json);
 
@@ -19,7 +20,8 @@ class BadgeData {
     return domain.Badge(
       id: id,
       name: name,
-      imgPath: imgPath,
+      description: description,
+      img: img,
     );
   }
 }

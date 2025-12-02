@@ -1,13 +1,14 @@
 class Badge {
   late final int id;
   late String name;
-  late String imgPath;
+  late String description;
+  late String img;
 
-  Badge({required this.id, required this.name, required this.imgPath});
+  Badge({required this.id, required this.name, required this.description, required this.img});
 
   @override
     String toString() {
       
-      return "id: $id, name: $name, imgPath: $imgPath";
+      return "id: $id, name: $name, imgPath: $img";
     }
 }

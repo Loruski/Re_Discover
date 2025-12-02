@@ -9,13 +9,13 @@ class BadgeRepository extends AbstractDataRepository<BadgeData, Badge> {
     path: Paths.badgesPath,
     fromJson: BadgeData.fromJson,
     toJson: (Badge element) {
-      BadgeData badgeData = BadgeData(id: element.id, name: element.name, imgPath: element.imgPath);
+      BadgeData badgeData = BadgeData(id: element.id, name: element.name, description: element.description, img: element.img);
       return badgeData.toJson();
     },
     assignIds: (List data, Map<Types, AbstractDataRepository>? requiredData) {
       Map<int, Badge> toSetToHolder = {};
       for (BadgeData element in data) {
-        toSetToHolder[element.id] = Badge(id: element.id, name: element.name, imgPath: element.imgPath);
+        toSetToHolder[element.id] = Badge(id: element.id, name: element.name, description: element.description, img: element.img);
       }
       return toSetToHolder;
     });

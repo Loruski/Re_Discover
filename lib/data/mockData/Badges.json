@@ -3,21 +3,27 @@
         {
             "id": 0,
             "name": "the explorer",
+            "description": "Explore 10 new places",
             "imgPath": "assets/badges/badge_0.png"
         },
         {
             "id": 1,
             "name": "the adventurer",
+            "description": "Explore 25 new places",
+    
+
             "imgPath": "assets/badges/badge_1.png"
         },
         {
             "id": 2,
             "name": "the traveler",
+            "description": "Explore 50 new places",
             "imgPath": "assets/badges/badge_2.png"
         },
         {
             "id": 3,
             "name": "the globetrotter",
+            "description": "Explore 100 new places",
             "imgPath": "assets/badges/badge_3.png"
         }
     ]
