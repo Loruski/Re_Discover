@@ -66,6 +66,11 @@ class _OsmCustomState extends State<OsmCustom> {
         mapController: widget.mapController,
         options: MapOptions(
           initialCenter: widget.currentPosition,
+          initialZoom: context.watch<MapViewModel>().currentZoom,
+          onMapReady: () {
+            // Imposta il flag quando la mappa è pronta
+            context.read<MapViewModel>().setMapReady(true);
+          },
           onPositionChanged: (position, hasGesture) {
             widget.updateMapPosition(position.zoom);
           },

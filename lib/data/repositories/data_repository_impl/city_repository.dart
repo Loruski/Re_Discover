@@ -12,7 +12,7 @@ class CityRepository extends AbstractDataRepository<CityData, City> {
     path: Paths.citiesPath,
     fromJson: CityData.fromJson, // assign its fromJson function
     toJson: (City element) {
-      CityData cityData = CityData(id: element.id, name: element.name, description: element.description, positionID: element.position!.id, poisID: element.pois!.map((e) => e.id).toSet());
+      CityData cityData = CityData(id: element.id, name: element.name, image: element.image, description: element.description, positionID: element.position.id, poisID: element.pois.map((e) => e.id).toSet());
       return cityData.toJson();
     },
     assignIds: (List<CityData> data, Map<Types, AbstractDataRepository>? requiredData) { //assign the method of assigning IDs
@@ -33,7 +33,7 @@ class CityRepository extends AbstractDataRepository<CityData, City> {
         }
         if (pois.contains(null)) log("in City ${element.id} ${element.name} there's a POI not found in the holder: $pois");
 
-        toSetToHolder[element.id] = City(id: element.id, name: element.name, description: element.description, position: position, pois: pois); // set to the key id the corresponding object
+        toSetToHolder[element.id] = City(id: element.id, name: element.name,image: element.image, description: element.description, position: position, pois: pois); // set to the key id the corresponding object
       }
       return toSetToHolder;
     }
@@ -45,6 +45,6 @@ class CityRepository extends AbstractDataRepository<CityData, City> {
       log("City with ID $cityID not found when trying to get its POIs.");
       return [];
     }
-    return city.pois?.toList() ?? [];
+    return city.pois.toList();
   }
 }
