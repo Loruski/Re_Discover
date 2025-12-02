@@ -15,7 +15,7 @@ class UserScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => UserViewModel()),
+        ChangeNotifierProvider(create: (_) => UserViewModel()..initState()),
         ChangeNotifierProvider.value(value: StateHub().userState)
       ],
       child: UserScreenContent(),
@@ -28,6 +28,7 @@ class UserScreenContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userViewModel = context.watch<UserViewModel>();
     return Scaffold(
       body: SafeArea(
           child: CustomScrollView(
@@ -118,7 +119,7 @@ class UserScreenContent extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const BadgesScreen()),
+                                      MaterialPageRoute(builder: (context) =>  BadgesScreen(badges: userViewModel.badges)),
                                     );
                                   },
                                   icon: const Icon(Icons.workspace_premium, color: Colors.black),

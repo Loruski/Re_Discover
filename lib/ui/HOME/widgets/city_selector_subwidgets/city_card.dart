@@ -38,7 +38,7 @@ class CityCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image(
                   image: AssetImage(city.image),
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

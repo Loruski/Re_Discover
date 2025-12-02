@@ -2,29 +2,27 @@
     "ReDiscoverData": [
         {
             "id": 0,
-            "name": "the explorer",
+            "name": "The Explorer",
             "description": "Explore 10 new places",
-            "imgPath": "assets/badges/badge_0.png"
+            "img": "\uD83C\uDD95"
         },
         {
             "id": 1,
-            "name": "the adventurer",
+            "name": "The Adventurer",
             "description": "Explore 25 new places",
-    
-
-            "imgPath": "assets/badges/badge_1.png"
+            "img": "\uD83C\uDF89"
         },
         {
             "id": 2,
-            "name": "the traveler",
+            "name": "The Traveler",
             "description": "Explore 50 new places",
-            "imgPath": "assets/badges/badge_2.png"
+            "img": "\uD83D\uDC51"
         },
         {
             "id": 3,
-            "name": "the globetrotter",
+            "name": "The Globetrotter",
             "description": "Explore 100 new places",
-            "imgPath": "assets/badges/badge_3.png"
+            "img": "\uD83C\uDFC1"
         }
     ]
 }

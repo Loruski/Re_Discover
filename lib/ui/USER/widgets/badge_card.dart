@@ -3,34 +3,35 @@ import 'package:flutter/material.dart';
 class BadgeCard extends StatelessWidget {
   const BadgeCard({
     super.key,
-    required this.iconCard1,
-    required this.titleCard1,
-    required this.infoCard1,
+    required this.iconCard,
+    required this.titleCard,
+    required this.infoCard,
     required this.unlocked,
   });
 
-  final IconData iconCard1;
-  final String titleCard1;
-  final String infoCard1;
+  final String iconCard;
+  final String titleCard;
+  final String infoCard;
   final bool unlocked;
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Card(
+
+      return Card(
         color: Colors.white,
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.all(10.0),
           child: Column(
-            spacing: 3,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              Icon(iconCard1, size: 40, color: Colors.black),
-              Text(infoCard1, style: TextStyle(fontSize: 16)),
-              Text(titleCard1),
+              Text(titleCard, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold), textAlign: TextAlign.center),
+              Text(iconCard, style: TextStyle(fontSize: 40), textAlign: TextAlign.center),
+              Text(infoCard, style: TextStyle(fontSize: 11, color: Colors.blueGrey), textAlign: TextAlign.center),
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
