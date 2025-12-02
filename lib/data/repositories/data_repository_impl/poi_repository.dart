@@ -12,7 +12,7 @@ class POIRepository extends AbstractDataRepository<POIData, POI> {
     path: Paths.poisPath,
     fromJson: POIData.fromJson,
     toJson: (POI element) {
-      POIData poiData = POIData(id: element.id, name: element.name, description: element.description, images: element.images, quizzesId: element.quizzes.map((element) => element.id).toList(), qrCode: element.qrCode, positionId: element.position!.id);
+      POIData poiData = POIData(id: element.id, name: element.name, description: element.description, images: element.images, quizzesId: element.quizzes.map((element) => element.id).toList(), qrCode: element.qrCode, positionId: element.position.id);
       return poiData.toJson();
       },
     assignIds: (List<POIData> data, Map<Types, AbstractDataRepository>? requiredData) {
