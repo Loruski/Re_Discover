@@ -35,9 +35,7 @@ class CityModalBottomSheet extends StatelessWidget {
                 Center(
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(8.0),
-                    child: Image.network(
-                      "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800",
-                    ),
+                    child: Image(image: AssetImage(city.image)),
                   ),
                 ),
                 SizedBox(height: 3),

@@ -36,8 +36,8 @@ class CityCard extends StatelessWidget {
               height: 100,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image.network(
-                  "https://www.archeoroma.it/wp-content/uploads/colosseo-roma-anfiteatro-flavio-558x400.jpg",
+                child: Image(
+                  image: AssetImage(city.image),
                   fit: BoxFit.fill,
                 ),
               ),

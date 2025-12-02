@@ -131,8 +131,8 @@ class _QuizScreenState extends State<QuizScreen> {
               Expanded(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    "https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=800",
+                  child: Image(
+                    image: AssetImage(widget.poi.images[0]),
                     fit: BoxFit.cover,
                     width: double.infinity,
                   ),

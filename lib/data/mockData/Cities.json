@@ -2,7 +2,7 @@
     {
         "id": 0,
         "name": "Rieti",
-        "image": "gibberish",
+        "image": "assets/img/rieti.png",
         "positionID": 0,
         "description": "Città storica nel cuore del Lazio, circondata da bellezze naturali.",
         "poisID":[0, 1, 2, 14]
@@ -10,7 +10,7 @@
     {
         "id": 1,
         "name": "Roma",
-        "image": "gibberish",
+        "image": "assets/img/roma.png",
         "positionID": 1,
         "description": "La capitale d'Italia, ricca di storia e monumenti.",
         "poisID": [3, 4, 5]
@@ -18,7 +18,7 @@
     {
         "id": 2,
         "name": "Firenze",
-        "image": "gibberish",
+        "image": "assets/img/firenze.png",
         "positionID": 2,
         "description": "Culla del Rinascimento, famosa per l'arte e l'architettura.",
         "poisID": [6, 7]
@@ -26,7 +26,7 @@
     {
         "id": 3,
         "name": "Venezia",
-        "image": "gibberish",
+        "image": "assets/img/venezia.png",
         "positionID": 3,
         "description": "La città dei canali, unica al mondo.",
         "poisID": [8, 9]
@@ -34,7 +34,7 @@
     {
         "id": 4,
         "name": "L'Aquila",
-        "image": "gibberish",
+        "image": "assets/img/l_aquila.png",
         "positionID": 4,
         "description": "Capoluogo dell'Abruzzo, noto per la sua storia e cultura.",
         "poisID": [10, 11, 12, 13, 15]

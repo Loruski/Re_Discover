@@ -25,6 +25,7 @@ class MapViewModel extends ChangeNotifier {
   POI? poiToFind;
   late Visit visit;
   late City selectedCity;
+  bool _isMapReady = false;
 
 
   List<POI> poisOfSelectedCity = List<POI>.empty(growable: true);
@@ -114,6 +115,21 @@ class MapViewModel extends ChangeNotifier {
           }
 
     notifyListeners();
+  }
+
+
+  void setMapReady(bool ready) {
+    _isMapReady = ready;
+  }
+
+  void _moveMapIfReady(double zoom) {
+    if (_isMapReady) {
+      try {
+        mapController.move(currentPosition, zoom);
+      } catch (e) {
+        print("Error moving map: $e");
+      }
+    }
   }
 
   void newPoiDecision(){
