@@ -20,7 +20,7 @@ class LevelCard extends StatelessWidget {
                 Column(
                   children: [
                     Text(
-                      "Livello",
+                      "Level",
                       style: TextStyle(fontSize: 13, color: Colors.black),
                     ),
                     Consumer<UserState>(

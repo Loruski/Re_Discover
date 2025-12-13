@@ -17,7 +17,7 @@ class UserScreenHeader extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Livello 1",
+                "Level 1",
                 style: TextStyle(fontSize: 15, color: Colors.blueGrey),
               ),
               SizedBox(width: 5),

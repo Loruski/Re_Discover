@@ -20,7 +20,7 @@ class OobeCompletedCard extends StatelessWidget {
               children: [
                 const Icon(Icons.check_circle, color: Colors.green, size: 60),
                 const Text(
-                  "Configurazione completata!",
+                  "Configuration completed!",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 10),
@@ -46,7 +46,7 @@ class OobeCompletedCard extends StatelessWidget {
                               Colors.white,
                             ),
                           ),
-                          label: const Text("Inizia la tua avventura"),
+                          label: const Text("Begin your adventure"),
                           icon: Icon(Icons.rocket_launch)
                       );
                     },

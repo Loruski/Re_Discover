@@ -47,6 +47,22 @@
                     "correctOptionIndex": 2
                 }
             ]
+        },
+        {
+          "id": 3,
+          "description": "The Basilica of San Bernardino is a renowned religious landmark in L'Aquila, built to enshrine the remains of Saint Bernardino of Siena following his death in the city in 1444. While the interior features a stunning wooden ceiling, the exterior is famous for its rectilinear Renaissance facade, which was designed by the architect Cola dell'Amatrice and completed in the 16th century.",
+          "questions": [
+            {
+              "questionText": "Who designed the famous Renaissance facade of the Basilica?",
+              "answers": ["Silvestro dell'Aquila", "Gian Lorenzo Bernini", "Cola dell'Amatrice", "Andrea Palladio"],
+              "correctOptionIndex": 2
+            },
+            {
+              "questionText": "The Basilica was built to house the remains of which saint who died in L'Aquila in 1444?",
+              "answers": ["Saint Francis of Assisi", "Saint Celestine V", "Saint Anthony of Padua", "Saint Bernardino of Siena"],
+              "correctOptionIndex": 3
+            }
+          ]
         }
     ]
 }

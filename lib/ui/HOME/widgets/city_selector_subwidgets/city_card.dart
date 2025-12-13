@@ -59,7 +59,7 @@ class CityCard extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                       const Text(
-                        "Italia",
+                        "Italy",
                         style: TextStyle(color: Colors.grey),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -87,7 +87,7 @@ class CityCard extends StatelessWidget {
                           const SizedBox(width: 5),
                           Expanded(
                             child: Text(
-                              "${city.pois?.length} luoghi",
+                              "${city.pois?.length} places",
                               style: const TextStyle(color: Colors.blue),
                               overflow: TextOverflow.ellipsis,
                             ),

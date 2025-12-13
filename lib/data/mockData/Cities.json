@@ -1,43 +1,44 @@
-{ "ReDiscoverData": [
+{
+  "ReDiscoverData": [
     {
-        "id": 0,
-        "name": "Rieti",
-        "image": "assets/img/rieti.png",
-        "positionID": 0,
-        "description": "Città storica nel cuore del Lazio, circondata da bellezze naturali.",
-        "poisID":[0, 1, 2, 14]
+      "id": 0,
+      "name": "Rieti",
+      "image": "assets/img/rieti.png",
+      "positionID": 0,
+      "description": "A historic city in the heart of Lazio, surrounded by natural beauty.",
+      "poisID": [0, 1, 2, 14]
     },
     {
-        "id": 1,
-        "name": "Roma",
-        "image": "assets/img/roma.png",
-        "positionID": 1,
-        "description": "La capitale d'Italia, ricca di storia e monumenti.",
-        "poisID": [3, 4, 5]
+      "id": 1,
+      "name": "Roma",
+      "image": "assets/img/roma.png",
+      "positionID": 1,
+      "description": "The capital of Italy, rich in history and monuments.",
+      "poisID": [3, 4, 5]
     },
     {
-        "id": 2,
-        "name": "Firenze",
-        "image": "assets/img/firenze.png",
-        "positionID": 2,
-        "description": "Culla del Rinascimento, famosa per l'arte e l'architettura.",
-        "poisID": [6, 7]
+      "id": 2,
+      "name": "Firenze",
+      "image": "assets/img/firenze.png",
+      "positionID": 2,
+      "description": "The cradle of the Renaissance, famous for its art and architecture.",
+      "poisID": [6, 7]
     },
     {
-        "id": 3,
-        "name": "Venezia",
-        "image": "assets/img/venezia.png",
-        "positionID": 3,
-        "description": "La città dei canali, unica al mondo.",
-        "poisID": [8, 9]
+      "id": 3,
+      "name": "Venezia",
+      "image": "assets/img/venezia.png",
+      "positionID": 3,
+      "description": "The city of canals, unique in the world.",
+      "poisID": [8, 9]
     },
     {
-        "id": 4,
-        "name": "L'Aquila",
-        "image": "assets/img/l_aquila.png",
-        "positionID": 4,
-        "description": "Capoluogo dell'Abruzzo, noto per la sua storia e cultura.",
-        "poisID": [10, 11, 12, 13, 15]
+      "id": 4,
+      "name": "L'Aquila",
+      "image": "assets/img/l_aquila.png",
+      "positionID": 4,
+      "description": "The capital of Abruzzo, known for its history and culture.",
+      "poisID": [10, 11, 12, 13, 15]
     }
-
-]}
+  ]
+}

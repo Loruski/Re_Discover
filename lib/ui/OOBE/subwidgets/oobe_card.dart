@@ -18,10 +18,10 @@ class OobeCard extends StatelessWidget {
               children: [
                 Icon(Icons.waving_hand, size: 60, color: Colors.yellow[800]),
                 const Text(
-                  "Benvenuto!",
+                  "Welcome!",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                const Text("Dicci qualcosa su di te", style: TextStyle(fontSize: 14)),
+                const Text("Tell us something about yourself", style: TextStyle(fontSize: 14)),
               ],
             ),
             const SizedBox(height: 20),
@@ -30,7 +30,7 @@ class OobeCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  "Come ti chiami?",
+                  "What's your name?",
                   style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                 ),
                 Consumer<OobeViewModel>(
@@ -46,7 +46,7 @@ class OobeCard extends StatelessWidget {
                             },
                             decoration: const InputDecoration(
                               icon: Icon(Icons.keyboard),
-                              hintText: "Inserisci il tuo nome",
+                              hintText: "Insert your name",
                               hintStyle: TextStyle(fontSize: 13),
                               errorMaxLines: 5,
                             ),
@@ -79,7 +79,7 @@ class OobeCard extends StatelessWidget {
                                 ),
                               ),
                               label: const Text(
-                                "Avanti",
+                                "Next",
                                 style: TextStyle(
                                   fontSize: 13,
                                   fontWeight: FontWeight.bold,
