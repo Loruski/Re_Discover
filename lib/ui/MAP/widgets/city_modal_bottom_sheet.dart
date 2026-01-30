@@ -64,7 +64,12 @@ class CityModalBottomSheet extends StatelessWidget {
                             "Begin to Explore!",
                           ),
                           onPressed: () {
-                            StateHub().navigationState.setSelectedIndex(0);
+                            StateHub().cityState.selectCity(city);
+
+                            StateHub().visitState.startVisit();
+
+                            StateHub().navigationState.setSelectedIndex(1);
+
                             Navigator.pop(context);
                           },
                         ),

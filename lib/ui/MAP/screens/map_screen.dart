@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 import 'package:re_discover/ui/MAP/widgets/compass_banner_widget.dart';
 import 'package:re_discover/ui/MAP/widgets/OSM_widget.dart';
@@ -51,46 +52,101 @@ class MapScreenContent extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(4.0),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 0, 5),
-              child: Align(
-                alignment: Alignment.topLeft,
-                child: Column(
+          toolbarHeight: 60,
+          titleSpacing: 16,
+          title: mapViewModel.isVisiting
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${mapViewModel.selectedCity.name}, Italia',
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            "0/${mapViewModel.selectedCity.pois.length} visited places",
+                            style: TextStyle(
+                              color: Theme.of(context).colorScheme.outline,
+                              fontSize: 14,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    PopupMenuButton<int>(
+                      offset: const Offset(0, 52),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      onSelected: (value) {
+                        if (value == 0) {
+                          StateHub().visitState.endVisit();
+                        }
+                      },
+                      itemBuilder: (context) => [
+                        PopupMenuItem<int>(
+                          value: 0,
+                          child: Row(
+                            children: [
+                              Icon(Icons.stop_circle_outlined, color: Colors.red, size: 20),
+                              const SizedBox(width: 12),
+                              Text(
+                                "Stop exploring",
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor.withOpacity(0.08),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          Icons.more_vert_rounded,
+                          size: 20,
+                          color: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if(mapViewModel.isVisiting) ...[
-                      Text(
-                        '${mapViewModel.selectedCity.name}, Italia',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    const Text(
+                      'Available Cities',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
                       ),
-                      Text("0/${mapViewModel.selectedCity.pois.length} visited places"),
-                      //TODO implement visit to get number of visited places
-                    ]
-                    else ...[
-                      Text(
-                        'Available Cities',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    ),
+                    Text(
+                      "Select a city to show details",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.outline,
+                        fontSize: 14,
                       ),
-                      Text("Select a city to show details"),
-                    ]
+                    ),
                   ],
                 ),
-              ),
-            ),
-          ),
         ),
         body: SafeArea(
           child: Column(
             children: [
-              if(mapViewModel.isVisiting) CompassBannerCustom(userPosition: mapViewModel.currentPosition, distanceNotifier: mapViewModel.distanceNotifier),
+              if (mapViewModel.isVisiting)
+                CompassBannerCustom(
+                    userPosition: mapViewModel.currentPosition,
+                    distanceNotifier: mapViewModel.distanceNotifier),
               OsmCustom(
                 mapController: mapViewModel.mapController,
                 currentPosition: mapViewModel.currentPosition,

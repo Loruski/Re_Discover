@@ -49,6 +49,7 @@ dependencies:
   flutter_native_splash: ^2.4.7
   cool_dropdown: ^2.1.1
   http: ^1.6.0
+  flutter_dotenv: ^6.0.0
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +80,7 @@ flutter:
     - lib/data/mockData/
     - assets/img/
     - assets/badges/
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

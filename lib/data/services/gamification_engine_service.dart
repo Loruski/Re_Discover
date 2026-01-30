@@ -5,6 +5,7 @@ import 'dart:convert';
 
 import 'package:re_discover/data/models/user_data.dart';
 import 'package:re_discover/data/states/city_state.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 
 const String baseURL = "https://gamification-api.polyglot-edu.com/gamification";
@@ -25,6 +26,8 @@ const String badgesURL = "$modelURL/badges";
 
 const String rulesURL = "$modelURL/rules";
 
+late String auth;
+
 
 
 class GamificationEngineService {
@@ -33,6 +36,7 @@ class GamificationEngineService {
   factory GamificationEngineService() => _instance;
 
   GamificationEngineService._internal();
+
 
   void registerPlayer(UserData user) async {
     final Map<String, dynamic> json = {
@@ -47,7 +51,7 @@ class GamificationEngineService {
     final response = await http.post(
       Uri.parse("$playerManagingURL/${user.username.toString()}"),
       headers: <String, String>{
-        'Authorization': 'Basic c2NvX21hc3RlcjowaWlPQ3h2MTRxVW8=',
+        'Authorization': ?dotenv.env['API_GAMIFICATION_ENGINE'],
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(json),
