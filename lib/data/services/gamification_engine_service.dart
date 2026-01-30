@@ -11,7 +11,7 @@ const String baseURL = "https://gamification-api.polyglot-edu.com/gamification";
 
 const String modelURL = "$baseURL/model/game/$gameID"; // not to be used
 
-const String gameID = ""; //TODO
+const String gameID = "697d01992657a80217381c9e";
 
 const String playerManagingURL = "$baseURL/data/game/$gameID/player";
 
@@ -35,30 +35,29 @@ class GamificationEngineService {
   GamificationEngineService._internal();
 
   void registerPlayer(UserData user) async {
-    final Map<String, dynamic> json = { 
-      'id': user.id.toString(),
-      'playerId': user.id.toString(),
-      'gameId': gameID,
-      'state': {}, //TODO
-      'levels': [{
-          "levelName": "XP_level",
-          "levelValue": user.xp.toString(), // ???
-          "levelIndex": user.level,
-          "pointConcept": "xp",
-          "startLevelScore": 0, // I don't know what to put here
-          "endLevelScore": 0,
-          "toNextLevel": 0
-      }],
-      'inventory': {},
-      'customData': {}
+    final Map<String, dynamic> json = {
+      "id": user.id.toString(),
+      "playerId": user.username.toString(),
+      "gameId": gameID,
+      "state": {},
+      "levels": [],
+      "inventory": {},
+      "customData": {}
     };
-    http.post(
-    Uri.parse("$playerManagingURL/${user.id.toString()}"),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(json),
-  );
+    final response = await http.post(
+      Uri.parse("$playerManagingURL/${user.username.toString()}"),
+      headers: <String, String>{
+        'Authorization': 'Basic c2NvX21hc3RlcjowaWlPQ3h2MTRxVW8=',
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(json),
+    );
+
+    if(response.statusCode != 200){
+      print('Failed to register player');
+      print(response.statusCode);
+      print(response.body);
+    }
   }
 
   void deletePlayer(UserData user) async {
@@ -72,11 +71,11 @@ class GamificationEngineService {
     if (response.statusCode == 200) {
       return (jsonDecode(response.body) as Iterable<Map<String, dynamic>>)
         .map(fromPlayerJson).toList();
-      
-  
-  } else {
-    return null;
-  }
+
+      }
+    else {
+      return null;
+    }
   }
 
   

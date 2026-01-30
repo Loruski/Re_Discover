@@ -58,7 +58,6 @@ class OobeCard extends StatelessWidget {
                               onPressed: () {
                                 if (oobeViewModel.formKey.currentState!.validate()) {
                                   oobeViewModel.username = oobeViewModel.usernameController.text;
-
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

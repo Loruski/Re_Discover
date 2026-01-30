@@ -44,10 +44,22 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
     }
   );
 
-  Future<void> storeTemporaryUser(String username) async {
+  Future<void> storeUser(String username) async {
     final prefs = await SharedPreferences.getInstance();
     if(prefs.getStringList("user") != null) prefs.remove("user");
     prefs.setStringList("user", ["0", username, "0", "1", "", ""]);
+
+
+    GamificationEngineService().registerPlayer(
+      UserData(
+        id: 0,
+        username: username,
+        xp: 0,
+        level: 1,
+        badgesID: <int>{},
+        customizablesID: <int>{}
+      )
+    );
   }
 
   Future<List<String>?> getTemporaryUser() async {
