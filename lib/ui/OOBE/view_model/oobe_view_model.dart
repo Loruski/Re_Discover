@@ -31,7 +31,7 @@ class OobeViewModel extends ChangeNotifier {
   }
   
   void saveTemporaryUser() {
-    userRepository.storeTemporaryUser(username);
+    userRepository.storeUser(username);
     userState.loadUser();
     notifyListeners();
   }
