@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/ui/MAP/screens/quiz_screen.dart';
+import 'package:re_discover/ui/MAP/view_model/map_view_model.dart';
 
 class PoiModalBottomSheet extends StatelessWidget {
   const PoiModalBottomSheet({super.key, required this.distanceNotifier, required this.poi});
@@ -10,7 +12,9 @@ class PoiModalBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder<double>(
+    final viewModel = Provider.of<MapViewModel>(context);
+
+    return ValueListenableBuilder(
       valueListenable: distanceNotifier,
       builder: (context, distance, child) {
         return Container(
@@ -57,7 +61,7 @@ class PoiModalBottomSheet extends StatelessWidget {
                         Icon(Icons.near_me_outlined),
                         SizedBox(width: 5),
                         Text(
-                          '${distance.toStringAsFixed(2)}m from you',
+                          '${viewModel.getDistanceString(distance)} from you',
                           style: TextStyle(fontSize: 16),
                         ),
                       ],

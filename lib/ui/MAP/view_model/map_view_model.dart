@@ -285,6 +285,10 @@ class MapViewModel extends ChangeNotifier {
     return await Geolocator.getCurrentPosition();
   }
 
+  String getDistanceString(double distance) {
+    return distance > 1000 ? "${(distance / 1000).toStringAsFixed(2)} km" : "${distance.toStringAsFixed(2)} m";
+  }
+
   @override
   void dispose() {
     visitState.isVisiting.removeListener(_onVisitStateChanged);

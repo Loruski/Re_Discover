@@ -107,6 +107,7 @@ class _OsmCustomState extends State<OsmCustom> {
                             context: context,
                             distanceNotifier: viewModel.distanceNotifier,
                             poi: widget.poiToUnlock!,
+                            mapViewModel: viewModel,
                           ),
                           child: Transform.translate(
                             offset: const Offset(0, -20),

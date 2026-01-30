@@ -90,7 +90,7 @@ class MapScreenContent extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              if(mapViewModel.isVisiting) CompassBannerCustom(userPosition: mapViewModel.currentPosition),
+              if(mapViewModel.isVisiting) CompassBannerCustom(userPosition: mapViewModel.currentPosition, distanceNotifier: mapViewModel.distanceNotifier),
               OsmCustom(
                 mapController: mapViewModel.mapController,
                 currentPosition: mapViewModel.currentPosition,
