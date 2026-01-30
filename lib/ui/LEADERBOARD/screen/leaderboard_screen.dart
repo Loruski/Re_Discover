@@ -1,5 +1,3 @@
-import 'package:cool_dropdown/cool_dropdown.dart';
-import 'package:cool_dropdown/models/cool_dropdown_item.dart';
 import 'package:flutter/material.dart';
 
 import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_scroll_view.dart';
@@ -7,14 +5,13 @@ import 'package:re_discover/ui/LEADERBOARD/widgets/preferred_size_tabbar_card.da
 import 'package:re_discover/ui/LEADERBOARD/widgets/user_leaderboard_place_card.dart';
 
 enum Categories {
-  xp("XP", Icons.diamond),
-  distanceTraveled("Distance Traveled", Icons.map_outlined),
-  quizPrecision("Quiz Precision", Icons.quiz_outlined);
+  xp("Explorer XP", Icons.stars_rounded),
+  distance("KM Traveled", Icons.directions_walk_rounded),
+  accuracy("Quiz Accuracy", Icons.psychology_rounded);
 
   const Categories(this.name, this.icon);
 
   final String name;
-
   final IconData icon;
 }
 
@@ -28,41 +25,19 @@ class LeaderboardScreen extends StatefulWidget {
 class _LeaderboardScreenState extends State<LeaderboardScreen>
     with TickerProviderStateMixin {
   Categories selectedCategory = Categories.values[0];
-
   late final TabController _tabController;
-
-  late final PageController _pageController;
-
   late final PreferredSizeWidget tabBar;
-
-  late final LeaderboardScrollView leaderboardScrollView;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
-    _pageController = PageController(
-      initialPage: _tabController.index,
-      keepPage: true,
-    );
-
-    _tabController.addListener(
-      () => _tabController.indexIsChanging
-          ? _pageController.animateToPage(
-              _tabController.index,
-              duration: Durations.medium4,
-              curve: Curves.ease,
-            )
-          : null,
-    );
-
     tabBar = PreferredSizeTabbarCard(tabController: _tabController);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
-    _pageController.dispose();
     super.dispose();
   }
 
@@ -70,96 +45,139 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: CoolDropdown(
-                        dropdownOptions: DropdownOptions(
-                          align: DropdownAlign.center,
-                          animationType: DropdownAnimationType.size,
-                        ),
-                        resultOptions: ResultOptions(
-                          // textStyle: TextStyle(fontSize: 12),
-                        ),
-                        defaultItem: CoolDropdownItem(
-                          value: selectedCategory,
-                          label: selectedCategory.name,
-                          icon: Icon(selectedCategory.icon),
-                        ),
-                        dropdownList: Categories.values
-                            .map(
-                              (category) => CoolDropdownItem(
-                                value: category,
-                                label: category.name,
-                                icon: Icon(category.icon),
-                              ),
-                            )
-                            .toList(),
-                        controller: DropdownController(),
-                        onChange: (value) =>
-                            (value) => {
-                              setState(() {
-                                selectedCategory = value ?? Categories.values[0];
-                              }),
-                            },
-                      ),
         body: NestedScrollView(
           physics: const BouncingScrollPhysics(),
           floatHeaderSlivers: true,
-        
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverAppBar(
               scrolledUnderElevation: 0,
-              // centerTitle: true,
               pinned: true,
               floating: true,
-              actions: [],
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              collapsedHeight: tabBar.preferredSize.height + 24,
-              expandedHeight: 200,
+              collapsedHeight: tabBar.preferredSize.height + 30,
+              expandedHeight: 140,
               flexibleSpace: FlexibleSpaceBar(
                 titlePadding: EdgeInsets.only(
-                  left: 16,
-                  right: 16,
+                  left: 20,
+                  right: 20,
                   bottom: 16.0 + tabBar.preferredSize.height,
                 ),
-                title: Row(
-                  // spacing: 5,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                title: Text(
+                  'Leaderboard',
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w900,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+                stretchModes: const [StretchMode.blurBackground, StretchMode.fadeTitle],
+              ),
+              bottom: tabBar,
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+                child: Row(
                   children: [
-                    Flexible(
-                      fit: FlexFit.tight,
-                      child: Text(
-                        'Leaderboard',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context).primaryColor,
-                        ),
+                    Text(
+                      "Filter by:",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.outline,
+                        fontSize: 14,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(child: _buildCategorySelector()),
+                  ],
+                ),
+              ),
+            ),
+            PinnedHeaderSliver(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: UserLeaderboardPlaceCard(),
+              ),
+            ),
+          ],
+          body: TabBarView(
+            controller: _tabController,
+            physics: const BouncingScrollPhysics(),
+            children: LeaderboardType.values.map((type) {
+              return LeaderboardScrollView(leaderboardType: type);
+            }).toList(),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCategorySelector() {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return PopupMenuButton<Categories>(
+          initialValue: selectedCategory,
+          tooltip: "Select Category",
+          onSelected: (Categories newValue) {
+            setState(() {
+              selectedCategory = newValue;
+            });
+          },
+          // Fixed offset ensures the menu always opens in the same place
+          offset: const Offset(0, 48),
+          elevation: 4,
+          constraints: BoxConstraints(
+            minWidth: constraints.maxWidth,
+            maxWidth: constraints.maxWidth,
+          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          itemBuilder: (BuildContext context) {
+            return Categories.values.map((Categories category) {
+              return PopupMenuItem<Categories>(
+                value: category,
+                child: Row(
+                  children: [
+                    Icon(category.icon, size: 20, color: Theme.of(context).primaryColor),
+                    const SizedBox(width: 12),
+                    Text(
+                      category.name,
+                      style: const TextStyle(fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              );
+            }).toList();
+          },
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColor.withOpacity(0.08),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.1)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(selectedCategory.icon, size: 20, color: Theme.of(context).primaryColor),
+                    const SizedBox(width: 10),
+                    Text(
+                      selectedCategory.name,
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15,
                       ),
                     ),
                   ],
                 ),
-        
-                stretchModes: [StretchMode.blurBackground, StretchMode.fadeTitle],
-              ),
-              bottom: tabBar,
-            ),
-            PinnedHeaderSliver(
-              // child: SliverResizingHeader(child: UserLeaderboardPlaceCard()),
-              child: UserLeaderboardPlaceCard(),
-            ),
-          ],
-          body: PageView.builder(
-            itemCount: _tabController.length,
-            controller: _pageController,
-            onPageChanged: (value) => !_tabController.indexIsChanging
-                ? _tabController.animateTo(value)
-                : null,
-            physics: BouncingScrollPhysics(),
-            itemBuilder: (context, index) => LeaderboardScrollView(
-              leaderboardType: LeaderboardType.values[index],
+                Icon(Icons.keyboard_arrow_down_rounded, color: Theme.of(context).primaryColor),
+              ],
             ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 
 enum LeaderboardType { global, local, friends }
@@ -10,118 +11,181 @@ class LeaderboardScrollView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(
+      physics: const BouncingScrollPhysics(),
       slivers: [
-        SliverList.builder(
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.all(1.2),
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-                side: BorderSide(
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 1,
-                ),
-              ),
-              child: getListTile(index),
-            ),
+        SliverPadding(
+          padding: const EdgeInsets.only(top: 8, left: 12, right: 12, bottom: 80),
+          sliver: SliverList.separated(
+            itemCount: 25,
+            separatorBuilder: (context, index) => const SizedBox(height: 8),
+            itemBuilder: (context, index) {
+              final position = index + 1;
+              return LeaderboardTile(
+                position: position,
+                name: 'Explorer ${index + 1}',
+                subtitle: 'Level ${25 - index}',
+                data: '${(30000 - (index * 1200))}',
+                color: _getRankColor(position, context),
+              );
+            },
           ),
         ),
       ],
     );
   }
-}
 
-LeaderboardTile getListTile(int index) {
-  if (index == 0) {
-    return LeaderboardTile(
-      color: Colors.yellow, 
-      data: "1232212", 
-      position: 1
-      );
+  Color _getRankColor(int position, BuildContext context) {
+    if (position == 1) return const Color(0xFFFFD700); // Gold
+    if (position == 2) return const Color(0xFFC0C0C0); // Silver
+    if (position == 3) return const Color(0xFFCD7F32); // Bronze
+    return Theme.of(context).colorScheme.surfaceVariant;
   }
-  if (index == 1) {
-    return LeaderboardTile(
-      color: Colors.cyan.shade50,
-      data: "12323",
-      position: 2,
-    );
-  }
-  if (index == 2) {
-    return LeaderboardTile(
-      color: Colors.brown.shade400,
-      data: "123",
-      position: 3,
-    );
-  }
-  return LeaderboardTile(data: "12", position: index + 1);
 }
 
 class LeaderboardTile extends StatelessWidget {
-  final Color color;
-  final String data; //TODO insert user data
   final int position;
+  final String name;
+  final String subtitle;
+  final String data;
+  final Color color;
 
   const LeaderboardTile({
     super.key,
-    this.color = Colors.white,
-    required this.data,
     required this.position,
+    required this.name,
+    required this.subtitle,
+    required this.data,
+    required this.color,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 8.0),
-      child: Row(
-        children: [
-          CircleAvatar(
-            backgroundColor: color,
-            child: Text(position.toString(), style: TextStyle(fontSize: 20, 
-            fontWeight: FontWeight.bold,
-            fontFeatures: [FontFeature.ordinalForms()]),),
-          ),
-          const SizedBox(width: 16),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Leaderboard Tile", style: TextStyle(fontSize: 20)),
-              Text("Subtitle", style: TextStyle(fontSize: 16),)
-            ],
-          ),
-          const Spacer(),
-          SizedBox(
-            width: 100,
-            child: FittedBox(
-              alignment: Alignment.centerRight,
-              fit: BoxFit.scaleDown,
-              child: Card(
-                color: color,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusDirectional.all(
-                    Radius.circular(10),
-                  ),
-                ),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 2,
-                      horizontal: 8,
-                    ),
-                    child: Text(
-                      data,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 20),
-                    ), // TODO if the value exceeds 1000 divide it by 1000, and so on
-                  ),
-                ),
-              ),
-            ),
+    final bool isTopThree = position <= 3;
+    
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
           ),
         ],
+        border: isTopThree 
+          ? Border.all(color: color.withOpacity(0.5), width: 2)
+          : null,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Row(
+          children: [
+            _buildPositionIndicator(context),
+            const SizedBox(width: 16),
+            _buildUserAvatar(context),
+            const SizedBox(width: 16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodySmall?.color,
+                      fontSize: 13,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            _buildScoreBadge(context),
+          ],
+        ),
       ),
     );
+  }
+
+  Widget _buildPositionIndicator(BuildContext context) {
+    return SizedBox(
+      width: 30,
+      child: Text(
+        position.toString(),
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w900,
+          fontFeatures: const [FontFeature.ordinalForms()],
+          color: position <= 3 
+            ? color.darken(0.2) 
+            : Theme.of(context).colorScheme.outline,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildUserAvatar(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(
+          color: position <= 3 ? color : Colors.transparent,
+          width: 2,
+        ),
+      ),
+      child: CircleAvatar(
+        radius: 22,
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        child: Icon(
+          Icons.person,
+          color: Theme.of(context).colorScheme.onPrimaryContainer,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildScoreBadge(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      decoration: BoxDecoration(
+        color: position <= 3 ? color.withOpacity(0.2) : Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Text(
+        _formatData(data),
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: position <= 3 ? color.darken(0.3) : Theme.of(context).colorScheme.onSurfaceVariant,
+        ),
+      ),
+    );
+  }
+
+  String _formatData(String data) {
+    double? value = double.tryParse(data);
+    if (value == null) return data;
+
+    if (value >= 1000000) {
+      return '${(value / 1000000).toStringAsFixed(1)}M';
+    } else if (value >= 1000) {
+      return '${(value / 1000).toStringAsFixed(1)}K';
+    }
+    return data;
+  }
+}
+
+extension ColorExtension on Color {
+  Color darken([double amount = .1]) {
+    assert(amount >= 0 && amount <= 1);
+    final hsl = HSLColor.fromColor(this);
+    final hslDark = hsl.withLightness((hsl.lightness - amount).clamp(0.0, 1.0));
+    return hslDark.toColor();
   }
 }
