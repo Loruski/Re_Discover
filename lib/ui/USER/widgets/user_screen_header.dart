@@ -10,7 +10,7 @@ class UserScreenHeader extends StatelessWidget {
       children: [
         Icon(Icons.account_circle, size: 80, color: Colors.purple),
           Text(
-            "Esploratore",
+            ${userState.user?.username},
             style: TextStyle(fontSize: 18, color: Colors.black),
           ),
           Row(
