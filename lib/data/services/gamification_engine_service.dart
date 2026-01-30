@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:re_discover/data/models/cosmetic_data.dart';
@@ -9,12 +9,11 @@ import 'package:re_discover/data/models/user_data.dart';
 import 'package:re_discover/data/states/city_state.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-
 const String baseURL = "https://gamification-api.polyglot-edu.com/gamification";
 
 const String modelURL = "$baseURL/model/game/$gameID"; // not to be used
 
-  const String gameID = "697d01992657a80217381c9e";
+const String gameID = "697d01992657a80217381c9e";
 
 const String playerManagingURL = "$baseURL/data/game/$gameID/player";
 
@@ -22,23 +21,22 @@ const String playerStatusURL = "$baseURL/gengine/state/$gameID";
 
 const String actionExecutionURL = "$baseURL/gengine/execute";
 
-
-
 const String badgesURL = "$modelURL/badges";
 
 const String rulesURL = "$modelURL/rules";
 
-late String auth;
-
-
+final Map<String, String> httpHeaders = {
+  'Authorization': ?dotenv.env['API_GAMIFICATION_ENGINE'],
+  'Content-Type': 'application/json; charset=UTF-8',
+};
 
 class GamificationEngineService {
-  static final GamificationEngineService _instance = GamificationEngineService._internal();
+  static final GamificationEngineService _instance =
+      GamificationEngineService._internal();
 
   factory GamificationEngineService() => _instance;
 
   GamificationEngineService._internal();
-
 
   void registerPlayer(String user) async {
     final Map<String, dynamic> json = {
@@ -48,99 +46,112 @@ class GamificationEngineService {
       "state": {},
       "levels": [],
       "inventory": {},
-      "customData": {}
+      "customData": {},
     };
     final response = await http.post(
-      Uri.parse("$playerManagingURL/${user}"),
-      headers: <String, String>{
-        'Authorization': ?dotenv.env['API_GAMIFICATION_ENGINE'],
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      Uri.parse("$playerManagingURL/$user"),
+      headers: httpHeaders,
       body: jsonEncode(json),
     );
-
-    if(response.statusCode != 200){
-      print('Failed to register player');
-      print(response.statusCode);
-      print(response.body);
+    if (response.statusCode != 200) {
+      log("Error registering player: ${response.statusCode}");
     }
   }
 
-
   Future<UserData?> getPlayerState(String user) async {
     final response = await http.get(
-      Uri.parse("$playerManagingURL/${user}"),
-      headers: <String, String>{
-        'Authorization': ?dotenv.env['API_GAMIFICATION_ENGINE'],
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      Uri.parse("$playerManagingURL/$user"),
+      headers: httpHeaders,
     );
 
-    if(response.statusCode != 200){
-      print('Failed to register player');
-      print(response.statusCode);
-      print(response.body);
+    if (response.statusCode != 200) {
+      log("Error getting player state: ${response.statusCode}");
       return null;
     }
 
     return fromPlayerJson(jsonDecode(response.body));
-
-
   }
 
   void addXp(bool errors, String userId) async {
-
     String callParameters = errors ? "earn_xp_quiz_errors" : "earn_xp_quiz";
 
     final Map<String, dynamic> json = {
       "gameId": gameID,
       "actionId": callParameters,
-      "playerId": userId
+      "playerId": userId,
     };
     final response = await http.post(
       Uri.parse(actionExecutionURL),
-      headers: <String, String>{
-        'Authorization': ?dotenv.env['API_GAMIFICATION_ENGINE'],
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
+      headers: httpHeaders,
       body: jsonEncode(json),
     );
-
-    if(response.statusCode != 200){
-      print('Failed to add xp to player');
-      print(response.statusCode);
-      print(response.body);
+    if (response.statusCode != 200) {
+      log("Error adding XP: ${response.statusCode}");
     }
   }
 
-  void deletePlayer(UserData user) async {
-    http.delete(
-    Uri.parse("$playerManagingURL/${user.id.toString()}"),
+  void deletePlayer(String user) async {
+    final response = await http.delete(
+      Uri.parse("$playerManagingURL/$user"),
+      headers: httpHeaders,
     );
+    if (response.statusCode != 200) {
+      log("Error deleting player: ${response.statusCode}");
+    }
   }
 
   Future<List<UserData>?> getRegisteredPlayers({int size = 20}) async {
-    final response = await http.get(Uri.parse("$playerStatusURL?size=$size"));
+    final response = await http.get(
+      Uri.parse("$playerStatusURL?size=$size"),
+      headers: httpHeaders,
+    );
     if (response.statusCode == 200) {
       return (jsonDecode(response.body) as Iterable<Map<String, dynamic>>)
-        .map(fromPlayerJson).toList();
-
-      }
-    else {
+          .map(fromPlayerJson)
+          .toList();
+    } else {
+      log("Error getting registered players: ${response.statusCode}");
       return null;
     }
   }
 
-  
-  UserData fromPlayerJson(Map<String, dynamic> json) {
-    return UserData(
-      id: json['id'],
-      username: json['playerId'],
-      xp: json['levels'][0]['levelValue'],
-      level: json['levels'][0]['levelIndex'], 
-      badgesID: Set(), //TODO NON LO SO
-      customizablesID: json['customData']['Customizables'] as Set<int>,
-    );
-  }
+  void executeAction(
+    String user,
+    ActionId actionId, {
+    Map<String, dynamic> params = const {},
+  }) async {
+    final Map<String, dynamic> json = {
+      "gameId": gameID,
+      "actionId": actionId.id,
+      "playerId": user,
+      "data": params,
+    };
 
+    final response = await http.post(
+      Uri.parse(actionExecutionURL),
+      headers: httpHeaders,
+      body: jsonEncode(json),
+    );
+    if (response.statusCode != 200) {
+      log("Error executing action: ${response.statusCode}");
+    }
+  }
+}
+
+UserData fromPlayerJson(Map<String, dynamic> json) {
+  return UserData(
+    username: json['playerId'],
+    xp: json['levels'][0]['levelValue'],
+    level: json['levels'][0]['levelIndex'],
+    badgesID: Set(), //TODO NON LO SO
+    customizablesID: json['customData']['Customizables'] as Set<int>,
+  );
+}
+
+enum ActionId {
+  earnXp("earn_xp");
+
+  final String id;
+
+  const ActionId(this.id);
 }

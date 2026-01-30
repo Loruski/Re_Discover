@@ -19,7 +19,7 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
     updateFunction: GamificationEngineService().getRegisteredPlayers,
     fromJson: UserData.fromJson,
     toJson: (User element) {
-      UserData userData = UserData(id: element.id, username: element.username, xp: element.xp, level: element.level, badgesID: element.badges.map((e) => e.id).toSet(), customizablesID: element.customizables.map((e) => e.id).toSet());
+      UserData userData = UserData(username: element.username, xp: element.xp, level: element.level, badgesID: element.badges.map((e) => e.id).toSet(), customizablesID: element.customizables.map((e) => e.id).toSet());
       return userData.toJson();
     },
     assignIds: (List<UserData> data, Map<Types, AbstractDataRepository>? requiredData) {
@@ -38,7 +38,7 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
         if (badges.contains(null)) log("in User $UserData.id $UserData.name there's a badge not found in the holder: $badges");
         if (customizables.contains(null)) log("in User $UserData.id $UserData.name there's a customizable not found in the holder: $customizables");
 
-        toSetToHolder[element.id] = User(id: element.id, username: element.username, xp: element.xp, level: element.level, badges: badges, customizables: customizables);
+        toSetToHolder[element.username.hashCode] = User(username: element.username, xp: element.xp, level: element.level, badges: badges, customizables: customizables);
       }
       return toSetToHolder;
     }
@@ -65,7 +65,6 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
     if (isTemporaryUserNull) return null;
 
     return User(
-        id: int.parse(temporaryUser[0]),
         username: temporaryUser[1],
         xp: double.parse(temporaryUser[2]),
         level: int.parse(temporaryUser[3]),
