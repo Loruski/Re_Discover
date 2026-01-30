@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:http/http.dart' as http;
 import 'package:re_discover/data/models/cosmetic_data.dart';
 
@@ -12,7 +14,7 @@ const String baseURL = "https://gamification-api.polyglot-edu.com/gamification";
 
 const String modelURL = "$baseURL/model/game/$gameID"; // not to be used
 
-const String gameID = "697d01992657a80217381c9e";
+  const String gameID = "697d01992657a80217381c9e";
 
 const String playerManagingURL = "$baseURL/data/game/$gameID/player";
 
@@ -38,10 +40,10 @@ class GamificationEngineService {
   GamificationEngineService._internal();
 
 
-  void registerPlayer(UserData user) async {
+  void registerPlayer(String user) async {
     final Map<String, dynamic> json = {
-      "id": user.id.toString(),
-      "playerId": user.username.toString(),
+      "id": user,
+      "playerId": user,
       "gameId": gameID,
       "state": {},
       "levels": [],
@@ -49,7 +51,7 @@ class GamificationEngineService {
       "customData": {}
     };
     final response = await http.post(
-      Uri.parse("$playerManagingURL/${user.username.toString()}"),
+      Uri.parse("$playerManagingURL/${user}"),
       headers: <String, String>{
         'Authorization': ?dotenv.env['API_GAMIFICATION_ENGINE'],
         'Content-Type': 'application/json; charset=UTF-8',
@@ -59,6 +61,53 @@ class GamificationEngineService {
 
     if(response.statusCode != 200){
       print('Failed to register player');
+      print(response.statusCode);
+      print(response.body);
+    }
+  }
+
+
+  Future<UserData?> getPlayerState(String user) async {
+    final response = await http.get(
+      Uri.parse("$playerManagingURL/${user}"),
+      headers: <String, String>{
+        'Authorization': ?dotenv.env['API_GAMIFICATION_ENGINE'],
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if(response.statusCode != 200){
+      print('Failed to register player');
+      print(response.statusCode);
+      print(response.body);
+      return null;
+    }
+
+    return fromPlayerJson(jsonDecode(response.body));
+
+
+  }
+
+  void addXp(bool errors, String userId) async {
+
+    String callParameters = errors ? "earn_xp_quiz_errors" : "earn_xp_quiz";
+
+    final Map<String, dynamic> json = {
+      "gameId": gameID,
+      "actionId": callParameters,
+      "playerId": userId
+    };
+    final response = await http.post(
+      Uri.parse(actionExecutionURL),
+      headers: <String, String>{
+        'Authorization': ?dotenv.env['API_GAMIFICATION_ENGINE'],
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(json),
+    );
+
+    if(response.statusCode != 200){
+      print('Failed to add xp to player');
       print(response.statusCode);
       print(response.body);
     }

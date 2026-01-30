@@ -50,16 +50,7 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
     prefs.setStringList("user", ["0", username, "0", "1", "", ""]);
 
 
-    GamificationEngineService().registerPlayer(
-      UserData(
-        id: 0,
-        username: username,
-        xp: 0,
-        level: 1,
-        badgesID: <int>{},
-        customizablesID: <int>{}
-      )
-    );
+    GamificationEngineService().registerPlayer(username);
   }
 
   Future<List<String>?> getTemporaryUser() async {
