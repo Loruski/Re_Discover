@@ -7,9 +7,9 @@ part 'cosmetic_data.g.dart';
 class CosmeticData {
   late final int id;
   late String name;
-  late String imgPath;
+  late String img;
 
-  CosmeticData({required this.id, required this.name, required this.imgPath});
+  CosmeticData({required this.id, required this.name, required this.img});
 
   factory CosmeticData.fromJson(Map<String, dynamic> json) => _$CosmeticDataFromJson(json);
 
@@ -19,7 +19,7 @@ class CosmeticData {
     return domain.Cosmetic(
       id: id,
       name: name,
-      imgPath: imgPath,
+      img: img,
     );
   }
 }

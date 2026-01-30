@@ -23,6 +23,12 @@
             "name": "The Globetrotter",
             "description": "Explore 100 new places",
             "img": "\uD83C\uDFC1"
+        },
+        {
+          "id": 4,
+          "name": "The First POI",
+          "description": "Explore your first point of interest",
+          "img": "1\uFE0F\u20E3"
         }
     ]
 }

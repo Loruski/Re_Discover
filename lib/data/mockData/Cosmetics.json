@@ -2,23 +2,23 @@
     "ReDiscoverData": [
         {
             "id": 0,
-            "name": "cappello",
-            "imgPath": "assets/customizables/hats/hat_0.png"
+            "name": "Ninja",
+            "img": "\uD83E\uDD77\uD83C\uDFFB"
         },
         {
             "id": 1,
-            "name": "berretto",
-            "imgPath": "assets/customizables/hats/hat_1.png"
+            "name": "Detective",
+            "img": "\uD83D\uDD75\uD83C\uDFFB"
         },
         {
             "id": 2,
-            "name": "cappuccio",
-            "imgPath": "assets/customizables/hats/hat_2.png"
+            "name": "Student",
+            "img": "\uD83E\uDDD1\uD83C\uDFFB\u200D\uD83C\uDF93"
         },
         {
             "id": 3,
-            "name": "corona",
-            "imgPath": "assets/customizables/hats/hat_3.png"
+            "name": "Walker",
+            "img": "\uD83E\uDD7E"
         }
     ]
 }

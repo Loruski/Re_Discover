@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:re_discover/ui/USER/widgets/badge_card.dart';
 import 'package:re_discover/domain/models/badge.dart' as models;
 
-
-import '../view_model/user_view_model.dart';
-
 class BadgesScreen extends StatelessWidget{
   const BadgesScreen({super.key, required this.badges});
 
@@ -36,7 +33,6 @@ class BadgesScreen extends StatelessWidget{
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
                 children: <Widget>[
-                  //BadgeCard(iconCard: "🦁", titleCard: "title", infoCard: "info", unlocked: false),  //TODO remove this line
                   ...badges.map((badge) => BadgeCard(
                       iconCard: badge.img,
                       titleCard: badge.name,

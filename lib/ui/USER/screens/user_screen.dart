@@ -35,7 +35,7 @@ class UserScreenContent extends StatelessWidget {
             slivers: [
               SliverAppBar(
                 pinned: true,
-                expandedHeight: 160.0, // aumenta per fare spazio al tuo header
+                expandedHeight: 160.0, // aumenta per fare spazio all'header
                 flexibleSpace: FlexibleSpaceBar(
                   background: Padding(
                     padding: const EdgeInsets.fromLTRB(16, 20, 16, 5),
@@ -69,7 +69,7 @@ class UserScreenContent extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => const ProfilePersonalization()),
+                                      MaterialPageRoute(builder: (context) => ProfilePersonalization(cosmetics: userViewModel.cosmetics,)),
                                     );
                                   },
                                   icon: const Icon(Icons.auto_awesome, color: Colors.black),

@@ -9,13 +9,13 @@ class CosmeticRepository extends AbstractDataRepository<CosmeticData, Cosmetic> 
     path: Paths.cosmeticsPath,
     fromJson: CosmeticData.fromJson,
     toJson: (Cosmetic element) {
-      CosmeticData cosmeticData = CosmeticData(id: element.id, name: element.name, imgPath: element.imgPath);
+      CosmeticData cosmeticData = CosmeticData(id: element.id, name: element.name, img: element.img);
       return cosmeticData.toJson();
     },
     assignIds: (List data, Map<Types, AbstractDataRepository>? requiredData) {
       Map<int, Cosmetic> toSetToHolder = {};
       for (CosmeticData element in data) {
-        toSetToHolder[element.id] = Cosmetic(id: element.id, name: element.name, imgPath: element.imgPath);
+        toSetToHolder[element.id] = Cosmetic(id: element.id, name: element.name, img: element.img);
       }
       return toSetToHolder;
     });
