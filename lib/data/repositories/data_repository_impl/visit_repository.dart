@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:re_discover/data/models/visit_data.dart';
-import 'package:re_discover/data/repositories/paths/paths.dart';
+import 'package:re_discover/data/repositories/static_repo_settings/paths.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/city.dart';
 import 'package:re_discover/domain/models/poi.dart';

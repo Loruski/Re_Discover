@@ -1,6 +1,6 @@
 import 'package:re_discover/data/models/badge_data.dart';
 import 'package:re_discover/data/repositories/abstract_data_repository.dart';
-import 'package:re_discover/data/repositories/paths/paths.dart';
+import 'package:re_discover/data/repositories/static_repo_settings/paths.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/badge.dart';
 

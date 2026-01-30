@@ -1,7 +1,8 @@
 import 'dart:developer';
 
-import 'package:re_discover/data/repositories/paths/paths.dart';
+import 'package:re_discover/data/repositories/static_repo_settings/paths.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
+import 'package:re_discover/data/services/gamification_engine_service.dart';
 import 'package:re_discover/domain/models/cosmetic.dart';
 import 'package:re_discover/domain/models/user.dart';
 import 'package:re_discover/data/models/user_data.dart';
@@ -15,6 +16,7 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
 
   UserRepository(): super(
     path: Paths.usersPath,
+    updateFunction: GamificationEngineService().getRegisteredPlayers,
     fromJson: UserData.fromJson,
     toJson: (User element) {
       UserData userData = UserData(id: element.id, username: element.username, xp: element.xp, level: element.level, badgesID: element.badges.map((e) => e.id).toSet(), customizablesID: element.customizables.map((e) => e.id).toSet());
