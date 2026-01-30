@@ -74,7 +74,7 @@ class _QuizScreenState extends State<QuizScreen> {
           builder: (context) => QuizCompletedScreen(poi: widget.poi,),
         ),
       );
-    };
+    }
   }
 
   @override

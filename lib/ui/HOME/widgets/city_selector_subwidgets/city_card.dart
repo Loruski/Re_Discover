@@ -87,7 +87,7 @@ class CityCard extends StatelessWidget {
                           const SizedBox(width: 5),
                           Expanded(
                             child: Text(
-                              "${city.pois?.length} places",
+                              "${city.pois.length} places",
                               style: const TextStyle(color: Colors.blue),
                               overflow: TextOverflow.ellipsis,
                             ),

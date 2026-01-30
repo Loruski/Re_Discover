@@ -42,7 +42,7 @@ class BadgesScreen extends StatelessWidget{
                       titleCard: badge.name,
                       infoCard: badge.description,
                       unlocked: false
-                  )).toList(),
+                  )),
                 ],
 
               ),

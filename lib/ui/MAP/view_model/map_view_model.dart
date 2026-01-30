@@ -94,7 +94,7 @@ class MapViewModel extends ChangeNotifier {
       _setFollowUserPosition(true);
       poisOfSelectedCity.clear();
       selectedCity = StateHub().cityState.selectedCity!;
-      List<POI> poisOfACity = await RepositoryHub().cityRepository.getPOIsOfCityFromID(selectedCity.id);
+      List<POI> poisOfACity = RepositoryHub().cityRepository.getPOIsOfCityFromID(selectedCity.id);
       //TODO aggiungere la visita, e pensara a cosa salvare
       poisOfSelectedCity.addAll(poisOfACity);
       newPoiDecision();

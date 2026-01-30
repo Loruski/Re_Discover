@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/domain/models/city.dart';
-import 'package:re_discover/ui/MAP/screens/quiz_screen.dart';
 
 class CityModalBottomSheet extends StatelessWidget {
   const CityModalBottomSheet({super.key, required this.city});
