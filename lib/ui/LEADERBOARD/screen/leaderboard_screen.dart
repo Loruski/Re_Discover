@@ -123,8 +123,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
               selectedCategory = newValue;
             });
           },
-          // Fixed offset ensures the menu always opens in the same place
-          offset: const Offset(0, 48),
+          // Increased offset to 56 to add a small gap between the button and the menu
+          offset: const Offset(0, 56),
           elevation: 4,
           constraints: BoxConstraints(
             minWidth: constraints.maxWidth,
