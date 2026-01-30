@@ -1,16 +1,21 @@
+![](assets/splash/splash_image.png)
+
 # Re:Discover
 
-A new Flutter project.
+An exploration based application which will help the user on visiting points of interest, historical places, and elements worth of note in any city they're interested about, in a way that will actively engage them by using notable aspects of software gamification.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+## Functions
 
-A few resources to get you started if this is your first Flutter project:
+## Screens
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Download
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## For Devs
+
+### Technologies Used
+
+### Run Locally
+
+## License
+Licensed under the [GNU GPLv3](./LICENSE) license.
