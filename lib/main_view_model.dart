@@ -10,6 +10,7 @@ class MainViewModel extends ChangeNotifier {
   MainViewModel();
 
   Future<bool> shouldOobeBeRunned() async {
+
     var user = await _userRepository.getLoggedInUser();
 
     if (user == null) return true;

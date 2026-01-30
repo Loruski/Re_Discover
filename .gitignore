@@ -50,4 +50,5 @@ app.*.map.json
 *.g.dart
 windows/flutter/generated_plugins.cmake
 macos/Flutter/GeneratedPluginRegistrant.swift
-
+.env
+*.env
