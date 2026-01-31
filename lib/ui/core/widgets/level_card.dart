@@ -40,14 +40,23 @@ class LevelCard extends StatelessWidget {
                 Icon(Icons.track_changes, size: 50, color: Colors.orange),
               ],
             ),
-            LinearProgressIndicator(
-              value: 0.4,
-              minHeight: 6,
-              borderRadius: BorderRadius.circular(10),
-              backgroundColor: Colors.grey[300],
-              color: Colors.orange,
+            Consumer<UserState>(
+              builder: (BuildContext context, UserState value, Widget? child) {
+                return Column(
+                  children: [
+                    LinearProgressIndicator(
+                      value: value.user!.xp / (125 * value.user!.level),
+                      minHeight: 6,
+                      borderRadius: BorderRadius.circular(10),
+                      backgroundColor: Colors.grey[300],
+                      color: Colors.orange,
+                    ),
+                    SizedBox(height: 10),
+                    Text("${value.user?.xp.toStringAsFixed(0)} / ${125 * value.user!.level} XP"),
+                  ],
+                );
+              },
             ),
-            Text("80 / 120 XP"),
           ],
         ),
       ),

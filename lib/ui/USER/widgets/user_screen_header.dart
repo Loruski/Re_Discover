@@ -63,8 +63,8 @@ class UserScreenHeader extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  "Level 1",
+                Text(
+                  "Level ${userState.user?.level}",
                   style: TextStyle(fontSize: 15, color: Colors.blueGrey),
                 ),
                 const SizedBox(width: 5),

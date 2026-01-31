@@ -51,6 +51,8 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
 
       UserData? data = await GamificationEngineService().getPlayerState(username);
 
+      print("UTENTEEEEEEEEEEEEEEEEEEE ${data?.toJson()}");
+
       if (data == null) {
         log("Error: getPlayerState returned null for $username");
         return;
@@ -62,6 +64,8 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
       if(prefs.getStringList("user") != null) {
         await prefs.remove("user");
       }
+
+      print("ATTENZIONEEEEEEE QUESTA XP!!!!: ${data.xp}");
 
       bool save = await prefs.setStringList("user", [
         data.username.hashCode.toString(),

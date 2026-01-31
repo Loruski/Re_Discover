@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:re_discover/data/states/user_state.dart';
 
 
 class LevelWidget extends StatelessWidget {
@@ -6,6 +8,9 @@ class LevelWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userState = context.watch<UserState>();
+    final userLevel = userState.user?.level;
+
     return Container(
       height: 90,
       margin: EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -24,7 +29,7 @@ class LevelWidget extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: Text(
-              "1",
+              "$userLevel",
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 20,
@@ -46,7 +51,7 @@ class LevelWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('Level 1',
+                          Text('Level $userLevel',
                               style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,

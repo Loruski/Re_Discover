@@ -48,14 +48,17 @@ class GamificationEngineService {
       "inventory": {},
       "customData": {},
     };
+
     final response = await http.post(
       Uri.parse("$playerManagingURL/$user"),
       headers: httpHeaders,
       body: jsonEncode(json),
     );
+
     if (response.statusCode != 200) {
       log("Error registering player: ${response.statusCode}");
     }
+
   }
 
   Future<UserData?> getPlayerState(String user) async {
@@ -139,15 +142,16 @@ class GamificationEngineService {
 }
 
 UserData fromPlayerJson(Map<String, dynamic> json) {
+  double userXP = json['state']['PointConcept'][2]['score'] == null ? 0 : json['state']['PointConcept'][2]['score'].toDouble();
+  int userLevel = int.parse(json['levels'][0]['levelValue'].toString());
+
+
   return UserData(
     username: json['playerId'],
-    // xp: json['levels'][0]['startLevelScore'],
-    // level: json['levels'][0]['levelIndex'].toInt(),
-    xp: 0, //TODO NON LO SO
-    level: 0, //TODO NON LO SO
-    badgesID: Set(), //TODO NON LO SO
-    //customizablesID: json['customData']['Customizables'] as Set<int>,
-    customizablesID: Set(), //CHE SCHIFO
+    xp: userXP,
+    level: userLevel,
+    badgesID: {},
+    customizablesID: Set(),
   );
 }
 

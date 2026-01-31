@@ -20,9 +20,19 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+  /*
     return ChangeNotifierProvider(
       create: (context) => MapViewModel()..initState(),
       child: MapScreenContent(),
+    );
+
+   */
+    return MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (_) => MapViewModel()..initState()),
+          ChangeNotifierProvider.value(value: StateHub().userState)
+        ],
+        child: MapScreenContent(),
     );
   }
 }
