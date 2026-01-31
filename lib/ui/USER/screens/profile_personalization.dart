@@ -17,7 +17,7 @@ class ProfilePersonalization extends StatelessWidget {
               scrolledUnderElevation: 0,
               pinned: true,
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              title: Text(
+              title: const Text(
                 'Cosmetics',
                 style: TextStyle(
                   fontSize: 24,
@@ -32,6 +32,7 @@ class ProfilePersonalization extends StatelessWidget {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
                 crossAxisCount: 2,
+                childAspectRatio: 0.95,
                 children: <Widget>[
                   ...cosmetics.map((cosmetic) => ProfilePictureCard(
                       iconProfile: cosmetic.img,

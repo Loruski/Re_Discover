@@ -55,34 +55,6 @@ class UserScreenContent extends StatelessWidget {
                             spacing: 3,
                             children: [
                               // Dart
-                              SizedBox(
-                                width: double.infinity,
-                                height: 55,
-                                child: FloatingActionButton.extended(
-                                  elevation: 1,
-                                  heroTag: null,
-                                  backgroundColor: Colors.white,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                    side: const BorderSide(color: Colors.grey, width: 1),
-                                  ),
-                                  onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => ProfilePersonalization(cosmetics: userViewModel.cosmetics,)),
-                                    );
-                                  },
-                                  icon: const Icon(Icons.auto_awesome, color: Colors.black),
-                                  label: const Text(
-                                    'Profile Personalization',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
                               LevelCard(),
                               UsersInfosCards(
                                 iconCard1: Icons.check,

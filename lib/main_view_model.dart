@@ -15,7 +15,7 @@ class MainViewModel extends ChangeNotifier {
 
     if (user == null) return true;
 
-    _userState.loadUser();
+    await _userState.loadUser();
     return false;
   }
 
