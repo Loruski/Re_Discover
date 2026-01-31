@@ -26,7 +26,7 @@ class LevelCard extends StatelessWidget {
                     Consumer<UserState>(
                       builder: (context, userState, child) {
                         return Text(
-                          "${userState.user?.level}",
+                          "${userState.user.level}",
                           style: TextStyle(
                             fontSize: 30,
                             color: Colors.black,
@@ -45,14 +45,14 @@ class LevelCard extends StatelessWidget {
                 return Column(
                   children: [
                     LinearProgressIndicator(
-                      value: value.user!.xp / (125 * value.user!.level),
+                      value: (value.user.xp%125) / 125,
                       minHeight: 6,
                       borderRadius: BorderRadius.circular(10),
                       backgroundColor: Colors.grey[300],
                       color: Colors.orange,
                     ),
                     SizedBox(height: 10),
-                    Text("${value.user?.xp.toStringAsFixed(0)} / ${125 * value.user!.level} XP"),
+                    Text("${value.user.xp.toStringAsFixed(0)} / ${125 * value.user.level} XP"),
                   ],
                 );
               },

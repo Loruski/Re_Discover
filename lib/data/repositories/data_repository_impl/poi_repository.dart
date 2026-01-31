@@ -6,6 +6,10 @@ import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/domain/models/quiz.dart';
 import 'package:re_discover/domain/models/position.dart';
+import 'package:re_discover/domain/models/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../services/gamification_engine_service.dart';
 
 class POIRepository extends AbstractDataRepository<POIData, POI> {
   POIRepository(): super(
@@ -40,4 +44,5 @@ class POIRepository extends AbstractDataRepository<POIData, POI> {
       return toSetToHolder;
     }
   );
+
 }

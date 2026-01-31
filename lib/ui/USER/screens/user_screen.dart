@@ -66,15 +66,20 @@ class UserScreenContent extends StatelessWidget {
                                 cardColor1: Colors.green,
                                 cardColor2: Colors.blue,
                               ),
-                              UsersInfosCards(
-                                iconCard1: Icons.place_outlined,
-                                iconCard2: Icons.workspace_premium,
-                                titleCard1: 'Visited Places',
-                                titleCard2: 'Unlocked Badges',
-                                infoCard1: '3',
-                                infoCard2: '6',
-                                cardColor1: Colors.purple,
-                                cardColor2: Colors.orange,
+                              ValueListenableBuilder<int>(
+                                valueListenable: StateHub().visitState.poisCount,
+                                builder: (context, count, child) {
+                                  return UsersInfosCards(
+                                    iconCard1: Icons.place_outlined,
+                                    iconCard2: Icons.workspace_premium,
+                                    titleCard1: 'Visited Places',
+                                    titleCard2: 'Unlocked Badges',
+                                    infoCard1: count.toString(),
+                                    infoCard2: '6',
+                                    cardColor1: Colors.purple,
+                                    cardColor2: Colors.orange,
+                                  );
+                                },
                               ),
                               SizedBox(height: 10),
                               SizedBox(

@@ -61,6 +61,25 @@ class GamificationEngineService {
 
   }
 
+  Future addPoiVisited(String user) async{
+    final Map<String, dynamic> json = {
+      "gameId": gameID,
+      "actionId": "poi_visited",
+      "playerId": user
+    };
+
+    final response = await http.post(
+      Uri.parse(actionExecutionURL),
+      headers: httpHeaders,
+      body: jsonEncode(json),
+    );
+
+    if (response.statusCode != 200) {
+      log("Error registering player: ${response.statusCode}");
+    }
+
+  }
+
   Future<UserData?> getPlayerState(String user) async {
     final response = await http.get(
       Uri.parse("$playerManagingURL/$user"),
@@ -77,7 +96,7 @@ class GamificationEngineService {
     return fromPlayerJson(jsonDecode(response.body));
   }
 
-  void addXp(bool errors, String userId) async {
+  Future<void> addXp(bool errors, String userId) async {
     String callParameters = errors ? "earn_xp_quiz_errors" : "earn_xp_quiz";
 
     final Map<String, dynamic> json = {
@@ -103,6 +122,32 @@ class GamificationEngineService {
     if (response.statusCode != 200) {
       log("Error deleting player: ${response.statusCode}");
     }
+  }
+
+  Future<int> getUserPOICount(String userId) async {
+    final response = await http.get(
+      Uri.parse("$playerManagingURL/$userId/state"),
+      headers: httpHeaders,
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(response.body);
+      final List? pointList = json['state']?['PointConcept'];
+      final xpEntry = pointList?.firstWhere(
+            (element) => element['id'] == 'POI_visited',
+        orElse: () => null,
+      );
+
+      // 3. Estraiamo lo score. Se xpEntry è null (perché state era {}) mettiamo 0.0
+      double userXP = (xpEntry?['score'] ?? 0.0).toDouble();
+
+      return userXP.toInt();
+
+    } else {
+      log("Error getting user POI count: ${response.statusCode}");
+      return 0;
+    }
+
   }
 
   Future<List<UserData>?> getRegisteredPlayers({int size = 20}) async {
@@ -166,12 +211,19 @@ UserData fromPlayerJson(Map<String, dynamic> json) {
     userLevel = int.tryParse(json['levels'][0]['levelValue'].toString()) ?? 1;
   }
 
+  final gemsEntry = pointList?.firstWhere(
+        (element) => element['id'] == 'gems',
+    orElse: () => null,
+  );
+  int userGems = (gemsEntry?['score'] ?? 0).toInt();
+
   return UserData(
     username: json['playerId'] ?? 'Unknown',
     xp: userXP,
     level: userLevel,
     badgesID: {},
     customizablesID: {},
+    gems: userGems,
   );
 }
 

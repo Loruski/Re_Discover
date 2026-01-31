@@ -8,10 +8,11 @@ class UserData {
   late String username;
   late double xp;
   late int level;
+  late int gems;
   late Set<int> badgesID;
   late Set<int> customizablesID;
 
-  UserData({required this.username, required this.xp, required this.level, required this.badgesID, required this.customizablesID});
+  UserData({required this.username, required this.xp, required this.level, required this.badgesID, required this.customizablesID, required this.gems});
 
   factory UserData.fromJson(Map<String, dynamic> json) => _$UserDataFromJson(json);
 

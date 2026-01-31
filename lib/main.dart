@@ -4,10 +4,12 @@ import 'package:re_discover/main_view_model.dart';
 import 'package:re_discover/ui/OOBE/oobe.dart';
 import 'package:re_discover/ui/core/ui/homepage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'data/states/state_hub.dart';
 
 // Main method that runs the first widget: MyApp
 void main() async{
   await dotenv.load(fileName: ".env");
+
   runApp(
       const MyApp()
   );
@@ -61,6 +63,11 @@ class _InitialScreenState extends State<InitialScreen> {
   void initState() {
     super.initState();
     _shouldOobeBeRunned = Provider.of<MainViewModel>(context, listen: false).shouldOobeBeRunned();
+
+    // Carica i POI count dopo l'inizializzazione
+    StateHub().visitState.getPOIsCount().catchError((e) {
+      debugPrint('Errore nel caricamento dei POI: $e');
+    });
   }
 
   @override

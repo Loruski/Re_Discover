@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:re_discover/data/repositories/static_repo_settings/paths.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/data/services/gamification_engine_service.dart';
+import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/domain/models/cosmetic.dart';
 import 'package:re_discover/domain/models/user.dart';
 import 'package:re_discover/data/models/user_data.dart';
@@ -19,7 +20,7 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
     updateFunction: GamificationEngineService().getRegisteredPlayers,
     fromJson: UserData.fromJson,
     toJson: (User element) {
-      UserData userData = UserData(username: element.username, xp: element.xp, level: element.level, badgesID: element.badges.map((e) => e.id).toSet(), customizablesID: element.customizables.map((e) => e.id).toSet());
+      UserData userData = UserData(username: element.username, xp: element.xp, level: element.level, badgesID: element.badges.map((e) => e.id).toSet(), customizablesID: element.customizables.map((e) => e.id).toSet(), gems: element.gems);
       return userData.toJson();
     },
     assignIds: (List<UserData> data, Map<Types, AbstractDataRepository>? requiredData) {
@@ -38,25 +39,29 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
         if (badges.contains(null)) log("in User $UserData.id $UserData.name there's a badge not found in the holder: $badges");
         if (customizables.contains(null)) log("in User $UserData.id $UserData.name there's a customizable not found in the holder: $customizables");
 
-        toSetToHolder[element.username.hashCode] = User(username: element.username, xp: element.xp, level: element.level, badges: badges, customizables: customizables);
+        toSetToHolder[element.username.hashCode] = User(username: element.username, xp: element.xp, level: element.level, badges: badges, customizables: customizables, gems: element.gems);
       }
       return toSetToHolder;
     }
   );
 
-  Future<void> storeUser(String username) async {
-    try {
+  Future<void> LoginUser(String username) async {
 
       await GamificationEngineService().registerPlayer(username);
 
       UserData? data = await GamificationEngineService().getPlayerState(username);
 
-      print("UTENTEEEEEEEEEEEEEEEEEEE ${data?.toJson()}");
+      await storeUser(data!);
+  }
 
-      if (data == null) {
-        log("Error: getPlayerState returned null for $username");
-        return;
-      }
+  Future<void> updateUser(String username) async {
+    UserData? data = await GamificationEngineService().getPlayerState(username);
+    await storeUser(data!);
+  }
+
+  Future<void> storeUser(UserData data) async{
+    try {
+      print("UTENTEEEEEEEEEEEEEEEEEEE ${data.toJson()}");
 
       print("GATTO: ${data.username}");
 
@@ -73,10 +78,11 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
         data.xp.toString(),
         data.level.toString(),
         "",
-        ""
+        "",
+        data.gems.toString(),
       ]);
 
-      print("Saved user $username: $save");
+      print("Saved user ${data.username}: $save");
 
     } catch (e) {
       log("Error in storeUser: $e");
@@ -85,11 +91,27 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
 
 
 
-  void updateUserXp(bool error) async {
-    User? user = await getLoggedInUser();
-    if(user == null) return;
-    GamificationEngineService().addXp(error, user.username);
+  // void updateUserXp(bool error) async {
+  //   User? user = await getLoggedInUser();
+  //   if(user == null) return;
+  //   await GamificationEngineService().addXp(error, user.username);
+  //   await updateUser(user.username);
+  //   await StateHub().userState.loadUser();
+  // }
+
+  Future<void> updateUserXp(bool errorCommitted) async {
+    final username = StateHub().userState.user.username;
+
+    await GamificationEngineService().addXp(errorCommitted, username);
+
+    final userData = await GamificationEngineService().getPlayerState(username);
+    if (userData != null) {
+      await updateUser(username);
+
+      await StateHub().userState.loadUser();
+    }
   }
+
 
   
   Future<List<String>?> getTemporaryUser() async {
@@ -108,7 +130,9 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
         xp: double.parse(temporaryUser[2]),
         level: int.parse(temporaryUser[3]),
         badges: <ReDiscover.Badge>{},
-        customizables: <Cosmetic>{});
+        customizables: <Cosmetic>{},
+        gems: int.parse(temporaryUser[6])
+    );
   }
 
 }

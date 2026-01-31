@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:re_discover/data/repositories/repository_hub.dart';
+import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/domain/models/quiz.dart';
 import 'package:re_discover/ui/MAP/screens/quiz_completed_screen.dart';
@@ -64,10 +65,19 @@ class _QuizScreenState extends State<QuizScreen> {
     _handleWrongAnswer();
   }
 
-  void _handleCorrectAnswer() {
-    RepositoryHub().userRepository.updateUserXp(_errorCommitted);
-    _navigateToCompletedScreen();
+  void _handleCorrectAnswer() async {
+    try {
+      await RepositoryHub().userRepository.updateUserXp(_errorCommitted);
+      await RepositoryHub().addPoiVisited(StateHub().userState.user.username);
+      _navigateToCompletedScreen();
+    } catch (e) {
+      print("Error updating user: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error updating progress")),
+      );
+    }
   }
+
 
   void _handleWrongAnswer() {
     setState(() {

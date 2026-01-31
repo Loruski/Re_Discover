@@ -5,13 +5,16 @@ import 'package:re_discover/domain/models/user.dart';
 class UserState extends ChangeNotifier {
   final UserRepository _userRepository;
 
-  User? _user;
-  User? get user => _user;
+  late User _user;
+  User get user => _user;
 
   UserState(this._userRepository);
 
   Future<bool> loadUser() async {
-    _user = await _userRepository.getLoggedInUser();
+    _user = (await _userRepository.getLoggedInUser())!;
+
+      print("USER LOADED IN USER STATE: ${_user.username} ${_user.xp} XP");
+
     notifyListeners();
 
     return _user != null;

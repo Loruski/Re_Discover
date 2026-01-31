@@ -8,6 +8,7 @@ import 'package:re_discover/data/repositories/data_repository_impl/position_repo
 import 'package:re_discover/data/repositories/data_repository_impl/quiz_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/user_repository.dart';
 import 'package:re_discover/data/repositories/data_repository_impl/visit_repository.dart';
+import 'package:re_discover/data/states/state_hub.dart';
 import 'package:re_discover/domain/models/app_skin.dart';
 import 'package:re_discover/domain/models/badge.dart';
 import 'package:re_discover/domain/models/city.dart';
@@ -18,6 +19,8 @@ import 'package:re_discover/domain/models/position.dart';
 import 'package:re_discover/domain/models/quiz.dart';
 import 'package:re_discover/domain/models/user.dart';
 import 'package:re_discover/domain/models/visit.dart';
+
+import '../services/gamification_engine_service.dart';
 
 enum Types {
   city,
@@ -78,6 +81,11 @@ class RepositoryHub {
   Future<List<Visit>> get visits => visitRepository.data;
   Future<List<POI>> get pois => poiRepository.data;
   Future<List<City>> get cities => cityRepository.data;
+
+  Future addPoiVisited(String user) async{
+    await GamificationEngineService().addPoiVisited(user);
+    await StateHub().visitState.getPOIsCount();
+  }
 }
 
 

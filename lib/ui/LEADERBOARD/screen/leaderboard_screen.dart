@@ -8,8 +8,7 @@ import 'package:re_discover/ui/LEADERBOARD/widgets/user_leaderboard_place_card.d
 
 enum Categories {
   xp("Explorer XP", Icons.stars_rounded),
-  distance("KM Traveled", Icons.directions_walk_rounded),
-  accuracy("Quiz Accuracy", Icons.psychology_rounded);
+  poi("Visited POI", Icons.location_on_sharp);
 
   const Categories(this.name, this.icon);
 
@@ -104,7 +103,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
               PinnedHeaderSliver(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: UserLeaderboardPlaceCard(),
+                  child: UserLeaderboardPlaceCard(user: leaderboardViewModel.user, poiCount: leaderboardViewModel.poisCount,),
                 ),
               ),
             ],
