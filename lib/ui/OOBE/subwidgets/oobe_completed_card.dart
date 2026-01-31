@@ -30,7 +30,6 @@ class OobeCompletedCard extends StatelessWidget {
                     builder: (context, oobeViewModel, child) {
                       return ElevatedButton.icon(
                           onPressed: () => {
-                            oobeViewModel.saveTemporaryUser(),
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(

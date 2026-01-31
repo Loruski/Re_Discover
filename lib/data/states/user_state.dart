@@ -10,8 +10,10 @@ class UserState extends ChangeNotifier {
 
   UserState(this._userRepository);
 
-  Future<void> loadUser() async {
+  Future<bool> loadUser() async {
     _user = await _userRepository.getLoggedInUser();
     notifyListeners();
+
+    return _user != null;
   }
 }

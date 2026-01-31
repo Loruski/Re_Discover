@@ -30,9 +30,11 @@ class OobeViewModel extends ChangeNotifier {
     return null;
   }
   
-  void saveTemporaryUser() async{
+  Future<bool> saveTemporaryUser() async{
     await userRepository.storeUser(username);
-    await StateHub().userState.loadUser();
+    bool isUserCorrectlyLoaded = await StateHub().userState.loadUser();
+
+    return isUserCorrectlyLoaded;
   }
 
 }
