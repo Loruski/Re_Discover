@@ -72,6 +72,8 @@ class GamificationEngineService {
       return null;
     }
 
+    print("GATTO ${response.body}");
+
     return fromPlayerJson(jsonDecode(response.body));
   }
 
@@ -142,16 +144,32 @@ class GamificationEngineService {
 }
 
 UserData fromPlayerJson(Map<String, dynamic> json) {
-  double userXP = json['state']['PointConcept'][2]['score'] == null ? 0 : json['state']['PointConcept'][2]['score'].toDouble();
-  int userLevel = int.parse(json['levels'][0]['levelValue'].toString());
+  // 1. Estraiamo la lista PointConcept in modo sicuro
+  // Se 'state' o 'PointConcept' mancano, pointList sarà null
+  final List? pointList = json['state']?['PointConcept'];
 
+  // 2. Cerchiamo l'elemento che ha id == "xp" invece di usare l'indice [2]
+  // Questo lo rende immune a cambi di ordine nel JSON
+  final xpEntry = pointList?.firstWhere(
+        (element) => element['id'] == 'xp',
+    orElse: () => null,
+  );
+
+  // 3. Estraiamo lo score. Se xpEntry è null (perché state era {}) mettiamo 0.0
+  double userXP = (xpEntry?['score'] ?? 0.0).toDouble();
+
+  // 4. Livello: gestiamo il caso in cui 'levels' sia vuoto o nullo
+  int userLevel = 1;
+  if (json['levels'] != null && (json['levels'] as List).isNotEmpty) {
+    userLevel = int.tryParse(json['levels'][0]['levelValue'].toString()) ?? 1;
+  }
 
   return UserData(
-    username: json['playerId'],
+    username: json['playerId'] ?? 'Unknown',
     xp: userXP,
     level: userLevel,
     badgesID: {},
-    customizablesID: Set(),
+    customizablesID: {},
   );
 }
 
