@@ -1,5 +1,7 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:re_discover/domain/models/user.dart';
+import 'package:re_discover/ui/LEADERBOARD/view_model/leaderboard_view_model.dart';
 
 enum LeaderboardType { global, local, friends }
 
@@ -10,27 +12,57 @@ class LeaderboardScrollView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(),
-      slivers: [
-        SliverPadding(
-          padding: const EdgeInsets.only(top: 8, left: 12, right: 12, bottom: 80),
-          sliver: SliverList.separated(
-            itemCount: 25,
-            separatorBuilder: (context, index) => const SizedBox(height: 8),
-            itemBuilder: (context, index) {
-              final position = index + 1;
-              return LeaderboardTile(
-                position: position,
-                name: 'Explorer ${index + 1}',
-                subtitle: 'Level ${25 - index}',
-                data: '${(30000 - (index * 1200))}',
-                color: _getRankColor(position, context),
-              );
-            },
+    final leaderboardViewModel = Provider.of<LeaderboardViewModel>(context);
+    Future<List<User>> leaderboard = leaderboardViewModel.getLeaderboard();
+
+    return FutureBuilder(
+      future: leaderboard,
+      builder: (context, asyncSnapshot) {
+        if (asyncSnapshot.hasData) {
+        List<User> orderedList = asyncSnapshot.data!;
+        orderedList.sort((a, b) => b.xp.compareTo(a.xp));
+
+        return RefreshIndicator(
+          onRefresh: () => leaderboardViewModel.updateLeaderboard(),
+          backgroundColor: Theme.of(context).primaryColor,
+          color: Theme.of(context).colorScheme.onPrimary,
+          child: CustomScrollView(
+            physics: const BouncingScrollPhysics(parent: ClampingScrollPhysics()),
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.only(
+                  top: 8,
+                  left: 12,
+                  right: 12,
+                  bottom: 80,
+                ),
+                sliver: SliverList.separated(
+                  itemCount: 15,
+                  separatorBuilder: (context, index) => const SizedBox(height: 8),
+                  itemBuilder: (context, index) {
+                    final position = index + 1;
+                    if (orderedList.length < position) return null;
+                    final user = orderedList[index];
+                    return LeaderboardTile(
+                      position: position,
+                      name: user.username, //'Explorer ${index + 1}',
+                      subtitle: 'Level ${user.level}', //'Level ${25 - index}',
+                      data: user.xp.toString(), //'${(30000 - (index * 1200))}',
+                      color: _getRankColor(position, context),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ),
-      ],
+        );
+        } else if (asyncSnapshot.hasError) {
+          return Center(child: Text('Error: ${asyncSnapshot.error}'));
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+      },
     );
   }
 
@@ -38,7 +70,7 @@ class LeaderboardScrollView extends StatelessWidget {
     if (position == 1) return const Color(0xFFFFD700); // Gold
     if (position == 2) return const Color(0xFFC0C0C0); // Silver
     if (position == 3) return const Color(0xFFCD7F32); // Bronze
-    return Theme.of(context).colorScheme.surfaceVariant;
+    return Theme.of(context).colorScheme.surfaceContainerHighest;
   }
 }
 
@@ -61,7 +93,7 @@ class LeaderboardTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isTopThree = position <= 3;
-    
+
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
@@ -73,9 +105,9 @@ class LeaderboardTile extends StatelessWidget {
             offset: const Offset(0, 4),
           ),
         ],
-        border: isTopThree 
-          ? Border.all(color: color.withOpacity(0.5), width: 2)
-          : null,
+        border: isTopThree
+            ? Border.all(color: color.withOpacity(0.5), width: 2)
+            : null,
       ),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
@@ -123,9 +155,9 @@ class LeaderboardTile extends StatelessWidget {
           fontSize: 18,
           fontWeight: FontWeight.w900,
           fontFeatures: const [FontFeature.ordinalForms()],
-          color: position <= 3 
-            ? color.darken(0.2) 
-            : Theme.of(context).colorScheme.outline,
+          color: position <= 3
+              ? color.darken(0.2)
+              : Theme.of(context).colorScheme.outline,
         ),
       ),
     );
@@ -155,14 +187,18 @@ class LeaderboardTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: position <= 3 ? color.withOpacity(0.2) : Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5),
+        color: position <= 3
+            ? color.withOpacity(0.2)
+            : Theme.of(context).colorScheme.surfaceVariant.withOpacity(0.5),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(
         _formatData(data),
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          color: position <= 3 ? color.darken(0.3) : Theme.of(context).colorScheme.onSurfaceVariant,
+          color: position <= 3
+              ? color.darken(0.3)
+              : Theme.of(context).colorScheme.onSurfaceVariant,
         ),
       ),
     );

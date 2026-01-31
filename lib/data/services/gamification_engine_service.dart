@@ -108,17 +108,19 @@ class GamificationEngineService {
       Uri.parse("$playerStatusURL?size=$size"),
       headers: httpHeaders,
     );
+    // log(response.body);
     if (response.statusCode == 200) {
-      return (jsonDecode(response.body) as Iterable<Map<String, dynamic>>)
-          .map(fromPlayerJson)
-          .toList();
+      Map<String, dynamic> json = jsonDecode(response.body);
+      List<dynamic> jsonList = json["content"];
+
+      return jsonList.cast<Map<String, dynamic>>().map(fromPlayerJson).toList();
     } else {
       log("Error getting registered players: ${response.statusCode}");
       return null;
     }
   }
 
-  void executeAction(
+  void _executeAction(
     String user,
     ActionId actionId, {
     Map<String, dynamic> params = const {},
@@ -136,7 +138,7 @@ class GamificationEngineService {
       body: jsonEncode(json),
     );
     if (response.statusCode != 200) {
-      log("Error executing action: ${response.statusCode}");
+      log("Error executing action $actionId: ${response.statusCode}");
     }
   }
 }

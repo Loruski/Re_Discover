@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:re_discover/ui/LEADERBOARD/view_model/leaderboard_view_model.dart';
 
 import 'package:re_discover/ui/LEADERBOARD/widgets/leaderboard_scroll_view.dart';
 import 'package:re_discover/ui/LEADERBOARD/widgets/preferred_size_tabbar_card.dart';
@@ -25,12 +27,15 @@ class LeaderboardScreen extends StatefulWidget {
 class _LeaderboardScreenState extends State<LeaderboardScreen>
     with TickerProviderStateMixin {
   Categories selectedCategory = Categories.values[0];
+  late final LeaderboardViewModel leaderboardViewModel;
   late final TabController _tabController;
   late final PreferredSizeWidget tabBar;
 
   @override
   void initState() {
     super.initState();
+    leaderboardViewModel = LeaderboardViewModel();
+
     _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
     tabBar = PreferredSizeTabbarCard(tabController: _tabController);
   }
@@ -43,69 +48,73 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: NestedScrollView(
-          physics: const BouncingScrollPhysics(),
-          floatHeaderSlivers: true,
-          headerSliverBuilder: (context, innerBoxIsScrolled) => [
-            SliverAppBar(
-              scrolledUnderElevation: 0,
-              pinned: true,
-              floating: true,
-              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              collapsedHeight: tabBar.preferredSize.height + 30,
-              expandedHeight: 140,
-              flexibleSpace: FlexibleSpaceBar(
-                titlePadding: EdgeInsets.only(
-                  left: 20,
-                  right: 20,
-                  bottom: 16.0 + tabBar.preferredSize.height,
+    
+    return ChangeNotifierProvider(
+      create: (context) => leaderboardViewModel,
+      child: SafeArea(
+        child: Scaffold(
+          body: NestedScrollView(
+            physics: const BouncingScrollPhysics(),
+            floatHeaderSlivers: true,
+            headerSliverBuilder: (context, innerBoxIsScrolled) => [
+              SliverAppBar(
+                scrolledUnderElevation: 0,
+                pinned: true,
+                floating: true,
+                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                collapsedHeight: tabBar.preferredSize.height + 30,
+                expandedHeight: 140,
+                flexibleSpace: FlexibleSpaceBar(
+                  titlePadding: EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                    bottom: 16.0 + tabBar.preferredSize.height,
+                  ),
+                  title: Text(
+                    'Leaderboard',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w900,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                  stretchModes: const [StretchMode.blurBackground, StretchMode.fadeTitle],
                 ),
-                title: Text(
-                  'Leaderboard',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w900,
-                    color: Theme.of(context).primaryColor,
+                bottom: tabBar,
+              ),
+              SliverToBoxAdapter(
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
+                  child: Row(
+                    children: [
+                      Text(
+                        "Filter by:",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.outline,
+                          fontSize: 14,
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(child: _buildCategorySelector()),
+                    ],
                   ),
                 ),
-                stretchModes: const [StretchMode.blurBackground, StretchMode.fadeTitle],
               ),
-              bottom: tabBar,
-            ),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 12),
-                child: Row(
-                  children: [
-                    Text(
-                      "Filter by:",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.outline,
-                        fontSize: 14,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(child: _buildCategorySelector()),
-                  ],
+              PinnedHeaderSliver(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: UserLeaderboardPlaceCard(),
                 ),
               ),
+            ],
+            body: TabBarView(
+              controller: _tabController,
+              physics: const BouncingScrollPhysics(),
+              children: LeaderboardType.values.map((type) {
+                return LeaderboardScrollView(leaderboardType: type);
+              }).toList(),
             ),
-            PinnedHeaderSliver(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: UserLeaderboardPlaceCard(),
-              ),
-            ),
-          ],
-          body: TabBarView(
-            controller: _tabController,
-            physics: const BouncingScrollPhysics(),
-            children: LeaderboardType.values.map((type) {
-              return LeaderboardScrollView(leaderboardType: type);
-            }).toList(),
           ),
         ),
       ),
