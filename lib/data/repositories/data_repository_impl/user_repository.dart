@@ -45,14 +45,49 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
   );
 
   Future<void> storeUser(String username) async {
-    final prefs = await SharedPreferences.getInstance();
-    if(prefs.getStringList("user") != null) prefs.remove("user");
-    prefs.setStringList("user", ["0", username, "0", "1", "", ""]);
+    try {
 
+      await GamificationEngineService().registerPlayer(username);
 
-    GamificationEngineService().registerPlayer(username);
+      UserData? data = await GamificationEngineService().getPlayerState(username);
+
+      if (data == null) {
+        log("Error: getPlayerState returned null for $username");
+        return;
+      }
+
+      print("GATTO: ${data.username}");
+
+      final prefs = await SharedPreferences.getInstance();
+      if(prefs.getStringList("user") != null) {
+        await prefs.remove("user");
+      }
+
+      bool save = await prefs.setStringList("user", [
+        data.username.hashCode.toString(),
+        data.username,
+        data.xp.toString(),
+        data.level.toString(),
+        "",
+        ""
+      ]);
+
+      print("Saved user $username: $save");
+
+    } catch (e) {
+      log("Error in storeUser: $e");
+    }
   }
 
+
+
+  void updateUserXp(bool error) async {
+    User? user = await getLoggedInUser();
+    if(user == null) return;
+    GamificationEngineService().addXp(error, user.username);
+  }
+
+  
   Future<List<String>?> getTemporaryUser() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getStringList("user");

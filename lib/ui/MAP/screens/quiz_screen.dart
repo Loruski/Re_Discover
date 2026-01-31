@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:re_discover/data/repositories/repository_hub.dart';
 import 'package:re_discover/domain/models/poi.dart';
 import 'package:re_discover/domain/models/quiz.dart';
 import 'package:re_discover/ui/MAP/screens/quiz_completed_screen.dart';
@@ -44,6 +45,8 @@ class _QuizScreenState extends State<QuizScreen> {
       .questions[randomValueQuestion]
       .correctOptionIndex; // indice della risposta corretta
 
+  bool _errorCommitted = false;
+
   int _attemptsLeft = 3;
 
   int? _selectedIndex;
@@ -52,30 +55,46 @@ class _QuizScreenState extends State<QuizScreen> {
     if (_selectedIndex == null) return;
 
     final isCorrect = _selectedIndex == _correctIndex;
+
     if (isCorrect) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute<void>(
-          builder: (context) => QuizCompletedScreen(poi: widget.poi,),
-        ),
-      );
+      _handleCorrectAnswer();
       return;
     }
 
+    _handleWrongAnswer();
+  }
+
+  void _handleCorrectAnswer() {
+    RepositoryHub().userRepository.updateUserXp(_errorCommitted);
+    _navigateToCompletedScreen();
+  }
+
+  void _handleWrongAnswer() {
     setState(() {
+      _errorCommitted = true;
       _attemptsLeft = (_attemptsLeft - 1).clamp(0, 3);
       _selectedIndex = null;
     });
 
     if (_attemptsLeft == 0) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute<void>(
-          builder: (context) => QuizCompletedScreen(poi: widget.poi,),
-        ),
-      );
+      _handleNoAttemptsLeft();
     }
   }
+
+  void _handleNoAttemptsLeft() {
+    RepositoryHub().userRepository.updateUserXp(_errorCommitted);
+    _navigateToCompletedScreen();
+  }
+
+  void _navigateToCompletedScreen() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute<void>(
+        builder: (context) => QuizCompletedScreen(poi: widget.poi),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -249,7 +268,7 @@ class _QuizScreenState extends State<QuizScreen> {
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
-                        "Conferma Risposta",
+                        "Confirm Answer",
                       ),
                     ),
                   ),

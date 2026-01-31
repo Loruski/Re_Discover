@@ -38,7 +38,7 @@ class GamificationEngineService {
 
   GamificationEngineService._internal();
 
-  void registerPlayer(String user) async {
+  Future<void> registerPlayer(String user) async {
     final Map<String, dynamic> json = {
       "id": user,
       "playerId": user,
@@ -141,10 +141,13 @@ class GamificationEngineService {
 UserData fromPlayerJson(Map<String, dynamic> json) {
   return UserData(
     username: json['playerId'],
-    xp: json['levels'][0]['levelValue'],
-    level: json['levels'][0]['levelIndex'],
+    // xp: json['levels'][0]['startLevelScore'],
+    // level: json['levels'][0]['levelIndex'].toInt(),
+    xp: 0, //TODO NON LO SO
+    level: 0, //TODO NON LO SO
     badgesID: Set(), //TODO NON LO SO
-    customizablesID: json['customData']['Customizables'] as Set<int>,
+    //customizablesID: json['customData']['Customizables'] as Set<int>,
+    customizablesID: Set(), //CHE SCHIFO
   );
 }
 
