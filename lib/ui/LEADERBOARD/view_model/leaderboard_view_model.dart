@@ -50,6 +50,11 @@ class LeaderboardViewModel extends ChangeNotifier {
 
   Future<void> updateLeaderboard() async {
     userRepository.update();
+    if (orderedByCategory == Categories.poi)
+      {
+        poiCountMap = userRepository.getPOIsCountAllUsers();
+      }
+    
     notifyListeners();
   }
 
@@ -63,6 +68,18 @@ class LeaderboardViewModel extends ChangeNotifier {
       orderList(await orderedList);
 
     return orderedList;
+  }
+
+  Future<Map<User, int>> getPoiCountMap() async {
+    Map<User,int> map = await poiCountMap;
+    if (map.isEmpty)
+      {
+        map = await userRepository.getPOIsCountAllUsers();
+        return map;
+      }
+    else {
+      return map;
+    }
   }
 
   void orderList(List<User> toSort) async {
