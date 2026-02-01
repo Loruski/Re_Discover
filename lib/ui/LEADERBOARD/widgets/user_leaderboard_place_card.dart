@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../../domain/models/user.dart';
+import 'package:re_discover/ui/LEADERBOARD/screen/leaderboard_screen.dart';
 import '../view_model/leaderboard_view_model.dart';
 
 class UserLeaderboardPlaceCard extends StatelessWidget
     implements PreferredSizeWidget {
-  const UserLeaderboardPlaceCard({
-    super.key,
-    required this.user,
-    required this.poiCount,
-  });
-
-  final ValueNotifier<int> poiCount;
-  final User user;
+  const UserLeaderboardPlaceCard({super.key});
 
   @override
   Size get preferredSize => const Size.fromHeight(70);
@@ -31,22 +24,27 @@ class UserLeaderboardPlaceCard extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<LeaderboardViewModel>(
-      builder: (context, viewModel, child) {
-        final currentUser = viewModel.user;
-        return Card(
-          elevation: 3,
-          color: Theme.of(context).cardColor,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-          child: Padding(
-            padding: const EdgeInsets.all(6.0),
-            child: Row(
+    final viewModel = Provider.of<LeaderboardViewModel>(context);
+
+    return Card(
+      elevation: 3,
+      color: Theme.of(context).cardColor,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      child: Padding(
+        padding: const EdgeInsets.all(6.0),
+        child: ListenableBuilder(
+          listenable: viewModel,
+          builder: (context, child) {
+            final int score = viewModel.selectedCategory == Categories.xp
+                ? viewModel.user.xp.toInt()
+                : viewModel.poisCount.value;
+            return Row(
               children: [
                 CircleAvatar(
                   radius: 30,
                   backgroundColor: Theme.of(context).primaryColor,
-                  child: const Text(
-                    '1',
+                  child: Text(
+                    viewModel.userRank.toString(),
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -60,7 +58,7 @@ class UserLeaderboardPlaceCard extends StatelessWidget
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        currentUser.username,
+                        viewModel.user.username,
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -68,7 +66,7 @@ class UserLeaderboardPlaceCard extends StatelessWidget
                         ),
                       ),
                       Text(
-                        'Level ${currentUser.level}',
+                        'Level ${viewModel.user.level}',
                         style: TextStyle(
                           fontSize: 16,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -78,13 +76,16 @@ class UserLeaderboardPlaceCard extends StatelessWidget
                   ),
                 ),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).primaryColor,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
-                    formatData(currentUser.xp.toString()),
+                    formatData(score.toString()),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -92,10 +93,10 @@ class UserLeaderboardPlaceCard extends StatelessWidget
                   ),
                 ),
               ],
-            ),
-          ),
-        );
-      },
+            );
+          },
+        ),
+      ),
     );
   }
 }

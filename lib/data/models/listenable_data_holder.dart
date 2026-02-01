@@ -11,4 +11,10 @@ class ListenableDataHolder <T> extends ChangeNotifier {
     _data = newData;
     notifyListeners();
   }
+
+  bool isEmpty() => _data.isEmpty;
+
+  T? get(int id) => _data[id];
+
+  
 }

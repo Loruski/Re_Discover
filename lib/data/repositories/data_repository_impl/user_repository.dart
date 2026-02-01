@@ -12,46 +12,72 @@ import 'package:re_discover/domain/models/badge.dart';
 import 'package:re_discover/domain/models/badge.dart' as ReDiscover;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class UserRepository extends AbstractDataRepository<UserData, User> {
+  UserRepository()
+    : super(
+        path: Paths.usersPath,
+        updateFunction: GamificationEngineService().getRegisteredPlayers,
+        fromJson: UserData.fromJson,
+        toJson: (User element) {
+          UserData userData = UserData(
+            username: element.username,
+            xp: element.xp,
+            level: element.level,
+            badgesID: element.badges.map((e) => e.id).toSet(),
+            customizablesID: element.customizables.map((e) => e.id).toSet(),
+            gems: element.gems,
+          );
+          return userData.toJson();
+        },
+        assignIds:
+            (
+              List<UserData> data,
+              Map<Types, AbstractDataRepository>? requiredData,
+            ) {
+              Map<int, User> toSetToHolder = {};
 
-  UserRepository(): super(
-    path: Paths.usersPath,
-    updateFunction: GamificationEngineService().getRegisteredPlayers,
-    fromJson: UserData.fromJson,
-    toJson: (User element) {
-      UserData userData = UserData(username: element.username, xp: element.xp, level: element.level, badgesID: element.badges.map((e) => e.id).toSet(), customizablesID: element.customizables.map((e) => e.id).toSet(), gems: element.gems);
-      return userData.toJson();
-    },
-    assignIds: (List<UserData> data, Map<Types, AbstractDataRepository>? requiredData) {
+              if (requiredData == null)
+                log("no required data set to UserRepository!!");
 
-      Map<int, User> toSetToHolder = {};
+              for (UserData element in data) {
+                Set<Badge>? badges = element.badgesID
+                    .map((id) => requiredData?[Types.badge]?.get(id))
+                    .whereType<Badge>()
+                    .toSet();
 
-      if(requiredData == null) log("no required data set to UserRepository!!");
+                Set<Cosmetic>? customizables = element.customizablesID
+                    .map((id) => requiredData?[Types.customizable]?.get(id))
+                    .whereType<Cosmetic>()
+                    .toSet();
 
-      for(UserData element in data) {
+                if (badges.contains(null))
+                  log(
+                    "in User $UserData.id $UserData.name there's a badge not found in the holder: $badges",
+                  );
+                if (customizables.contains(null))
+                  log(
+                    "in User $UserData.id $UserData.name there's a customizable not found in the holder: $customizables",
+                  );
 
-        Set<Badge>? badges = element.badgesID.map((id) => requiredData?[Types.badge]?.get(id)).whereType<Badge>().toSet();
+                toSetToHolder[element.username.hashCode] = User(
+                  username: element.username,
+                  xp: element.xp,
+                  level: element.level,
+                  badges: badges,
+                  customizables: customizables,
+                  gems: element.gems,
+                );
+              }
+              return toSetToHolder;
+            },
+      );
 
-        Set<Cosmetic>? customizables = element.customizablesID.map((id) => requiredData?[Types.customizable]?.get(id)).whereType<Cosmetic>().toSet();
+  Future<void> loginUser(String username) async {
+    await GamificationEngineService().registerPlayer(username);
 
+    UserData? data = await GamificationEngineService().getPlayerState(username);
 
-        if (badges.contains(null)) log("in User $UserData.id $UserData.name there's a badge not found in the holder: $badges");
-        if (customizables.contains(null)) log("in User $UserData.id $UserData.name there's a customizable not found in the holder: $customizables");
-
-        toSetToHolder[element.username.hashCode] = User(username: element.username, xp: element.xp, level: element.level, badges: badges, customizables: customizables, gems: element.gems);
-      }
-      return toSetToHolder;
-    }
-  );
-
-  Future<void> LoginUser(String username) async {
-
-      await GamificationEngineService().registerPlayer(username);
-
-      UserData? data = await GamificationEngineService().getPlayerState(username);
-
-      await storeUser(data!);
+    await storeUser(data!);
   }
 
   Future<void> updateUser(String username) async {
@@ -59,14 +85,14 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
     await storeUser(data!);
   }
 
-  Future<void> storeUser(UserData data) async{
+  Future<void> storeUser(UserData data) async {
     try {
       print("UTENTEEEEEEEEEEEEEEEEEEE ${data.toJson()}");
 
       print("GATTO: ${data.username}");
 
       final prefs = await SharedPreferences.getInstance();
-      if(prefs.getStringList("user") != null) {
+      if (prefs.getStringList("user") != null) {
         await prefs.remove("user");
       }
 
@@ -83,13 +109,10 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
       ]);
 
       print("Saved user ${data.username}: $save");
-
     } catch (e) {
       log("Error in storeUser: $e");
     }
   }
-
-
 
   // void updateUserXp(bool error) async {
   //   User? user = await getLoggedInUser();
@@ -112,8 +135,6 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
     }
   }
 
-
-  
   Future<List<String>?> getTemporaryUser() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getStringList("user");
@@ -126,13 +147,33 @@ class UserRepository extends AbstractDataRepository<UserData, User> {
     if (isTemporaryUserNull) return null;
 
     return User(
-        username: temporaryUser[1],
-        xp: double.parse(temporaryUser[2]),
-        level: int.parse(temporaryUser[3]),
-        badges: <ReDiscover.Badge>{},
-        customizables: <Cosmetic>{},
-        gems: int.parse(temporaryUser[6])
+      username: temporaryUser[1],
+      xp: double.parse(temporaryUser[2]),
+      level: int.parse(temporaryUser[3]),
+      badges: <ReDiscover.Badge>{},
+      customizables: <Cosmetic>{},
+      gems: int.parse(temporaryUser[6]),
     );
   }
 
+  Future<Map<User, int>> getPOIsCountAllUsers() async {
+    GamificationEngineService service = GamificationEngineService();
+
+    Map<String, int> poisCountStringMap = await service.getUsersPoisCounts();
+
+    Map<User, int> poisCountMap = {};
+
+    List<User> users = await data;
+
+    for (User user in users) {
+      if (poisCountStringMap.containsKey(user.username)) {
+        // This logic would populate a Map<User, int> based on the service results
+        poisCountMap[user] = poisCountStringMap[user.username] ?? 0;
+      } else {
+        poisCountMap[user] =
+            0; //if for some reason there isn't a user of the service call in the data holder... we do nothing about it at all!
+      }
+    }
+    return poisCountMap;
+  }
 }

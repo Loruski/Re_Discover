@@ -25,15 +25,13 @@ class LeaderboardScreen extends StatefulWidget {
 
 class _LeaderboardScreenState extends State<LeaderboardScreen>
     with TickerProviderStateMixin {
-  Categories selectedCategory = Categories.values[0];
-  late final LeaderboardViewModel leaderboardViewModel;
+  // late final LeaderboardViewModel leaderboardViewModel;
   late final TabController _tabController;
   late final PreferredSizeWidget tabBar;
 
   @override
   void initState() {
     super.initState();
-    leaderboardViewModel = LeaderboardViewModel();
 
     _tabController = TabController(length: 3, vsync: this, initialIndex: 0);
     tabBar = PreferredSizeTabbarCard(tabController: _tabController);
@@ -47,9 +45,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
 
   @override
   Widget build(BuildContext context) {
-    
     return ChangeNotifierProvider(
-      create: (context) => leaderboardViewModel,
+      create: (_) => LeaderboardViewModel(),
       child: SafeArea(
         child: Scaffold(
           body: NestedScrollView(
@@ -77,7 +74,10 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
                       color: Theme.of(context).primaryColor,
                     ),
                   ),
-                  stretchModes: const [StretchMode.blurBackground, StretchMode.fadeTitle],
+                  stretchModes: const [
+                    StretchMode.blurBackground,
+                    StretchMode.fadeTitle,
+                  ],
                 ),
                 bottom: tabBar,
               ),
@@ -103,7 +103,8 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
               PinnedHeaderSliver(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: UserLeaderboardPlaceCard(user: leaderboardViewModel.user, poiCount: leaderboardViewModel.poisCount,),
+                  child: UserLeaderboardPlaceCard(
+                  ),
                 ),
               ),
             ],
@@ -111,7 +112,7 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
               controller: _tabController,
               physics: const BouncingScrollPhysics(),
               children: LeaderboardType.values.map((type) {
-                return LeaderboardScrollView(leaderboardType: type);
+                return Consumer<LeaderboardViewModel>(builder: (context, viewModel, child) => ListenableBuilder(listenable: viewModel, builder: (context, child) => LeaderboardScrollView(leaderboardType: type)));
               }).toList(),
             ),
           ),
@@ -121,71 +122,89 @@ class _LeaderboardScreenState extends State<LeaderboardScreen>
   }
 
   Widget _buildCategorySelector() {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return PopupMenuButton<Categories>(
-          initialValue: selectedCategory,
-          tooltip: "Select Category",
-          onSelected: (Categories newValue) {
-            setState(() {
-              selectedCategory = newValue;
-            });
-          },
-          // Increased offset to 56 to add a small gap between the button and the menu
-          offset: const Offset(0, 56),
-          elevation: 4,
-          constraints: BoxConstraints(
-            minWidth: constraints.maxWidth,
-            maxWidth: constraints.maxWidth,
-          ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          itemBuilder: (BuildContext context) {
-            return Categories.values.map((Categories category) {
-              return PopupMenuItem<Categories>(
-                value: category,
-                child: Row(
-                  children: [
-                    Icon(category.icon, size: 20, color: Theme.of(context).primaryColor),
-                    const SizedBox(width: 12),
-                    Text(
-                      category.name,
-                      style: const TextStyle(fontWeight: FontWeight.w500),
+    return Consumer<LeaderboardViewModel>(
+      builder: (context, viewModel, child) => ListenableBuilder(
+        listenable: viewModel,
+        builder: (context, child) {
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              return PopupMenuButton<Categories>(
+                initialValue: viewModel.selectedCategory,
+                tooltip: "Select Category",
+                onSelected: viewModel.changeCategory,
+                // Increased offset to 56 to add a small gap between the button and the menu
+                offset: const Offset(0, 56),
+                elevation: 4,
+                constraints: BoxConstraints(
+                  minWidth: constraints.maxWidth,
+                  maxWidth: constraints.maxWidth,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                itemBuilder: (BuildContext context) {
+                  return Categories.values.map((Categories category) {
+                    return PopupMenuItem<Categories>(
+                      value: category,
+                      child: Row(
+                        children: [
+                          Icon(
+                            category.icon,
+                            size: 20,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            category.name,
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                        ],
+                      ),
+                    );
+                  }).toList();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: Theme.of(context).primaryColor.withOpacity(0.1),
                     ),
-                  ],
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            viewModel.selectedCategory.icon,
+                            size: 20,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            viewModel.selectedCategory.name,
+                            style: TextStyle(
+                              color: Theme.of(context).primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Theme.of(context).primaryColor,
+                      ),
+                    ],
+                  ),
                 ),
               );
-            }).toList();
-          },
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.08),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.1)),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    Icon(selectedCategory.icon, size: 20, color: Theme.of(context).primaryColor),
-                    const SizedBox(width: 10),
-                    Text(
-                      selectedCategory.name,
-                      style: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ],
-                ),
-                Icon(Icons.keyboard_arrow_down_rounded, color: Theme.of(context).primaryColor),
-              ],
-            ),
-          ),
-        );
-      }
+            },
+          );
+        }
+      ),
     );
   }
 }

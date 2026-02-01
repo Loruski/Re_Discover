@@ -1,12 +1,10 @@
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:re_discover/data/models/cosmetic_data.dart';
 
 import 'dart:convert';
 
 import 'package:re_discover/data/models/user_data.dart';
-import 'package:re_discover/data/states/city_state.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 const String baseURL = "https://gamification-api.polyglot-edu.com/gamification";
@@ -58,14 +56,13 @@ class GamificationEngineService {
     if (response.statusCode != 200) {
       log("Error registering player: ${response.statusCode}");
     }
-
   }
 
-  Future addPoiVisited(String user) async{
+  Future addPoiVisited(String user) async {
     final Map<String, dynamic> json = {
       "gameId": gameID,
       "actionId": "poi_visited",
-      "playerId": user
+      "playerId": user,
     };
 
     final response = await http.post(
@@ -77,7 +74,6 @@ class GamificationEngineService {
     if (response.statusCode != 200) {
       log("Error registering player: ${response.statusCode}");
     }
-
   }
 
   Future<UserData?> getPlayerState(String user) async {
@@ -133,24 +129,51 @@ class GamificationEngineService {
     if (response.statusCode == 200) {
       Map<String, dynamic> json = jsonDecode(response.body);
       final List? pointList = json['state']?['PointConcept'];
-      final xpEntry = pointList?.firstWhere(
-            (element) => element['id'] == 'POI_visited',
+      final poiEntry = pointList?.firstWhere(
+        (element) => element['id'] == 'POI_visited',
         orElse: () => null,
       );
 
-      // 3. Estraiamo lo score. Se xpEntry è null (perché state era {}) mettiamo 0.0
-      double userXP = (xpEntry?['score'] ?? 0.0).toDouble();
+      // 3. Estraiamo lo score. Se xpEntry è null (perché state era {}) mettiamo 0.0 // didn't even rename xp to poi oh well
+      double userPoisCount = (poiEntry?['score'] ?? 0.0).toDouble();
 
-      return userXP.toInt();
-
+      return userPoisCount.toInt();
     } else {
       log("Error getting user POI count: ${response.statusCode}");
       return 0;
     }
-
   }
 
-  Future<List<UserData>?> getRegisteredPlayers({int size = 20}) async {
+  Future<Map<String, int>> getUsersPoisCounts({int size = 100}) async {
+    final response = await http.get(
+      Uri.parse("$playerStatusURL?size=$size"),
+      headers: httpHeaders,
+    );
+    // log(response.body);
+    if (response.statusCode == 200) {
+      Map<String, dynamic> json = jsonDecode(response.body);
+      List<dynamic> jsonList = json["content"];
+      Map<String, int> poisCountMap = {};
+
+  
+      for (Map<String, dynamic> json in jsonList) {
+        final List? pointList = json['state']?['PointConcept'];
+        final poiEntry = pointList?.firstWhere(
+        (element) => element['id'] == 'POI_visited',
+        orElse: () => null,
+      );
+        // we didn't want PoisCount in the User class so I had to make this monstruosity... god help us all
+        poisCountMap[json['playerId']] = (poiEntry?['score'] ?? 0.0).toInt();
+      } 
+
+      return poisCountMap;
+    } else {
+      log("Error getting registered players: ${response.statusCode}");
+      return {};
+    }
+  }
+
+  Future<List<UserData>?> getRegisteredPlayers({int size = 100}) async {
     final response = await http.get(
       Uri.parse("$playerStatusURL?size=$size"),
       headers: httpHeaders,
@@ -198,7 +221,7 @@ UserData fromPlayerJson(Map<String, dynamic> json) {
   // 2. Cerchiamo l'elemento che ha id == "xp" invece di usare l'indice [2]
   // Questo lo rende immune a cambi di ordine nel JSON
   final xpEntry = pointList?.firstWhere(
-        (element) => element['id'] == 'xp',
+    (element) => element['id'] == 'xp',
     orElse: () => null,
   );
 
@@ -212,7 +235,7 @@ UserData fromPlayerJson(Map<String, dynamic> json) {
   }
 
   final gemsEntry = pointList?.firstWhere(
-        (element) => element['id'] == 'gems',
+    (element) => element['id'] == 'gems',
     orElse: () => null,
   );
   int userGems = (gemsEntry?['score'] ?? 0).toInt();

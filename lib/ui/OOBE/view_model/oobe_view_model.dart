@@ -31,7 +31,7 @@ class OobeViewModel extends ChangeNotifier {
   }
   
   Future<bool> saveTemporaryUser() async{
-    await userRepository.LoginUser(username);
+    await userRepository.loginUser(username);
     bool isUserCorrectlyLoaded = await StateHub().userState.loadUser();
     await StateHub().visitState.getPOIsCount();
 

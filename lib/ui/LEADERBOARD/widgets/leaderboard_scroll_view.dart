@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:re_discover/domain/models/user.dart';
+import 'package:re_discover/ui/LEADERBOARD/screen/leaderboard_screen.dart';
 import 'package:re_discover/ui/LEADERBOARD/view_model/leaderboard_view_model.dart';
 
 enum LeaderboardType { global, local, friends }
@@ -19,49 +20,84 @@ class LeaderboardScrollView extends StatelessWidget {
       future: leaderboard,
       builder: (context, asyncSnapshot) {
         if (asyncSnapshot.hasData) {
-        List<User> orderedList = asyncSnapshot.data!;
-        orderedList.sort((a, b) => b.xp.compareTo(a.xp));
+          List<User> orderedList = asyncSnapshot.data!;
+          // orderedList.sort((a, b) => b.xp.compareTo(a.xp));
 
-        return RefreshIndicator(
-          onRefresh: () => leaderboardViewModel.updateLeaderboard(),
-          backgroundColor: Theme.of(context).primaryColor,
-          color: Theme.of(context).colorScheme.onPrimary,
-          child: CustomScrollView(
-            physics: const BouncingScrollPhysics(parent: ClampingScrollPhysics()),
-            slivers: [
-              SliverPadding(
-                padding: const EdgeInsets.only(
-                  top: 8,
-                  left: 12,
-                  right: 12,
-                  bottom: 80,
-                ),
-                sliver: SliverList.separated(
-                  itemCount: 15,
-                  separatorBuilder: (context, index) => const SizedBox(height: 8),
-                  itemBuilder: (context, index) {
-                    final position = index + 1;
-                    if (orderedList.length < position) return null;
-                    final user = orderedList[index];
-                    return LeaderboardTile(
-                      position: position,
-                      name: user.username, //'Explorer ${index + 1}',
-                      subtitle: 'Level ${user.level}', //'Level ${25 - index}',
-                      data: user.xp.toString(), //'${(30000 - (index * 1200))}',
-                      color: _getRankColor(position, context),
-                    );
-                  },
-                ),
+          return RefreshIndicator(
+            onRefresh: () => leaderboardViewModel.updateLeaderboard(),
+            backgroundColor: Theme.of(context).primaryColor,
+            color: Theme.of(context).colorScheme.onPrimary,
+            child: CustomScrollView(
+              physics: const BouncingScrollPhysics(
+                parent: ClampingScrollPhysics(),
               ),
-            ],
-          ),
-        );
+              slivers: [
+                SliverPadding(
+                  padding: const EdgeInsets.only(
+                    top: 8,
+                    left: 12,
+                    right: 12,
+                    bottom: 80,
+                  ),
+                  sliver: SliverList.separated(
+                    itemCount: 15,
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 8),
+                    itemBuilder: (context, index) {
+                      final position = index + 1;
+                      if (orderedList.length < position) return null;
+                      final user = orderedList[index];
+                      return ListenableBuilder(
+                        listenable: leaderboardViewModel,
+                        builder: (context, child) {
+                          if (leaderboardViewModel.selectedCategory ==
+                              Categories.xp) {
+                            return LeaderboardTile(
+                              position: position,
+                              name: user.username, //'Explorer ${index + 1}',
+                              subtitle:
+                                  'Level ${user.level}', //'Level ${25 - index}',
+                              data: user.xp
+                                  .toString(), //'${(30000 - (index * 1200))}',
+                              color: _getRankColor(position, context),
+                            );
+                          } else if (leaderboardViewModel.selectedCategory ==
+                              Categories.poi) {
+                            return FutureBuilder(
+                              future: leaderboardViewModel.poiCountMap,
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return LeaderboardTile(
+                                    position: position,
+                                    name: user.username,
+                                    subtitle: 'Level ${user.level}',
+                                    data: snapshot.data![user].toString(),
+                                    color: _getRankColor(position, context),
+                                  );
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                } else {
+                                  return const CircularProgressIndicator();
+                                }
+                              },
+                            );
+                          }
+                          return Text(
+                            "error: ${leaderboardViewModel.selectedCategory.name} not expected",
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          );
         } else if (asyncSnapshot.hasError) {
           return Center(child: Text('Error: ${asyncSnapshot.error}'));
         } else {
           return const Center(child: CircularProgressIndicator());
         }
-
       },
     );
   }
